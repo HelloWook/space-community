@@ -95,12 +95,12 @@
 
 > **NOTE: 테스트를 먼저 작성하고, 실패를 확인한 후 구현합니다**
 
-- [ ] T025 [P] [US2] 랜덤 외형 생성 로직 단위 테스트 작성 (모든 필드 랜덤, 연속 호출 시 다른 값) in apps/web/src/features/customize-planet/__tests__/random.test.ts
+- [x] T025 [P] [US2] 랜덤 외형 생성 로직 단위 테스트 작성 (모든 필드 랜덤, 연속 호출 시 다른 값) in apps/web/src/features/customize-planet/__tests__/random.test.ts
 
 ### 프론트엔드 구현 (US2)
 
-- [ ] T026 [US2] 랜덤 외형 생성 함수 구현 (generateRandomAppearance) in apps/web/src/features/customize-planet/model/random.ts
-- [ ] T027 [US2] CustomizePanel에 랜덤 버튼 추가 + 랜덤 후 수동 수정 지원 in apps/web/src/features/customize-planet/ui/CustomizePanel.tsx (기존 파일 수정)
+- [x] T026 [US2] 랜덤 외형 생성 함수 구현 (generateRandomAppearance) in apps/web/src/features/customize-planet/model/random.ts
+- [x] T027 [US2] CustomizePanel에 랜덤 버튼 추가 + 랜덤 후 수동 수정 지원 in apps/web/src/features/customize-planet/ui/CustomizePanel.tsx (기존 파일 수정)
 
 **Checkpoint**: US2 완료 — 랜덤 생성, 반복 클릭 시 다른 결과, 랜덤 후 개별 수정 가능
 

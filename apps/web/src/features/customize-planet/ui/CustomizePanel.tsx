@@ -1,6 +1,7 @@
 'use client';
 
 import type { PlanetAppearanceFormData } from '../model/schema';
+import { generateRandomAppearance } from '../model/random';
 import { ColorPicker } from './ColorPicker';
 import { PLANET_SIZES, PLANET_SHAPES, SURFACE_PATTERNS } from '@galaxy-board/types';
 import type { PlanetSize, PlanetShape, SurfacePattern } from '@galaxy-board/types';
@@ -65,6 +66,26 @@ export function CustomizePanel({ appearance, onChange }: CustomizePanelProps) {
 
   return (
     <div data-testid="customize-panel" style={{ padding: '8px 0' }}>
+      {/* 랜덤 버튼 */}
+      <button
+        type="button"
+        onClick={() => onChange(generateRandomAppearance())}
+        data-testid="random-button"
+        style={{
+          width: '100%',
+          padding: '8px',
+          marginBottom: '12px',
+          borderRadius: '4px',
+          border: '1px solid #4a90d9',
+          backgroundColor: 'transparent',
+          color: '#4a90d9',
+          cursor: 'pointer',
+          fontSize: '13px',
+        }}
+      >
+        🎲 랜덤 생성
+      </button>
+
       {/* 색상 */}
       <ColorPicker
         label="메인 색상"
