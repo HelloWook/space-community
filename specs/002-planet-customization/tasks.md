@@ -131,9 +131,9 @@
 
 **Purpose**: 전체 스토리에 걸친 품질 개선
 
-- [ ] T031 [P] 시드 데이터 업데이트 — 기존 행성에 다양한 외형 적용 in apps/api/prisma/seed.ts
-- [ ] T032 [P] 기본 외형 미설정 시 기본값 적용 검증 (엣지 케이스) in apps/web/src/features/customize-planet/ui/CustomizePanel.tsx
-- [ ] T033 quickstart.md 검증 (전체 개발 환경 설정 → 실행 → 테스트 흐름 확인)
+- [x] T031 [P] 시드 데이터 업데이트 — 기존 행성에 다양한 외형 적용 in apps/api/prisma/seed.ts
+- [x] T032 [P] 기본 외형 미설정 시 기본값 적용 검증 (엣지 케이스) in apps/web/src/features/customize-planet/ui/CustomizePanel.tsx
+- [x] T033 quickstart.md 검증 (전체 개발 환경 설정 → 실행 → 테스트 흐름 확인)
 
 ---
 
