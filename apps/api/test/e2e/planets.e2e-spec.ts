@@ -107,4 +107,70 @@ describe('Planets API (e2e)', () => {
       );
     });
   });
+
+  describe('POST /api/galaxies/:galaxyId/planets', () => {
+    it('Planet을 생성하고 201을 반환해야 한다', async () => {
+      // mock: repository.create가 전달받은 엔티티를 그대로 반환
+      mockPlanetRepository.create.mockImplementation(
+        async (planet: PlanetEntity) => planet,
+      );
+
+      const response = await request(app.getHttpServer())
+        .post('/api/galaxies/galaxy-1/planets')
+        .send({
+          title: '새 게시글',
+          content: '게시글 내용입니다',
+          authorNickname: '작성자',
+        })
+        .expect(201);
+
+      // 응답 검증
+      expect(response.body.title).toBe('새 게시글');
+      expect(response.body.content).toBe('게시글 내용입니다');
+      expect(response.body.authorNickname).toBe('작성자');
+      expect(response.body.galaxyId).toBe('galaxy-1');
+      expect(response.body.id).toBeDefined();
+      expect(response.body.position).toBeDefined();
+      expect(mockPlanetRepository.create).toHaveBeenCalledTimes(1);
+    });
+
+    it('유효하지 않은 본문으로 요청하면 400을 반환해야 한다', async () => {
+      // title 누락
+      const response = await request(app.getHttpServer())
+        .post('/api/galaxies/galaxy-1/planets')
+        .send({
+          content: '내용만 있음',
+        })
+        .expect(400);
+
+      expect(response.body.statusCode).toBe(400);
+    });
+  });
+
+  describe('GET /api/planets/:id', () => {
+    it('Planet 상세 정보를 content와 함께 반환해야 한다', async () => {
+      const planet = createTestPlanet('p1', '상세 조회 글');
+      mockPlanetRepository.findById.mockResolvedValue(planet);
+
+      const response = await request(app.getHttpServer())
+        .get('/api/planets/p1')
+        .expect(200);
+
+      expect(response.body.id).toBe('p1');
+      expect(response.body.title).toBe('상세 조회 글');
+      expect(response.body.content).toBe('상세 조회 글 내용');
+      expect(response.body.authorNickname).toBe('작성자');
+      expect(response.body.galaxyId).toBe('galaxy-1');
+    });
+
+    it('존재하지 않는 ID로 조회하면 404를 반환해야 한다', async () => {
+      mockPlanetRepository.findById.mockResolvedValue(null);
+
+      const response = await request(app.getHttpServer())
+        .get('/api/planets/nonexistent')
+        .expect(404);
+
+      expect(response.body.statusCode).toBe(404);
+    });
+  });
 });

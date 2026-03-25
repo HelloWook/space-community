@@ -1,9 +1,11 @@
 // PlanetService 단위 테스트
 
 import { Test, TestingModule } from '@nestjs/testing';
+import { NotFoundException } from '@nestjs/common';
 import { PlanetService } from '../../../src/application/services/planet.service';
 import { PLANET_REPOSITORY } from '../../../src/domain/ports/planet-repository.port';
 import { PlanetEntity } from '../../../src/domain/entities/planet.entity';
+import { CreatePlanetDto } from '../../../src/application/dto/planet.dto';
 
 describe('PlanetService', () => {
   let service: PlanetService;
@@ -122,6 +124,82 @@ describe('PlanetService', () => {
       // then
       expect(result.data).toEqual([]);
       expect(result.hasMore).toBe(false);
+    });
+  });
+
+  describe('create', () => {
+    it('자동 생성된 위치와 함께 Planet을 생성하고 PlanetDetailResponseDto를 반환해야 한다', async () => {
+      // given: 생성 요청 DTO
+      const dto: CreatePlanetDto = {
+        title: '새로운 게시글',
+        content: '게시글 내용입니다',
+        authorNickname: '작성자',
+      };
+      const galaxyId = 'g1';
+
+      // mock: repository.create가 전달받은 엔티티를 그대로 반환
+      mockPlanetRepository.create.mockImplementation(
+        async (planet: PlanetEntity) => planet,
+      );
+
+      // when: create 호출
+      const result = await service.create(galaxyId, dto);
+
+      // then: 반환값 검증
+      expect(result.title).toBe('새로운 게시글');
+      expect(result.content).toBe('게시글 내용입니다');
+      expect(result.authorNickname).toBe('작성자');
+      expect(result.galaxyId).toBe('g1');
+      expect(result.starCount).toBe(0);
+      expect(result.id).toBeDefined();
+
+      // 위치가 [-10, 10] 범위 내에 자동 생성되어야 한다
+      expect(result.position.x).toBeGreaterThanOrEqual(-10);
+      expect(result.position.x).toBeLessThanOrEqual(10);
+      expect(result.position.y).toBeGreaterThanOrEqual(-10);
+      expect(result.position.y).toBeLessThanOrEqual(10);
+      expect(result.position.z).toBeGreaterThanOrEqual(-10);
+      expect(result.position.z).toBeLessThanOrEqual(10);
+
+      // repository.create가 올바르게 호출되었는지 검증
+      expect(mockPlanetRepository.create).toHaveBeenCalledTimes(1);
+      const createdEntity = mockPlanetRepository.create.mock.calls[0][0];
+      expect(createdEntity).toBeInstanceOf(PlanetEntity);
+      expect(createdEntity.title).toBe('새로운 게시글');
+      expect(createdEntity.galaxyId).toBe('g1');
+    });
+  });
+
+  describe('findById', () => {
+    it('ID로 Planet 상세 정보를 반환해야 한다', async () => {
+      // given: 존재하는 Planet
+      const planet = createPlanet('p1', '테스트 게시글');
+      mockPlanetRepository.findById.mockResolvedValue(planet);
+
+      // when: findById 호출
+      const result = await service.findById('p1');
+
+      // then: PlanetDetailResponseDto 형식 검증 (content 포함)
+      expect(result.id).toBe('p1');
+      expect(result.title).toBe('테스트 게시글');
+      expect(result.content).toBe('테스트 게시글 내용');
+      expect(result.authorNickname).toBe('테스트유저');
+      expect(result.starCount).toBe(5);
+      expect(result.position).toEqual({ x: 1, y: 2, z: 3 });
+      expect(result.galaxyId).toBe('g1');
+      expect(result.createdAt).toEqual(new Date('2026-01-01'));
+      expect(mockPlanetRepository.findById).toHaveBeenCalledWith('p1');
+    });
+
+    it('존재하지 않는 Planet ID로 조회하면 NotFoundException을 던져야 한다', async () => {
+      // given: 존재하지 않는 ID
+      mockPlanetRepository.findById.mockResolvedValue(null);
+
+      // when & then: NotFoundException 발생 검증
+      await expect(service.findById('nonexistent')).rejects.toThrow(
+        NotFoundException,
+      );
+      expect(mockPlanetRepository.findById).toHaveBeenCalledWith('nonexistent');
     });
   });
 });
