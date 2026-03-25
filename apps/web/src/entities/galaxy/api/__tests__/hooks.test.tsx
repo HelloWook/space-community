@@ -28,10 +28,10 @@ function createWrapper() {
 
 describe('useGalaxies', () => {
   it('GET /galaxies 엔드포인트를 호출한다', async () => {
-    const mockData = [
+    const mockGalaxies = [
       { id: '1', name: '은하1', description: '설명', position: { x: 0, y: 0, z: 0 }, planetCount: 3, createdAt: '2026-01-01' },
     ];
-    mockedApiFetch.mockResolvedValueOnce(mockData);
+    mockedApiFetch.mockResolvedValueOnce({ data: mockGalaxies });
 
     const { result } = renderHook(() => useGalaxies(), {
       wrapper: createWrapper(),
@@ -40,7 +40,7 @@ describe('useGalaxies', () => {
     await waitFor(() => expect(result.current.isSuccess).toBe(true));
 
     expect(mockedApiFetch).toHaveBeenCalledWith('/galaxies');
-    expect(result.current.data).toEqual(mockData);
+    expect(result.current.data).toEqual(mockGalaxies);
   });
 });
 
