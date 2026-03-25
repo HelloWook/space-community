@@ -7,3 +7,46 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+// 은하계 - 게시판 주제를 나타내는 최상위 엔티티
+model Galaxy {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  description String
+  positionX   Float
+  positionY   Float
+  positionZ   Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  planets     Planet[]
+}
+
+// 행성 - 은하계 내의 개별 게시글
+model Planet {
+  id             String   @id @default(cuid())
+  title          String
+  content        String
+  authorNickname String
+  starCount      Int      @default(0)
+  positionX      Float
+  positionY      Float
+  positionZ      Float
+  galaxyId       String
+  galaxy         Galaxy   @relation(fields: [galaxyId], references: [id])
+  stars          Star[]
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([galaxyId, createdAt(sort: Desc)])
+}
+
+// 별 - 게시글에 대한 좋아요
+model Star {
+  id            String   @id @default(cuid())
+  giverNickname String
+  planetId      String
+  planet        Planet   @relation(fields: [planetId], references: [id])
+  createdAt     DateTime @default(now())
+
+  @@index([planetId])
+}
