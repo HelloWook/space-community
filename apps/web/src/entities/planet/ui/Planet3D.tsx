@@ -1,11 +1,14 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
+import * as THREE from 'three';
 import type { Mesh } from 'three';
-import type { PlanetSummary } from '@galaxy-board/types';
+import type { PlanetSummary, PlanetShape } from '@galaxy-board/types';
 import { useClickGuard } from '@/shared/lib';
+import { createPlanetMaterial } from '@/shared/lib/shaders/planet-material';
+import type { SurfacePattern } from '@galaxy-board/types';
 
 interface Planet3DProps {
   /** 행성(게시글) 요약 데이터 */
@@ -14,29 +17,73 @@ interface Planet3DProps {
   onClick?: () => void;
 }
 
-// starCount에 따른 행성 색상 결정
-function getPlanetColor(starCount: number): string {
-  if (starCount >= 10) return '#ffcc44'; // 인기 행성 — 금색
-  if (starCount >= 5) return '#44ccff';  // 중간 — 하늘색
-  return '#88aacc';                       // 기본 — 연한 파랑
+// 크기 enum → 3D 반지름 매핑
+const SIZE_SCALE: Record<string, number> = {
+  SMALL: 0.3,
+  MEDIUM: 0.6,
+  LARGE: 1.0,
+};
+
+// 형태별 Three.js 지오메트리 생성
+function createGeometry(shape: PlanetShape, radius: number): THREE.BufferGeometry {
+  switch (shape) {
+    case 'BOX':
+      return new THREE.BoxGeometry(radius * 1.6, radius * 1.6, radius * 1.6);
+    case 'TETRAHEDRON':
+      return new THREE.TetrahedronGeometry(radius);
+    case 'OCTAHEDRON':
+      return new THREE.OctahedronGeometry(radius);
+    case 'DODECAHEDRON':
+      return new THREE.DodecahedronGeometry(radius);
+    case 'TORUS':
+      return new THREE.TorusGeometry(radius, radius * 0.4, 16, 32);
+    case 'CYLINDER':
+      return new THREE.CylinderGeometry(radius, radius, radius * 2, 32);
+    case 'CONE':
+      return new THREE.ConeGeometry(radius, radius * 2, 32);
+    case 'SPHERE':
+    default:
+      return new THREE.SphereGeometry(radius, 32, 32);
+  }
 }
 
-// 행성을 나타내는 3D 구체 메시 — starCount에 따라 크기/색상 변화
+// 행성을 나타내는 3D 메시 — 커스터마이징 외형으로 렌더링
 export function Planet3D({ planet, onClick }: Planet3DProps) {
   const meshRef = useRef<Mesh>(null);
   const { onPointerDown, onPointerUp, isClick } = useClickGuard();
 
-  // starCount에 비례한 크기 (최소 0.4, 최대 1.2)
-  const radius = 0.4 + Math.min(planet.starCount * 0.08, 0.8);
-  const color = getPlanetColor(planet.starCount);
+  // 크기 계산
+  const radius = SIZE_SCALE[planet.size] ?? SIZE_SCALE.MEDIUM;
 
-  // 부드러운 상하 부유 애니메이션
+  // 지오메트리 메모이제이션
+  const geometry = useMemo(
+    () => createGeometry(planet.shape as PlanetShape, radius),
+    [planet.shape, radius],
+  );
+
+  // 셰이더 Material 메모이제이션
+  const material = useMemo(
+    () => createPlanetMaterial(
+      planet.pattern as SurfacePattern,
+      planet.mainColor,
+      planet.subColor,
+    ),
+    [planet.pattern, planet.mainColor, planet.subColor],
+  );
+
+  // 고리 지오메트리
+  const ringGeometry = useMemo(() => {
+    if (!planet.hasRing) return null;
+    return new THREE.TorusGeometry(radius * 1.6, radius * 0.1, 2, 64);
+  }, [planet.hasRing, radius]);
+
+  // 부드러운 상하 부유 + 자전 애니메이션
   useFrame(({ clock }) => {
     if (meshRef.current) {
       const t = clock.getElapsedTime();
-      // 각 행성마다 약간 다른 위상으로 부유
       meshRef.current.position.y =
         planet.position.y + Math.sin(t * 0.8 + planet.position.x) * 0.15;
+      meshRef.current.rotation.y += 0.003;
     }
   });
 
@@ -51,18 +98,27 @@ export function Planet3D({ planet, onClick }: Planet3DProps) {
     <group position={[planet.position.x, planet.position.y, planet.position.z]}>
       <mesh
         ref={meshRef}
+        geometry={geometry}
+        material={material}
         onPointerDown={onPointerDown}
         onPointerUp={onPointerUp}
         onClick={handleClick}
-      >
-        <sphereGeometry args={[radius, 24, 24]} />
-        <meshStandardMaterial
-          color={color}
-          emissive={color}
-          emissiveIntensity={0.2 + (planet.starCount / 100) * 0.8}
-          toneMapped={false}
-        />
-      </mesh>
+      />
+
+      {/* 고리 */}
+      {ringGeometry && (
+        <mesh
+          geometry={ringGeometry}
+          rotation={[Math.PI / 2.5, 0, 0]}
+        >
+          <meshStandardMaterial
+            color={planet.mainColor}
+            transparent
+            opacity={0.5}
+            side={THREE.DoubleSide}
+          />
+        </mesh>
+      )}
 
       {/* 행성 이름 레이블 */}
       <Html

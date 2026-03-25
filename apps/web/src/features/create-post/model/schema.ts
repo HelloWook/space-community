@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import { planetAppearanceSchema } from '@/features/customize-planet/model/schema';
 
-// 게시글 작성 폼 유효성 검증 스키마
+// 게시글 작성 폼 유효성 검증 스키마 (외형 포함)
 export const createPostSchema = z.object({
   /** 게시글 제목 (1~100자) */
   title: z
@@ -17,6 +18,8 @@ export const createPostSchema = z.object({
     .string()
     .min(1, '닉네임을 입력해주세요')
     .max(20, '닉네임은 20자 이내로 입력해주세요'),
+  /** 행성 외형 */
+  appearance: planetAppearanceSchema,
 });
 
 /** 게시글 작성 폼 데이터 타입 */

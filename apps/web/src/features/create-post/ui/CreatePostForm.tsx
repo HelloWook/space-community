@@ -1,9 +1,12 @@
 'use client';
 
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { createPostSchema, type CreatePostFormData } from '../model/schema';
 import { useCreatePlanet } from '@/entities/planet';
+import { CustomizePanel, defaultAppearance } from '@/features/customize-planet';
+import type { PlanetAppearanceFormData } from '@/features/customize-planet';
 
 interface CreatePostFormProps {
   /** 게시글이 속할 은하 ID */
@@ -12,8 +15,10 @@ interface CreatePostFormProps {
   onSuccess?: () => void;
 }
 
-// 게시글(행성) 작성 폼 컴포넌트
+// 게시글(행성) 작성 폼 컴포넌트 — 외형 커스터마이징 포함
 export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
+  const [appearance, setAppearance] = useState<PlanetAppearanceFormData>(defaultAppearance);
+
   const {
     register,
     handleSubmit,
@@ -24,6 +29,7 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
       title: '',
       content: '',
       authorNickname: '',
+      appearance: defaultAppearance,
     },
   });
 
@@ -32,7 +38,15 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
   // 폼 제출 핸들러
   const onSubmit = (data: CreatePostFormData) => {
     createPlanet.mutate(
-      { galaxyId, data },
+      {
+        galaxyId,
+        data: {
+          title: data.title,
+          content: data.content,
+          authorNickname: data.authorNickname,
+          ...appearance,
+        },
+      },
       {
         onSuccess: () => {
           onSuccess?.();
@@ -129,6 +143,12 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
             {errors.authorNickname.message}
           </p>
         )}
+      </div>
+
+      {/* 행성 커스터마이징 패널 */}
+      <div style={{ marginBottom: '16px', borderTop: '1px solid #333', paddingTop: '12px' }}>
+        <h4 style={{ color: '#ddd', fontSize: '14px', marginBottom: '8px' }}>행성 외형</h4>
+        <CustomizePanel appearance={appearance} onChange={setAppearance} />
       </div>
 
       {/* 제출 버튼 */}

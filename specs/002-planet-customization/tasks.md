@@ -69,17 +69,17 @@
 
 > **NOTE: 테스트를 먼저 작성하고, 실패를 확인한 후 구현합니다**
 
-- [ ] T017 [P] [US1] CustomizePanel 컴포넌트 테스트 작성 (옵션 변경, 콜백 호출) in apps/web/src/features/customize-planet/__tests__/CustomizePanel.test.tsx
-- [ ] T018 [P] [US1] Planet3D 컴포넌트 외형 반영 테스트 추가 (형태, 색상, 고리) in apps/web/src/entities/planet/ui/__tests__/Planet3D.test.tsx
+- [x] T017 [P] [US1] CustomizePanel 컴포넌트 테스트 작성 (옵션 변경, 콜백 호출) in apps/web/src/features/customize-planet/__tests__/CustomizePanel.test.tsx
+- [x] T018 [P] [US1] Planet3D 컴포넌트 외형 반영 테스트 추가 (형태, 색상, 고리) in apps/web/src/entities/planet/ui/__tests__/Planet3D.test.tsx
 
 ### 프론트엔드 구현 (US1)
 
-- [ ] T019 [P] [US1] 행성 외형 zod 스키마 정의 in apps/web/src/features/customize-planet/model/schema.ts
-- [ ] T020 [P] [US1] ColorPicker 컴포넌트 구현 (react-colorful + shadcn Popover) in apps/web/src/features/customize-planet/ui/ColorPicker.tsx
-- [ ] T021 [US1] CustomizePanel 컴포넌트 구현 (색상 피커 × 2, 형태 8종, 크기 3종, 패턴 4종, 고리 토글) in apps/web/src/features/customize-planet/ui/CustomizePanel.tsx
-- [ ] T022 [US1] Planet3D 컴포넌트 수정 — 외형 속성으로 렌더링 (형태별 지오메트리, 셰이더 패턴, 고리) in apps/web/src/entities/planet/ui/Planet3D.tsx
-- [ ] T023 [US1] CreatePostForm에 CustomizePanel 통합 + 외형 데이터 제출 in apps/web/src/features/create-post/ui/CreatePostForm.tsx
-- [ ] T024 [US1] create-post 폼 스키마에 외형 필드 추가 in apps/web/src/features/create-post/model/schema.ts
+- [x] T019 [P] [US1] 행성 외형 zod 스키마 정의 in apps/web/src/features/customize-planet/model/schema.ts
+- [x] T020 [P] [US1] ColorPicker 컴포넌트 구현 (react-colorful + shadcn Popover) in apps/web/src/features/customize-planet/ui/ColorPicker.tsx
+- [x] T021 [US1] CustomizePanel 컴포넌트 구현 (색상 피커 × 2, 형태 8종, 크기 3종, 패턴 4종, 고리 토글) in apps/web/src/features/customize-planet/ui/CustomizePanel.tsx
+- [x] T022 [US1] Planet3D 컴포넌트 수정 — 외형 속성으로 렌더링 (형태별 지오메트리, 셰이더 패턴, 고리) in apps/web/src/entities/planet/ui/Planet3D.tsx
+- [x] T023 [US1] CreatePostForm에 CustomizePanel 통합 + 외형 데이터 제출 in apps/web/src/features/create-post/ui/CreatePostForm.tsx
+- [x] T024 [US1] create-post 폼 스키마에 외형 필드 추가 in apps/web/src/features/create-post/model/schema.ts
 
 **Checkpoint**: US1 완료 — 행성 외형 커스터마이징 + 저장 + 은하계 내 커스텀 렌더링 동작
 
