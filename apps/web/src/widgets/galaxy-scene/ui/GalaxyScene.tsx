@@ -9,11 +9,13 @@ import {
   Galaxy3D,
 } from '@/entities/galaxy';
 import { usePlanets, Planet3D } from '@/entities/planet';
+import { Star3D } from '@/entities/star';
 import {
   useCameraTransition,
   BackButton,
 } from '@/features/navigate-galaxy';
 import { CreatePostForm } from '@/features/create-post';
+import { CreateGalaxyForm } from '@/features/create-galaxy';
 import { PostOverlay } from '@/widgets/post-overlay';
 
 interface SceneContentProps {
@@ -65,16 +67,22 @@ function SceneContent({ onPlanetClick }: SceneContentProps) {
           />
         ))}
 
-      {/* 은하 뷰: 선택된 은하의 행성들 렌더링 */}
+      {/* 은하 뷰: 선택된 은하의 행성들 및 주변 별 렌더링 */}
       {viewMode === 'galaxy' &&
         planetsResponse?.data?.map((planet) => (
-          <Planet3D
-            key={planet.id}
-            planet={planet}
-            onClick={() => {
-              onPlanetClick?.(planet.id);
-            }}
-          />
+          <group key={planet.id}>
+            <Planet3D
+              planet={planet}
+              onClick={() => {
+                onPlanetClick?.(planet.id);
+              }}
+            />
+            {/* 행성 주변 별 렌더링 */}
+            <Star3D
+              count={planet.starCount}
+              planetPosition={planet.position}
+            />
+          </group>
         ))}
     </>
   );
@@ -86,6 +94,8 @@ export function GalaxyScene() {
   const [selectedPlanetId, setSelectedPlanetId] = useState<string | null>(null);
   // 게시글 작성 폼 표시 여부
   const [showCreatePost, setShowCreatePost] = useState(false);
+  // 은하계 생성 폼 표시 여부
+  const [showCreateGalaxy, setShowCreateGalaxy] = useState(false);
 
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
@@ -106,6 +116,11 @@ export function GalaxyScene() {
     setShowCreatePost(false);
   }, []);
 
+  // 은하계 생성 성공 핸들러
+  const handleCreateGalaxySuccess = useCallback(() => {
+    setShowCreateGalaxy(false);
+  }, []);
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <Canvas
@@ -119,6 +134,65 @@ export function GalaxyScene() {
 
       {/* 캔버스 위 오버레이 UI */}
       <BackButton />
+
+      {/* 우주 뷰에서 은하계 만들기 버튼 */}
+      {viewMode === 'universe' && !showCreateGalaxy && (
+        <button
+          onClick={() => setShowCreateGalaxy(true)}
+          style={{
+            position: 'absolute',
+            bottom: '24px',
+            right: '24px',
+            padding: '12px 20px',
+            borderRadius: '8px',
+            border: 'none',
+            backgroundColor: '#4a90d9',
+            color: '#fff',
+            fontSize: '14px',
+            cursor: 'pointer',
+            zIndex: 50,
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          은하계 만들기
+        </button>
+      )}
+
+      {/* 은하계 생성 폼 오버레이 */}
+      {showCreateGalaxy && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            width: '400px',
+            height: '100%',
+            backgroundColor: 'rgba(10, 10, 30, 0.92)',
+            padding: '24px',
+            zIndex: 100,
+            overflowY: 'auto',
+            boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <h2 style={{ color: '#fff', fontSize: '18px', margin: 0 }}>새 은하계</h2>
+            <button
+              onClick={() => setShowCreateGalaxy(false)}
+              aria-label="닫기"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#fff',
+                fontSize: '24px',
+                cursor: 'pointer',
+              }}
+            >
+              ✕
+            </button>
+          </div>
+          <CreateGalaxyForm onSuccess={handleCreateGalaxySuccess} />
+        </div>
+      )}
 
       {/* 은하 뷰에서 게시글 작성 버튼 */}
       {viewMode === 'galaxy' && !showCreatePost && !selectedPlanetId && (
