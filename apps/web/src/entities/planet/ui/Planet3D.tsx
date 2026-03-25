@@ -59,7 +59,8 @@ export function Planet3D({ planet, onClick }: Planet3DProps) {
         <meshStandardMaterial
           color={color}
           emissive={color}
-          emissiveIntensity={0.2 + Math.min(planet.starCount * 0.05, 0.4)}
+          emissiveIntensity={0.2 + (planet.starCount / 100) * 0.8}
+          toneMapped={false}
         />
       </mesh>
 
