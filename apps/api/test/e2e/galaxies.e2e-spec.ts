@@ -107,4 +107,38 @@ describe('Galaxies API (e2e)', () => {
         .expect(404);
     });
   });
+
+  describe('POST /api/galaxies', () => {
+    it('새 Galaxy를 생성하고 201을 반환해야 한다', async () => {
+      // given: 중복 이름 없음
+      mockGalaxyRepository.findAll.mockResolvedValue([]);
+      mockGalaxyRepository.create.mockImplementation((entity: GalaxyEntity) =>
+        Promise.resolve(entity),
+      );
+
+      const response = await request(app.getHttpServer())
+        .post('/api/galaxies')
+        .send({ name: '새 은하', description: '새 은하 설명' })
+        .expect(201);
+
+      // 응답 검증
+      expect(response.body).toMatchObject({
+        name: '새 은하',
+        description: '새 은하 설명',
+        planetCount: 0,
+      });
+      expect(response.body.id).toBeDefined();
+      expect(response.body.position).toBeDefined();
+    });
+
+    it('중복된 이름으로 생성 시 409를 반환해야 한다', async () => {
+      // given: 동일 이름의 Galaxy가 이미 존재
+      mockGalaxyRepository.findAll.mockResolvedValue([testGalaxy]);
+
+      await request(app.getHttpServer())
+        .post('/api/galaxies')
+        .send({ name: '프론트엔드', description: '중복 테스트' })
+        .expect(409);
+    });
+  });
 });
