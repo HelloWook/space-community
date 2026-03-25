@@ -21,6 +21,9 @@
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.0"
   },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
   "devDependencies": {
     "@galaxy-board/eslint-config": "*",
     "@galaxy-board/tsconfig": "*",
