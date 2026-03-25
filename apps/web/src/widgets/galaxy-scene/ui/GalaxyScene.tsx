@@ -2,7 +2,7 @@
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
-import { Suspense } from 'react';
+import { Suspense, useState, useCallback } from 'react';
 import {
   useGalaxyNavigationStore,
   useGalaxies,
@@ -13,9 +13,16 @@ import {
   useCameraTransition,
   BackButton,
 } from '@/features/navigate-galaxy';
+import { CreatePostForm } from '@/features/create-post';
+import { PostOverlay } from '@/widgets/post-overlay';
+
+interface SceneContentProps {
+  /** 행성 클릭 시 호출되는 콜백 */
+  onPlanetClick?: (planetId: string) => void;
+}
 
 // 3D 장면 내부 컨텐츠 — R3F 컨텍스트 안에서 렌더링
-function SceneContent() {
+function SceneContent({ onPlanetClick }: SceneContentProps) {
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
   const selectGalaxy = useGalaxyNavigationStore((s) => s.selectGalaxy);
@@ -65,7 +72,7 @@ function SceneContent() {
             key={planet.id}
             planet={planet}
             onClick={() => {
-              // TODO: 행성 상세 네비게이션 (추후 구현)
+              onPlanetClick?.(planet.id);
             }}
           />
         ))}
@@ -75,6 +82,30 @@ function SceneContent() {
 
 // 메인 은하 탐색 3D 씬 위젯
 export function GalaxyScene() {
+  // 선택된 행성 ID (상세 오버레이 표시용)
+  const [selectedPlanetId, setSelectedPlanetId] = useState<string | null>(null);
+  // 게시글 작성 폼 표시 여부
+  const [showCreatePost, setShowCreatePost] = useState(false);
+
+  const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
+  const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
+
+  // 행성 클릭 핸들러
+  const handlePlanetClick = useCallback((planetId: string) => {
+    setSelectedPlanetId(planetId);
+    setShowCreatePost(false);
+  }, []);
+
+  // 오버레이 닫기 핸들러
+  const handleCloseOverlay = useCallback(() => {
+    setSelectedPlanetId(null);
+  }, []);
+
+  // 게시글 작성 성공 핸들러
+  const handleCreateSuccess = useCallback(() => {
+    setShowCreatePost(false);
+  }, []);
+
   return (
     <div style={{ position: 'relative', width: '100%', height: '100%' }}>
       <Canvas
@@ -82,12 +113,79 @@ export function GalaxyScene() {
         gl={{ antialias: true }}
       >
         <Suspense fallback={null}>
-          <SceneContent />
+          <SceneContent onPlanetClick={handlePlanetClick} />
         </Suspense>
       </Canvas>
 
       {/* 캔버스 위 오버레이 UI */}
       <BackButton />
+
+      {/* 은하 뷰에서 게시글 작성 버튼 */}
+      {viewMode === 'galaxy' && !showCreatePost && !selectedPlanetId && (
+        <button
+          onClick={() => setShowCreatePost(true)}
+          style={{
+            position: 'absolute',
+            bottom: '24px',
+            right: '24px',
+            padding: '12px 20px',
+            borderRadius: '8px',
+            border: 'none',
+            backgroundColor: '#4a90d9',
+            color: '#fff',
+            fontSize: '14px',
+            cursor: 'pointer',
+            zIndex: 50,
+            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
+          }}
+        >
+          게시글 작성
+        </button>
+      )}
+
+      {/* 게시글 작성 폼 오버레이 */}
+      {showCreatePost && selectedGalaxyId && (
+        <div
+          style={{
+            position: 'fixed',
+            top: 0,
+            right: 0,
+            width: '400px',
+            height: '100%',
+            backgroundColor: 'rgba(10, 10, 30, 0.92)',
+            padding: '24px',
+            zIndex: 100,
+            overflowY: 'auto',
+            boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
+          }}
+        >
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
+            <h2 style={{ color: '#fff', fontSize: '18px', margin: 0 }}>새 게시글</h2>
+            <button
+              onClick={() => setShowCreatePost(false)}
+              aria-label="닫기"
+              style={{
+                background: 'none',
+                border: 'none',
+                color: '#fff',
+                fontSize: '24px',
+                cursor: 'pointer',
+              }}
+            >
+              ✕
+            </button>
+          </div>
+          <CreatePostForm
+            galaxyId={selectedGalaxyId}
+            onSuccess={handleCreateSuccess}
+          />
+        </div>
+      )}
+
+      {/* 행성 상세 오버레이 */}
+      {selectedPlanetId && (
+        <PostOverlay planetId={selectedPlanetId} onClose={handleCloseOverlay} />
+      )}
     </div>
   );
 }
