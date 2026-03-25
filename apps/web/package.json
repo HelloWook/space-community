@@ -1,0 +1,48 @@
+{
+  "name": "@galaxy-board/web",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "test": "jest",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "next": "^15.3.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "three": "^0.183.0",
+    "@react-three/fiber": "^9.1.2",
+    "@react-three/drei": "^10.0.4",
+    "@galaxy-board/types": "*",
+    "zustand": "^5.0.0",
+    "zod": "^3.24.0",
+    "react-hook-form": "^7.54.0",
+    "@hookform/resolvers": "^4.1.0",
+    "@tanstack/react-query": "^5.64.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.0",
+    "tailwind-merge": "^3.0.0",
+    "lucide-react": "^0.474.0",
+    "tailwindcss-animate": "^1.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/three": "^0.183.0",
+    "@types/node": "^22.0.0",
+    "jest": "^29.0.0",
+    "jest-environment-jsdom": "^29.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/dom": "^10.0.0",
+    "@galaxy-board/tsconfig": "*",
+    "@galaxy-board/eslint-config": "*",
+    "tailwindcss": "^4.0.0",
+    "@tailwindcss/postcss": "^4.0.0",
+    "postcss": "^8.0.0"
+  }
+}

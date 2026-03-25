@@ -1,50 +1,114 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+  Sync Impact Report
+  ==================
+  Version change: 1.0.0 → 1.1.0 (MINOR - 원칙 2개 추가, 기술 제약 확장)
+
+  Added principles:
+    - VI. 테스트 우선 (TDD) — NON-NEGOTIABLE
+    - VII. SOLID 원칙
+
+  Modified sections:
+    - 기술 제약: 프론트엔드 FSD, 백엔드 헥사고날 아키텍처 폴더 구조 추가
+
+  Templates requiring updates:
+    - .specify/templates/plan-template.md ✅ 호환 (Constitution Check에서 TDD/SOLID 검증 가능)
+    - .specify/templates/spec-template.md ✅ 호환 (변경 불필요)
+    - .specify/templates/tasks-template.md ✅ 호환 (테스트 태스크 우선 배치 구조 이미 존재)
+
+  Follow-up TODOs: 없음
+-->
+
+# 은하계 게시판 Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. 3D 성능 우선
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+- 3D 렌더링 장면은 목표 프레임레이트(30fps 이상)를 반드시 유지해야 한다
+- 오브젝트 수에 상한을 두어야 한다 (페이지당 행성 50개, 행성당 별 100개)
+- 대량 오브젝트 처리 시 페이지네이션 또는 LOD(Level of Detail) 전략을 적용해야 한다
+- 새로운 시각 요소 추가 시 성능 영향을 측정하고 기록해야 한다
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. 사용자 경험 중심
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+- 모든 인터랙션은 사용자의 직관적 행동(클릭, 드래그, 줌)에 기반해야 한다
+- 3D 공간 전환(은하계 진입/복귀)은 부드러운 카메라 애니메이션으로 처리해야 한다
+- 2D UI(게시글 작성/조회)는 3D 배경 위 오버레이 패널로 제공하여 몰입감을 유지해야 한다
+- 처음 방문한 사용자도 별도 안내 없이 핵심 기능을 사용할 수 있어야 한다
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. 단순성 (YAGNI)
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+- 현재 필요한 기능만 구현한다. 미래 요구사항을 위한 사전 설계를 금지한다
+- 과도한 추상화보다 명확하고 읽기 쉬운 코드를 우선한다
+- 새로운 의존성 추가 시 반드시 타당성을 명시해야 한다
+- 3줄의 유사 코드가 성급한 추상화보다 낫다
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. 스펙 기반 개발 (SDD)
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+- 모든 기능은 speckit 워크플로우를 따라야 한다: specify → clarify → plan → tasks → implement
+- 각 단계는 해당 단계의 역할만 수행하고 다음 단계를 침범하지 않는다
+- 스펙은 "무엇(WHAT)"과 "왜(WHY)"에 집중하고, 구현 세부사항("어떻게(HOW)")을 포함하지 않는다
+- 구현은 반드시 승인된 태스크 목록에 기반해야 한다
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. 점진적 전달
+
+- 각 사용자 스토리는 독립적으로 구현, 테스트, 배포 가능해야 한다
+- MVP(최소 기능 제품)를 먼저 완성한 후 점진적으로 기능을 추가한다
+- 기능 간 의존성이 있을 경우 명시적으로 문서화하고, 의존 기능을 먼저 구현한다
+
+### VI. 테스트 우선 (TDD) — NON-NEGOTIABLE
+
+- 모든 기능 구현 전에 반드시 테스트를 먼저 작성해야 한다
+- Red-Green-Refactor 사이클을 엄격히 준수한다:
+  1. Red: 실패하는 테스트를 먼저 작성한다
+  2. Green: 테스트를 통과하는 최소한의 코드를 작성한다
+  3. Refactor: 테스트가 통과하는 상태에서 코드를 개선한다
+- 테스트 없는 코드는 머지할 수 없다
+- 테스트는 구현 세부사항이 아닌 동작(behavior)을 검증해야 한다
+
+### VII. SOLID 원칙
+
+- **S (단일 책임)**: 각 클래스/모듈은 하나의 변경 이유만 가져야 한다
+- **O (개방-폐쇄)**: 확장에는 열려 있고 수정에는 닫혀 있어야 한다
+- **L (리스코프 치환)**: 하위 타입은 상위 타입을 대체할 수 있어야 한다
+- **I (인터페이스 분리)**: 사용하지 않는 인터페이스에 의존하지 않아야 한다
+- **D (의존성 역전)**: 상위 모듈이 하위 모듈에 직접 의존하지 않고 추상화에 의존해야 한다
+- SOLID 위반이 발견되면 리팩토링 후 머지해야 한다
+
+## 기술 제약
+
+- 대상 플랫폼: WebGL 지원 모던 브라우저 (Chrome, Firefox, Safari, Edge 최신 2개 버전)
+- 데스크톱 브라우저 우선 지원, 모바일 대응은 후속 단계
+- 3D 렌더링: Three.js 기반
+- 사용자 식별: 닉네임 입력 방식 (인증 시스템은 후속 단계)
+- 게시글 내용: 마크다운 형식 지원
+- 데이터 저장: 서버 기반 영구 저장소
+- 프론트엔드 상태 관리: Zustand
+- 프론트엔드 서버 상태: TanStack Query
+- 프론트엔드 폼: react-hook-form + zod (유효성 검증)
+- 프론트엔드 UI: shadcn/ui + Tailwind CSS v4
+- 프론트엔드 폴더 구조: FSD (Feature-Sliced Design)
+  - app/ → views/ → widgets/ → features/ → entities/ → shared/
+  - Next.js Pages Router 충돌 방지를 위해 FSD pages 레이어는 views로 명명
+  - 각 레이어는 상위 레이어만 import할 수 있으며, 하위 레이어를 참조할 수 없다
+- 백엔드 폴더 구조: 헥사고날 아키텍처 (Ports & Adapters)
+  - domain/ (엔티티, 비즈니스 로직) → application/ (유스케이스, 포트) → infrastructure/ (어댑터, DB, 외부 서비스)
+  - domain은 외부 의존성을 가질 수 없다. 모든 외부 접근은 포트를 통해야 한다
+
+## 개발 워크플로우
+
+- 모든 대화, 문서, 코드 주석은 한글로 작성한다
+- 커밋은 논리적 단위로 나누어 작성한다
+- 각 기능 브랜치는 speckit의 번호 체계(sequential)를 따른다
+- PR 생성 전 해당 기능의 모든 태스크가 완료되어야 한다
+- 모든 구현 태스크는 테스트 작성 → 테스트 실패 확인 → 구현 순서를 따른다
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- 이 헌법은 프로젝트의 모든 개발 관행에 우선한다
+- 헌법 수정 시 변경 사유, 영향 범위, 의존 템플릿 업데이트를 문서화해야 한다
+- 버전 관리는 시맨틱 버저닝을 따른다 (MAJOR: 원칙 제거/재정의, MINOR: 원칙 추가/확장, PATCH: 문구 수정)
+- 모든 PR/리뷰는 헌법 원칙 준수 여부를 검증해야 한다
+- 복잡성 추가 시 반드시 타당성을 제시해야 한다
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.1.0 | **Ratified**: 2026-03-25 | **Last Amended**: 2026-03-25

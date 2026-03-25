@@ -1,0 +1,22 @@
+{
+  "name": "galaxy-board",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"yarn workspace @galaxy-board/web dev\" \"yarn workspace @galaxy-board/api dev\"",
+    "test": "yarn workspace @galaxy-board/web test && yarn workspace @galaxy-board/api test",
+    "lint": "yarn workspace @galaxy-board/web lint && yarn workspace @galaxy-board/api lint"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "packageManager": "yarn@1.22.22",
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.7.0"
+  }
+}
