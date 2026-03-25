@@ -173,29 +173,29 @@
 
 > **NOTE: 테스트를 먼저 작성하고, 실패를 확인한 후 구현합니다**
 
-- [ ] T067 [P] [US3] StarService 단위 테스트 작성 (create, 상한 검증, 원자적 증가) in apps/api/test/unit/application/star.service.spec.ts
-- [ ] T068 [P] [US3] POST /api/planets/:planetId/stars e2e 테스트 작성 (정상, 상한 도달, 404) in apps/api/test/e2e/stars.e2e-spec.ts
+- [x] T067 [P] [US3] StarService 단위 테스트 작성 (create, 상한 검증, 원자적 증가) in apps/api/test/unit/application/star.service.spec.ts
+- [x] T068 [P] [US3] POST /api/planets/:planetId/stars e2e 테스트 작성 (정상, 상한 도달, 404) in apps/api/test/e2e/stars.e2e-spec.ts
 
 ### 백엔드 구현 (US3)
 
-- [ ] T069 [US3] Star DTO 정의 (CreateStarDto, StarResponseDto) in apps/api/src/application/dto/star.dto.ts
-- [ ] T070 [US3] StarService 구현 (create — 트랜잭션: Star 생성 + starCount 원자적 increment + 상한 100 검증) in apps/api/src/application/services/star.service.ts
-- [ ] T071 [US3] StarController 구현 (POST /api/planets/:planetId/stars) in apps/api/src/infrastructure/api/controllers/star.controller.ts
-- [ ] T072 [US3] Star 모듈 구성 (StarModule) + AppModule 등록 in apps/api/src/star.module.ts
+- [x] T069 [US3] Star DTO 정의 (CreateStarDto, StarResponseDto) in apps/api/src/application/dto/star.dto.ts
+- [x] T070 [US3] StarService 구현 (create — 트랜잭션: Star 생성 + starCount 원자적 increment + 상한 100 검증) in apps/api/src/application/services/star.service.ts
+- [x] T071 [US3] StarController 구현 (POST /api/planets/:planetId/stars) in apps/api/src/infrastructure/api/controllers/star.controller.ts
+- [x] T072 [US3] Star 모듈 구성 (StarModule) + AppModule 등록 in apps/api/src/star.module.ts
 
 ### 프론트엔드 테스트 (US3)
 
-- [ ] T073 [P] [US3] give-star 기능 테스트 작성 (별 부여 버튼, 상한 메시지) in apps/web/src/features/give-star/__tests__/GiveStarButton.test.tsx
+- [x] T073 [P] [US3] give-star 기능 테스트 작성 (별 부여 버튼, 상한 메시지) in apps/web/src/features/give-star/__tests__/GiveStarButton.test.tsx
 
 ### 프론트엔드 구현 (US3)
 
-- [ ] T074 [US3] Star 엔티티 모델 (타입) in apps/web/src/entities/star/model/index.ts
-- [ ] T075 [US3] Star API 뮤테이션 훅 (useGiveStar) in apps/web/src/entities/star/api/hooks.ts
-- [ ] T076 [US3] Star3D 컴포넌트 구현 (InstancedMesh — 행성 주위 회전 별 렌더링) in apps/web/src/entities/star/ui/Star3D.tsx
-- [ ] T077 [US3] 별 수에 따른 시각 효과 구현 (발광 강도, 색상 변화) in apps/web/src/entities/planet/ui/Planet3D.tsx (기존 파일 수정)
-- [ ] T078 [US3] GiveStarButton 컴포넌트 구현 (별 부여 + 상한 안내) in apps/web/src/features/give-star/ui/GiveStarButton.tsx
-- [ ] T079 [US3] PostOverlay에 별 부여 버튼 통합 in apps/web/src/widgets/post-overlay/ui/PostOverlay.tsx (기존 파일 수정)
-- [ ] T080 [US3] GalaxyScene에 Star3D 렌더링 통합 (각 행성 주위 별 표시) in apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx (기존 파일 수정)
+- [x] T074 [US3] Star 엔티티 모델 (타입) in apps/web/src/entities/star/model/index.ts
+- [x] T075 [US3] Star API 뮤테이션 훅 (useGiveStar) in apps/web/src/entities/star/api/hooks.ts
+- [x] T076 [US3] Star3D 컴포넌트 구현 (InstancedMesh — 행성 주위 회전 별 렌더링) in apps/web/src/entities/star/ui/Star3D.tsx
+- [x] T077 [US3] 별 수에 따른 시각 효과 구현 (발광 강도, 색상 변화) in apps/web/src/entities/planet/ui/Planet3D.tsx (기존 파일 수정)
+- [x] T078 [US3] GiveStarButton 컴포넌트 구현 (별 부여 + 상한 안내) in apps/web/src/features/give-star/ui/GiveStarButton.tsx
+- [x] T079 [US3] PostOverlay에 별 부여 버튼 통합 in apps/web/src/widgets/post-overlay/ui/PostOverlay.tsx (기존 파일 수정)
+- [x] T080 [US3] GalaxyScene에 Star3D 렌더링 통합 (각 행성 주위 별 표시) in apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx (기존 파일 수정)
 
 **Checkpoint**: US3 완료 — 별 부여, 회전 별 오브젝트, 화려한 시각 효과 동작
 
@@ -211,25 +211,25 @@
 
 > **NOTE: 테스트를 먼저 작성하고, 실패를 확인한 후 구현합니다**
 
-- [ ] T081 [P] [US4] GalaxyService.create 단위 테스트 작성 (생성, 중복 이름 검증) in apps/api/test/unit/application/galaxy.service.spec.ts (기존 파일에 추가)
-- [ ] T082 [P] [US4] POST /api/galaxies e2e 테스트 작성 (정상, 중복 409) in apps/api/test/e2e/galaxies.e2e-spec.ts (기존 파일에 추가)
+- [x] T081 [P] [US4] GalaxyService.create 단위 테스트 작성 (생성, 중복 이름 검증) in apps/api/test/unit/application/galaxy.service.spec.ts (기존 파일에 추가)
+- [x] T082 [P] [US4] POST /api/galaxies e2e 테스트 작성 (정상, 중복 409) in apps/api/test/e2e/galaxies.e2e-spec.ts (기존 파일에 추가)
 
 ### 백엔드 구현 (US4)
 
-- [ ] T083 [US4] CreateGalaxyDto 정의 in apps/api/src/application/dto/galaxy.dto.ts (기존 파일에 추가)
-- [ ] T084 [US4] GalaxyService에 create 메서드 추가 (좌표 자동 배정 + 중복 이름 검증) in apps/api/src/application/services/galaxy.service.ts
-- [ ] T085 [US4] GalaxyController에 POST /api/galaxies 엔드포인트 추가 in apps/api/src/infrastructure/api/controllers/galaxy.controller.ts
+- [x] T083 [US4] CreateGalaxyDto 정의 in apps/api/src/application/dto/galaxy.dto.ts (기존 파일에 추가)
+- [x] T084 [US4] GalaxyService에 create 메서드 추가 (좌표 자동 배정 + 중복 이름 검증) in apps/api/src/application/services/galaxy.service.ts
+- [x] T085 [US4] GalaxyController에 POST /api/galaxies 엔드포인트 추가 in apps/api/src/infrastructure/api/controllers/galaxy.controller.ts
 
 ### 프론트엔드 테스트 (US4)
 
-- [ ] T086 [P] [US4] create-galaxy 기능 테스트 작성 (폼 제출, 유효성 검증) in apps/web/src/features/create-galaxy/__tests__/CreateGalaxyForm.test.tsx
+- [x] T086 [P] [US4] create-galaxy 기능 테스트 작성 (폼 제출, 유효성 검증) in apps/web/src/features/create-galaxy/__tests__/CreateGalaxyForm.test.tsx
 
 ### 프론트엔드 구현 (US4)
 
-- [ ] T087 [US4] Galaxy 생성 API 뮤테이션 훅 (useCreateGalaxy) in apps/web/src/entities/galaxy/api/hooks.ts (기존 파일에 추가)
-- [ ] T088 [US4] create-galaxy 폼 스키마 (zod) 정의 in apps/web/src/features/create-galaxy/model/schema.ts
-- [ ] T089 [US4] CreateGalaxyForm 컴포넌트 구현 (react-hook-form + zod + shadcn) in apps/web/src/features/create-galaxy/ui/CreateGalaxyForm.tsx
-- [ ] T090 [US4] GalaxyScene에 은하계 생성 버튼 + 폼 통합 in apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx (기존 파일 수정)
+- [x] T087 [US4] Galaxy 생성 API 뮤테이션 훅 (useCreateGalaxy) in apps/web/src/entities/galaxy/api/hooks.ts (기존 파일에 추가)
+- [x] T088 [US4] create-galaxy 폼 스키마 (zod) 정의 in apps/web/src/features/create-galaxy/model/schema.ts
+- [x] T089 [US4] CreateGalaxyForm 컴포넌트 구현 (react-hook-form + zod + shadcn) in apps/web/src/features/create-galaxy/ui/CreateGalaxyForm.tsx
+- [x] T090 [US4] GalaxyScene에 은하계 생성 버튼 + 폼 통합 in apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx (기존 파일 수정)
 
 **Checkpoint**: US4 완료 — 은하계 생성, 우주 공간에 표시, 진입 가능
 
