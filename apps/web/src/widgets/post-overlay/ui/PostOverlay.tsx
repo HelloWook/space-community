@@ -1,6 +1,7 @@
 'use client';
 
 import { usePlanet } from '@/entities/planet';
+import { GiveStarButton } from '@/features/give-star';
 
 interface PostOverlayProps {
   /** 조회할 행성(게시글) ID */
@@ -86,6 +87,12 @@ export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
           >
             {planet.content}
           </pre>
+
+          {/* 별 주기 버튼 */}
+          <GiveStarButton
+            planetId={planetId}
+            starCount={planet.starCount}
+          />
         </>
       )}
     </div>
