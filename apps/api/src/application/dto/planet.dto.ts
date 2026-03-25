@@ -1,6 +1,6 @@
 // Planet 관련 요청/응답 DTO 정의
 
-import { IsString, Length } from 'class-validator';
+import { IsString, Length, IsOptional, Matches, IsIn, IsBoolean } from 'class-validator';
 import { Position } from '../../domain/entities/galaxy.entity';
 
 /** Planet 요약 DTO (content 제외) */
@@ -19,6 +19,24 @@ export class PlanetSummaryDto {
 
   /** 3D 공간 좌표 */
   position: Position;
+
+  /** 메인 색상 (HEX) */
+  mainColor: string;
+
+  /** 보조 색상 (HEX) */
+  subColor: string;
+
+  /** 크기 */
+  size: string;
+
+  /** 형태 */
+  shape: string;
+
+  /** 표면 패턴 */
+  pattern: string;
+
+  /** 고리 유무 */
+  hasRing: boolean;
 
   /** 생성일시 */
   createdAt: Date;
@@ -40,6 +58,41 @@ export class CreatePlanetDto {
   @IsString()
   @Length(1, 20)
   authorNickname: string;
+
+  /** 메인 색상 (HEX #RRGGBB) */
+  @IsOptional()
+  @IsString()
+  @Matches(/^#[0-9a-fA-F]{6}$/, { message: 'mainColor는 유효한 HEX 색상이어야 합니다 (#RRGGBB)' })
+  mainColor?: string;
+
+  /** 보조 색상 (HEX #RRGGBB) */
+  @IsOptional()
+  @IsString()
+  @Matches(/^#[0-9a-fA-F]{6}$/, { message: 'subColor는 유효한 HEX 색상이어야 합니다 (#RRGGBB)' })
+  subColor?: string;
+
+  /** 크기 */
+  @IsOptional()
+  @IsString()
+  @IsIn(['SMALL', 'MEDIUM', 'LARGE'])
+  size?: string;
+
+  /** 형태 */
+  @IsOptional()
+  @IsString()
+  @IsIn(['SPHERE', 'BOX', 'TETRAHEDRON', 'OCTAHEDRON', 'DODECAHEDRON', 'TORUS', 'CYLINDER', 'CONE'])
+  shape?: string;
+
+  /** 표면 패턴 */
+  @IsOptional()
+  @IsString()
+  @IsIn(['SMOOTH', 'CRATER', 'STRIPE', 'CLOUD'])
+  pattern?: string;
+
+  /** 고리 유무 */
+  @IsOptional()
+  @IsBoolean()
+  hasRing?: boolean;
 }
 
 /** Planet 상세 응답 DTO (content 포함) */

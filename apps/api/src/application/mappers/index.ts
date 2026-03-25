@@ -26,6 +26,12 @@ interface PrismaPlanet {
   positionX: number;
   positionY: number;
   positionZ: number;
+  mainColor: string;
+  subColor: string;
+  size: string;
+  shape: string;
+  pattern: string;
+  hasRing: boolean;
   galaxyId: string;
   createdAt: Date;
   updatedAt: Date;
@@ -85,6 +91,12 @@ export class PlanetMapper {
         y: prismaPlanet.positionY,
         z: prismaPlanet.positionZ,
       },
+      mainColor: prismaPlanet.mainColor,
+      subColor: prismaPlanet.subColor,
+      size: prismaPlanet.size,
+      shape: prismaPlanet.shape,
+      pattern: prismaPlanet.pattern,
+      hasRing: prismaPlanet.hasRing,
       galaxyId: prismaPlanet.galaxyId,
       createdAt: prismaPlanet.createdAt,
       updatedAt: prismaPlanet.updatedAt,
@@ -102,6 +114,12 @@ export class PlanetMapper {
       positionX: entity.position.x,
       positionY: entity.position.y,
       positionZ: entity.position.z,
+      mainColor: entity.mainColor,
+      subColor: entity.subColor,
+      size: entity.size,
+      shape: entity.shape,
+      pattern: entity.pattern,
+      hasRing: entity.hasRing,
       galaxyId: entity.galaxyId,
     };
   }

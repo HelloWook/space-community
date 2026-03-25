@@ -125,4 +125,72 @@ describe('PlanetEntity', () => {
       expect(planet.starCount).toBe(100);
     });
   });
+
+  describe('외형 속성 유효성 검사', () => {
+    it('유효한 외형 속성으로 Planet을 생성해야 한다', () => {
+      const planet = PlanetEntity.create({
+        ...validProps,
+        mainColor: '#FF6B35',
+        subColor: '#004E64',
+        size: 'LARGE',
+        shape: 'DODECAHEDRON',
+        pattern: 'CRATER',
+        hasRing: true,
+      });
+
+      expect(planet.mainColor).toBe('#FF6B35');
+      expect(planet.subColor).toBe('#004E64');
+      expect(planet.size).toBe('LARGE');
+      expect(planet.shape).toBe('DODECAHEDRON');
+      expect(planet.pattern).toBe('CRATER');
+      expect(planet.hasRing).toBe(true);
+    });
+
+    it('외형 속성 미지정 시 기본값이 적용되어야 한다', () => {
+      const planet = PlanetEntity.create(validProps);
+
+      expect(planet.mainColor).toBe('#4A90D9');
+      expect(planet.subColor).toBe('#2C5F8A');
+      expect(planet.size).toBe('MEDIUM');
+      expect(planet.shape).toBe('SPHERE');
+      expect(planet.pattern).toBe('SMOOTH');
+      expect(planet.hasRing).toBe(false);
+    });
+
+    it('mainColor가 유효하지 않은 HEX이면 에러를 던져야 한다', () => {
+      expect(() =>
+        PlanetEntity.create({ ...validProps, mainColor: 'invalid' }),
+      ).toThrow('mainColor는 유효한 HEX 색상이어야 합니다');
+    });
+
+    it('mainColor가 # 없는 HEX이면 에러를 던져야 한다', () => {
+      expect(() =>
+        PlanetEntity.create({ ...validProps, mainColor: 'FF6B35' }),
+      ).toThrow('mainColor는 유효한 HEX 색상이어야 합니다');
+    });
+
+    it('subColor가 유효하지 않은 HEX이면 에러를 던져야 한다', () => {
+      expect(() =>
+        PlanetEntity.create({ ...validProps, subColor: '#GGG' }),
+      ).toThrow('subColor는 유효한 HEX 색상이어야 합니다');
+    });
+
+    it('유효하지 않은 size이면 에러를 던져야 한다', () => {
+      expect(() =>
+        PlanetEntity.create({ ...validProps, size: 'HUGE' as any }),
+      ).toThrow('size는 SMALL, MEDIUM, LARGE 중 하나여야 합니다');
+    });
+
+    it('유효하지 않은 shape이면 에러를 던져야 한다', () => {
+      expect(() =>
+        PlanetEntity.create({ ...validProps, shape: 'STAR' as any }),
+      ).toThrow('shape');
+    });
+
+    it('유효하지 않은 pattern이면 에러를 던져야 한다', () => {
+      expect(() =>
+        PlanetEntity.create({ ...validProps, pattern: 'DOTS' as any }),
+      ).toThrow('pattern');
+    });
+  });
 });

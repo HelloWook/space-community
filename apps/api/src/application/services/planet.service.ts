@@ -39,6 +39,12 @@ export class PlanetService {
         authorNickname: planet.authorNickname,
         starCount: planet.starCount,
         position: planet.position,
+        mainColor: planet.mainColor,
+        subColor: planet.subColor,
+        size: planet.size,
+        shape: planet.shape,
+        pattern: planet.pattern,
+        hasRing: planet.hasRing,
         createdAt: planet.createdAt,
       })),
       nextCursor: result.nextCursor,
@@ -66,6 +72,12 @@ export class PlanetService {
       authorNickname: dto.authorNickname,
       starCount: 0,
       position,
+      mainColor: dto.mainColor,
+      subColor: dto.subColor,
+      size: dto.size,
+      shape: dto.shape,
+      pattern: dto.pattern,
+      hasRing: dto.hasRing,
       galaxyId,
       createdAt: now,
       updatedAt: now,
@@ -93,6 +105,12 @@ export class PlanetService {
     dto.authorNickname = planet.authorNickname;
     dto.starCount = planet.starCount;
     dto.position = planet.position;
+    dto.mainColor = planet.mainColor;
+    dto.subColor = planet.subColor;
+    dto.size = planet.size;
+    dto.shape = planet.shape;
+    dto.pattern = planet.pattern;
+    dto.hasRing = planet.hasRing;
     dto.galaxyId = planet.galaxyId;
     dto.createdAt = planet.createdAt;
     return dto;

@@ -36,24 +36,24 @@
 
 > **NOTE: 테스트를 먼저 작성하고, 실패를 확인한 후 구현합니다 (Red-Green-Refactor)**
 
-- [ ] T005 [P] Planet 도메인 엔티티 외형 유효성 검증 테스트 추가 (HEX 형식, enum 값) in apps/api/test/unit/domain/planet.entity.spec.ts
-- [ ] T006 [P] PlanetService 외형 포함 생성/조회 단위 테스트 추가 in apps/api/test/unit/application/planet.service.spec.ts
-- [ ] T007 [P] POST /api/galaxies/:galaxyId/planets 외형 필드 포함 e2e 테스트 추가 in apps/api/test/e2e/planets.e2e-spec.ts
-- [ ] T008 [P] GET /api/planets/:id 외형 필드 응답 e2e 테스트 추가 in apps/api/test/e2e/planets.e2e-spec.ts
+- [x] T005 [P] Planet 도메인 엔티티 외형 유효성 검증 테스트 추가 (HEX 형식, enum 값) in apps/api/test/unit/domain/planet.entity.spec.ts
+- [x] T006 [P] PlanetService 외형 포함 생성/조회 단위 테스트 추가 in apps/api/test/unit/application/planet.service.spec.ts
+- [x] T007 [P] POST /api/galaxies/:galaxyId/planets 외형 필드 포함 e2e 테스트 추가 in apps/api/test/e2e/planets.e2e-spec.ts
+- [x] T008 [P] GET /api/planets/:id 외형 필드 응답 e2e 테스트 추가 in apps/api/test/e2e/planets.e2e-spec.ts
 
 ### 백엔드 구현 (외형 필드 추가)
 
-- [ ] T009 [P] Planet 도메인 엔티티에 외형 속성 + 유효성 검증 추가 in apps/api/src/domain/entities/planet.entity.ts
-- [ ] T010 [P] CreatePlanetDto에 외형 필드 + 유효성 데코레이터 추가 in apps/api/src/application/dto/planet.dto.ts
-- [ ] T011 [P] PlanetSummaryDto, PlanetDetailResponseDto에 외형 필드 추가 in apps/api/src/application/dto/planet.dto.ts
-- [ ] T012 PlanetMapper에 외형 필드 매핑 추가 in apps/api/src/application/mappers/index.ts
-- [ ] T013 PlanetService의 create, findById, findByGalaxy에 외형 필드 처리 추가 in apps/api/src/application/services/planet.service.ts
-- [ ] T014 PlanetRepository의 select에 외형 필드 추가 in apps/api/src/infrastructure/database/repositories/planet.repository.ts
+- [x] T009 [P] Planet 도메인 엔티티에 외형 속성 + 유효성 검증 추가 in apps/api/src/domain/entities/planet.entity.ts
+- [x] T010 [P] CreatePlanetDto에 외형 필드 + 유효성 데코레이터 추가 in apps/api/src/application/dto/planet.dto.ts
+- [x] T011 [P] PlanetSummaryDto, PlanetDetailResponseDto에 외형 필드 추가 in apps/api/src/application/dto/planet.dto.ts
+- [x] T012 PlanetMapper에 외형 필드 매핑 추가 in apps/api/src/application/mappers/index.ts
+- [x] T013 PlanetService의 create, findById, findByGalaxy에 외형 필드 처리 추가 in apps/api/src/application/services/planet.service.ts
+- [x] T014 PlanetRepository의 select에 외형 필드 추가 in apps/api/src/infrastructure/database/repositories/planet.repository.ts
 
 ### 프론트엔드 공유 인프라
 
-- [ ] T015 [P] Simplex Noise GLSL 함수 모듈 작성 in apps/web/src/shared/lib/shaders/noise.ts
-- [ ] T016 [P] 절차적 패턴 ShaderMaterial 팩토리 작성 (SMOOTH, CRATER, STRIPE, CLOUD) in apps/web/src/shared/lib/shaders/planet-material.ts
+- [x] T015 [P] Simplex Noise GLSL 함수 모듈 작성 in apps/web/src/shared/lib/shaders/noise.ts
+- [x] T016 [P] 절차적 패턴 ShaderMaterial 팩토리 작성 (SMOOTH, CRATER, STRIPE, CLOUD) in apps/web/src/shared/lib/shaders/planet-material.ts
 
 **Checkpoint**: 기반 완료 — 외형 포함 행성 생성/조회 API 동작, 셰이더 인프라 준비
 

@@ -36,7 +36,9 @@ describe('PlanetService', () => {
   });
 
   // 테스트용 Planet 엔티티 생성 헬퍼
-  const createPlanet = (id: string, title: string): PlanetEntity => {
+  const createPlanet = (id: string, title: string, appearance?: Partial<{
+    mainColor: string; subColor: string; size: string; shape: string; pattern: string; hasRing: boolean;
+  }>): PlanetEntity => {
     return PlanetEntity.create({
       id,
       title,
@@ -47,6 +49,7 @@ describe('PlanetService', () => {
       galaxyId: 'g1',
       createdAt: new Date('2026-01-01'),
       updatedAt: new Date('2026-01-01'),
+      ...appearance,
     });
   };
 
@@ -74,6 +77,12 @@ describe('PlanetService', () => {
         authorNickname: '테스트유저',
         starCount: 5,
         position: { x: 1, y: 2, z: 3 },
+        mainColor: '#4A90D9',
+        subColor: '#2C5F8A',
+        size: 'MEDIUM',
+        shape: 'SPHERE',
+        pattern: 'SMOOTH',
+        hasRing: false,
         createdAt: new Date('2026-01-01'),
       });
       // content가 포함되지 않아야 한다 (PlanetSummaryDto)
@@ -200,6 +209,99 @@ describe('PlanetService', () => {
         NotFoundException,
       );
       expect(mockPlanetRepository.findById).toHaveBeenCalledWith('nonexistent');
+    });
+  });
+
+  describe('외형 속성 처리', () => {
+    it('외형 속성이 포함된 DTO로 Planet을 생성해야 한다', async () => {
+      const dto = {
+        title: '커스텀 행성',
+        content: '커스텀 내용',
+        authorNickname: '작성자',
+        mainColor: '#FF6B35',
+        subColor: '#004E64',
+        size: 'LARGE',
+        shape: 'DODECAHEDRON',
+        pattern: 'CRATER',
+        hasRing: true,
+      };
+      const galaxyId = 'g1';
+
+      mockPlanetRepository.create.mockImplementation(
+        async (planet: PlanetEntity) => planet,
+      );
+
+      const result = await service.create(galaxyId, dto as any);
+
+      expect(result.mainColor).toBe('#FF6B35');
+      expect(result.subColor).toBe('#004E64');
+      expect(result.size).toBe('LARGE');
+      expect(result.shape).toBe('DODECAHEDRON');
+      expect(result.pattern).toBe('CRATER');
+      expect(result.hasRing).toBe(true);
+    });
+
+    it('외형 속성 미지정 시 기본값으로 생성해야 한다', async () => {
+      const dto: CreatePlanetDto = {
+        title: '기본 행성',
+        content: '기본 내용',
+        authorNickname: '작성자',
+      };
+
+      mockPlanetRepository.create.mockImplementation(
+        async (planet: PlanetEntity) => planet,
+      );
+
+      const result = await service.create('g1', dto);
+
+      expect(result.mainColor).toBe('#4A90D9');
+      expect(result.subColor).toBe('#2C5F8A');
+      expect(result.size).toBe('MEDIUM');
+      expect(result.shape).toBe('SPHERE');
+      expect(result.pattern).toBe('SMOOTH');
+      expect(result.hasRing).toBe(false);
+    });
+
+    it('findByGalaxy 응답에 외형 속성이 포함되어야 한다', async () => {
+      const planets = [
+        createPlanet('p1', '커스텀', {
+          mainColor: '#FF0000',
+          subColor: '#00FF00',
+          size: 'SMALL',
+          shape: 'TORUS',
+          pattern: 'STRIPE',
+          hasRing: true,
+        }),
+      ];
+      mockPlanetRepository.findByGalaxyId.mockResolvedValue({
+        planets,
+        nextCursor: null,
+        hasMore: false,
+      });
+
+      const result = await service.findByGalaxy('g1', null, 50);
+
+      expect(result.data[0].mainColor).toBe('#FF0000');
+      expect(result.data[0].subColor).toBe('#00FF00');
+      expect(result.data[0].size).toBe('SMALL');
+      expect(result.data[0].shape).toBe('TORUS');
+      expect(result.data[0].pattern).toBe('STRIPE');
+      expect(result.data[0].hasRing).toBe(true);
+    });
+
+    it('findById 응답에 외형 속성이 포함되어야 한다', async () => {
+      const planet = createPlanet('p1', '커스텀', {
+        mainColor: '#AABBCC',
+        shape: 'CONE',
+        hasRing: false,
+      });
+      mockPlanetRepository.findById.mockResolvedValue(planet);
+
+      const result = await service.findById('p1');
+
+      expect(result.mainColor).toBe('#AABBCC');
+      expect(result.shape).toBe('CONE');
+      expect(result.hasRing).toBe(false);
     });
   });
 });

@@ -2,6 +2,11 @@
 
 import { Position } from './galaxy.entity';
 
+const HEX_COLOR_REGEX = /^#[0-9a-fA-F]{6}$/;
+const VALID_SIZES = ['SMALL', 'MEDIUM', 'LARGE'] as const;
+const VALID_SHAPES = ['SPHERE', 'BOX', 'TETRAHEDRON', 'OCTAHEDRON', 'DODECAHEDRON', 'TORUS', 'CYLINDER', 'CONE'] as const;
+const VALID_PATTERNS = ['SMOOTH', 'CRATER', 'STRIPE', 'CLOUD'] as const;
+
 /** Planet 엔티티 생성에 필요한 속성 */
 export interface PlanetProps {
   id: string;
@@ -13,6 +18,13 @@ export interface PlanetProps {
   galaxyId: string;
   createdAt: Date;
   updatedAt: Date;
+  // 외형 속성 (optional — 기본값 적용)
+  mainColor?: string;
+  subColor?: string;
+  size?: string;
+  shape?: string;
+  pattern?: string;
+  hasRing?: boolean;
 }
 
 /** 행성 도메인 엔티티 - 프레임워크 의존성 없는 순수 클래스 */
@@ -26,6 +38,13 @@ export class PlanetEntity {
   readonly galaxyId: string;
   readonly createdAt: Date;
   readonly updatedAt: Date;
+  // 외형 속성
+  readonly mainColor: string;
+  readonly subColor: string;
+  readonly size: string;
+  readonly shape: string;
+  readonly pattern: string;
+  readonly hasRing: boolean;
 
   private constructor(props: PlanetProps) {
     // 제목 유효성 검사
@@ -56,6 +75,29 @@ export class PlanetEntity {
       throw new Error('starCount는 0~100 사이여야 합니다');
     }
 
+    // 외형 유효성 검사
+    const mainColor = props.mainColor ?? '#4A90D9';
+    const subColor = props.subColor ?? '#2C5F8A';
+    const size = props.size ?? 'MEDIUM';
+    const shape = props.shape ?? 'SPHERE';
+    const pattern = props.pattern ?? 'SMOOTH';
+
+    if (!HEX_COLOR_REGEX.test(mainColor)) {
+      throw new Error('mainColor는 유효한 HEX 색상이어야 합니다 (#RRGGBB)');
+    }
+    if (!HEX_COLOR_REGEX.test(subColor)) {
+      throw new Error('subColor는 유효한 HEX 색상이어야 합니다 (#RRGGBB)');
+    }
+    if (!VALID_SIZES.includes(size as any)) {
+      throw new Error(`size는 ${VALID_SIZES.join(', ')} 중 하나여야 합니다`);
+    }
+    if (!VALID_SHAPES.includes(shape as any)) {
+      throw new Error(`shape는 ${VALID_SHAPES.join(', ')} 중 하나여야 합니다`);
+    }
+    if (!VALID_PATTERNS.includes(pattern as any)) {
+      throw new Error(`pattern은 ${VALID_PATTERNS.join(', ')} 중 하나여야 합니다`);
+    }
+
     this.id = props.id;
     this.title = props.title;
     this.content = props.content;
@@ -65,6 +107,12 @@ export class PlanetEntity {
     this.galaxyId = props.galaxyId;
     this.createdAt = props.createdAt;
     this.updatedAt = props.updatedAt;
+    this.mainColor = mainColor;
+    this.subColor = subColor;
+    this.size = size;
+    this.shape = shape;
+    this.pattern = pattern;
+    this.hasRing = props.hasRing ?? false;
   }
 
   /** Planet 엔티티 생성 팩토리 메서드 */
