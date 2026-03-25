@@ -1,6 +1,12 @@
 // Galaxy 비즈니스 로직 서비스
 
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+import {
+  Injectable,
+  Inject,
+  NotFoundException,
+  ConflictException,
+} from '@nestjs/common';
 import {
   GALAXY_REPOSITORY,
   IGalaxyRepository,
@@ -9,7 +15,12 @@ import {
   PLANET_REPOSITORY,
   IPlanetRepository,
 } from '../../domain/ports/planet-repository.port';
-import { GalaxyResponseDto, GalaxyListResponseDto } from '../dto/galaxy.dto';
+import { GalaxyEntity } from '../../domain/entities/galaxy.entity';
+import {
+  GalaxyResponseDto,
+  GalaxyListResponseDto,
+  CreateGalaxyDto,
+} from '../dto/galaxy.dto';
 
 @Injectable()
 export class GalaxyService {
@@ -61,6 +72,46 @@ export class GalaxyService {
       position: galaxy.position,
       planetCount,
       createdAt: galaxy.createdAt,
+    };
+  }
+
+  /** 새로운 Galaxy 생성 (자동 위치 할당) */
+  async create(dto: CreateGalaxyDto): Promise<GalaxyResponseDto> {
+    // 이름 중복 검사
+    const existing = await this.galaxyRepository.findAll();
+    const duplicate = existing.find((g) => g.name === dto.name);
+    if (duplicate) {
+      throw new ConflictException(
+        `이미 동일한 이름의 Galaxy가 존재합니다: ${dto.name}`,
+      );
+    }
+
+    // [-30, 30] 범위 내 랜덤 좌표 생성
+    const position = {
+      x: Math.random() * 60 - 30,
+      y: Math.random() * 60 - 30,
+      z: Math.random() * 60 - 30,
+    };
+
+    const now = new Date();
+    const entity = GalaxyEntity.create({
+      id: randomUUID(),
+      name: dto.name,
+      description: dto.description,
+      position,
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    const saved = await this.galaxyRepository.create(entity);
+
+    return {
+      id: saved.id,
+      name: saved.name,
+      description: saved.description,
+      position: saved.position,
+      planetCount: 0,
+      createdAt: saved.createdAt,
     };
   }
 }

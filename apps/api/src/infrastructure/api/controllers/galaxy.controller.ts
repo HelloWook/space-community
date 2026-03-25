@@ -1,10 +1,11 @@
 // Galaxy REST API 컨트롤러
 
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Post, Param, Body, HttpCode, HttpStatus } from '@nestjs/common';
 import { GalaxyService } from '../../../application/services/galaxy.service';
 import {
   GalaxyListResponseDto,
   GalaxyResponseDto,
+  CreateGalaxyDto,
 } from '../../../application/dto/galaxy.dto';
 
 @Controller('api/galaxies')
@@ -15,6 +16,13 @@ export class GalaxyController {
   @Get()
   async findAll(): Promise<GalaxyListResponseDto> {
     return this.galaxyService.findAll();
+  }
+
+  /** 새 Galaxy 생성 */
+  @Post()
+  @HttpCode(HttpStatus.CREATED)
+  async create(@Body() dto: CreateGalaxyDto): Promise<GalaxyResponseDto> {
+    return this.galaxyService.create(dto);
   }
 
   /** ID로 Galaxy 상세 조회 */
