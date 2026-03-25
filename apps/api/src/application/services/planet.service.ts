@@ -1,11 +1,17 @@
 // Planet 비즈니스 로직 서비스
 
-import { Injectable, Inject } from '@nestjs/common';
+import { randomUUID } from 'crypto';
+import { Injectable, Inject, NotFoundException } from '@nestjs/common';
 import {
   PLANET_REPOSITORY,
   IPlanetRepository,
 } from '../../domain/ports/planet-repository.port';
-import { PlanetListResponseDto } from '../dto/planet.dto';
+import { PlanetEntity } from '../../domain/entities/planet.entity';
+import {
+  PlanetListResponseDto,
+  PlanetDetailResponseDto,
+  CreatePlanetDto,
+} from '../dto/planet.dto';
 
 @Injectable()
 export class PlanetService {
@@ -38,5 +44,57 @@ export class PlanetService {
       nextCursor: result.nextCursor,
       hasMore: result.hasMore,
     };
+  }
+
+  /** 새로운 Planet 생성 (자동 위치 할당) */
+  async create(
+    galaxyId: string,
+    dto: CreatePlanetDto,
+  ): Promise<PlanetDetailResponseDto> {
+    // [-10, 10] 범위 내 랜덤 좌표 생성
+    const position = {
+      x: Math.random() * 20 - 10,
+      y: Math.random() * 20 - 10,
+      z: Math.random() * 20 - 10,
+    };
+
+    const now = new Date();
+    const entity = PlanetEntity.create({
+      id: randomUUID(),
+      title: dto.title,
+      content: dto.content,
+      authorNickname: dto.authorNickname,
+      starCount: 0,
+      position,
+      galaxyId,
+      createdAt: now,
+      updatedAt: now,
+    });
+
+    const saved = await this.planetRepository.create(entity);
+    return this.toDetailDto(saved);
+  }
+
+  /** ID로 Planet 상세 조회 */
+  async findById(id: string): Promise<PlanetDetailResponseDto> {
+    const planet = await this.planetRepository.findById(id);
+    if (!planet) {
+      throw new NotFoundException(`Planet(${id})을 찾을 수 없습니다`);
+    }
+    return this.toDetailDto(planet);
+  }
+
+  /** PlanetEntity를 PlanetDetailResponseDto로 변환하는 헬퍼 */
+  private toDetailDto(planet: PlanetEntity): PlanetDetailResponseDto {
+    const dto = new PlanetDetailResponseDto();
+    dto.id = planet.id;
+    dto.title = planet.title;
+    dto.content = planet.content;
+    dto.authorNickname = planet.authorNickname;
+    dto.starCount = planet.starCount;
+    dto.position = planet.position;
+    dto.galaxyId = planet.galaxyId;
+    dto.createdAt = planet.createdAt;
+    return dto;
   }
 }
