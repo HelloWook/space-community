@@ -7,7 +7,10 @@ import type { Galaxy, CreateGalaxyInput } from '@galaxy-board/types';
 export function useGalaxies() {
   return useQuery({
     queryKey: queryKeys.galaxies.all,
-    queryFn: () => apiFetch<Galaxy[]>('/galaxies'),
+    queryFn: async () => {
+      const res = await apiFetch<{ data: Galaxy[] }>('/galaxies');
+      return res.data;
+    },
   });
 }
 
