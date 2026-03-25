@@ -239,10 +239,10 @@
 
 **Purpose**: 전체 스토리에 걸친 품질 개선
 
-- [ ] T091 [P] 페이지네이션 UI 구현 (은하계 내 페이지 전환 버튼 + 3D 애니메이션) in apps/web/src/features/navigate-galaxy/ui/PaginationControls.tsx
-- [ ] T092 [P] WebGL 미지원 브라우저 폴백 메시지 구현 in apps/web/src/shared/ui/WebGLFallback.tsx
-- [ ] T093 [P] 시드 데이터 스크립트 작성 (기본 은하계 3~5개) in apps/api/prisma/seed.ts
-- [ ] T094 quickstart.md 검증 (전체 개발 환경 설정 → 실행 → 테스트 흐름 확인)
+- [x] T091 [P] 페이지네이션 UI 구현 (은하계 내 페이지 전환 버튼 + 3D 애니메이션) in apps/web/src/features/navigate-galaxy/ui/PaginationControls.tsx
+- [x] T092 [P] WebGL 미지원 브라우저 폴백 메시지 구현 in apps/web/src/shared/ui/WebGLFallback.tsx
+- [x] T093 [P] 시드 데이터 스크립트 작성 (기본 은하계 3~5개) in apps/api/prisma/seed.ts
+- [x] T094 quickstart.md 검증 (전체 개발 환경 설정 → 실행 → 테스트 흐름 확인)
 
 ---
 
