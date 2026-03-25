@@ -31,6 +31,15 @@ model Planet {
   positionX      Float
   positionY      Float
   positionZ      Float
+
+  // 행성 외형 커스터마이징
+  mainColor      String   @default("#4A90D9")
+  subColor       String   @default("#2C5F8A")
+  size           String   @default("MEDIUM")
+  shape          String   @default("SPHERE")
+  pattern        String   @default("SMOOTH")
+  hasRing        Boolean  @default(false)
+
   galaxyId       String
   galaxy         Galaxy   @relation(fields: [galaxyId], references: [id])
   stars          Star[]

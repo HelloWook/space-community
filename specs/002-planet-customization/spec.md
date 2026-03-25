@@ -5,11 +5,21 @@
 **Status**: Draft
 **Input**: User description: "게시글 작성 시 행성 외형 커스터마이징 및 랜덤 생성 기능"
 
+## Clarifications
+
+### Session 2026-03-25
+
+- Q: 행성 외형 데이터 저장 방식? → A: Planet 테이블에 컬럼 추가 (mainColor, subColor, size, shape, pattern, hasRing)
+- Q: 색상 선택 방식? → A: 자유 HEX 컬러 피커 (제한 없음)
+- Q: 행성 형태(Shape) 추가? → A: 8가지 형태 제공 — Three.js 기본 지오메트리 활용 (Sphere, Box, Tetrahedron, Octahedron, Dodecahedron, Torus, Cylinder, Cone)
+- Q: 표면 패턴 렌더링 방식? → A: 셰이더 기반 절차적 생성 (noise 함수로 패턴 생성)
+- Q: 고리(Ring) 커스터마이징 범위? → A: 유/무 토글만 (고리 색상은 메인 색상 기반 자동 적용)
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - 행성 외형 커스터마이징 (Priority: P1)
 
-사용자가 게시글(행성)을 작성할 때, 행성의 외형을 직접 꾸밀 수 있다. 색상, 크기, 표면 패턴, 고리 유무 등의 옵션을 조절하여 자신만의 행성을 만든다. 커스터마이징 중 실시간 미리보기로 결과를 확인할 수 있다.
+사용자가 게시글(행성)을 작성할 때, 행성의 외형을 직접 꾸밀 수 있다. 색상(HEX 자유 선택), 크기, 형태(8종), 표면 패턴, 고리 유무 등의 옵션을 조절하여 자신만의 행성을 만든다. 커스터마이징 중 실시간 미리보기로 결과를 확인할 수 있다.
 
 **Why this priority**: 행성 커스터마이징은 이 기능의 핵심이며, 사용자에게 개성 표현의 수단을 제공한다.
 
@@ -17,7 +27,7 @@
 
 **Acceptance Scenarios**:
 
-1. **Given** 사용자가 게시글 작성 화면에 진입했을 때, **When** 행성 커스터마이징 영역이 표시되면, **Then** 색상, 크기, 표면 패턴, 고리 유무 옵션이 제공된다
+1. **Given** 사용자가 게시글 작성 화면에 진입했을 때, **When** 행성 커스터마이징 영역이 표시되면, **Then** 색상(HEX 피커), 크기, 형태(8종), 표면 패턴, 고리 유무 옵션이 제공된다
 2. **Given** 사용자가 색상 옵션을 변경했을 때, **When** 변경을 적용하면, **Then** 미리보기에서 행성 색상이 즉시 반영된다
 3. **Given** 사용자가 모든 옵션을 설정한 후, **When** 게시글을 제출하면, **Then** 은하계 내에 설정한 외형대로 행성이 생성된다
 
@@ -66,7 +76,7 @@
 ### Functional Requirements
 
 - **FR-001**: 게시글 작성 시 행성 외형 커스터마이징 옵션을 제공해야 한다
-- **FR-002**: 커스터마이징 가능한 속성은 색상(메인 색상, 보조 색상), 크기(소/중/대), 표면 패턴(매끈, 크레이터, 줄무늬, 구름), 고리 유무를 포함해야 한다
+- **FR-002**: 커스터마이징 가능한 속성은 색상(메인 HEX, 보조 HEX), 크기(소/중/대), 형태(Sphere, Box, Tetrahedron, Octahedron, Dodecahedron, Torus, Cylinder, Cone), 표면 패턴(매끈, 크레이터, 줄무늬, 구름), 고리 유무를 포함해야 한다
 - **FR-003**: 랜덤 버튼을 제공하여 모든 외형 옵션을 무작위로 생성할 수 있어야 한다
 - **FR-004**: 랜덤 생성 후 사용자가 개별 옵션을 수동으로 수정할 수 있어야 한다
 - **FR-005**: 옵션 변경 시 3D 미리보기에서 행성 외형이 실시간으로 반영되어야 한다
@@ -77,8 +87,9 @@
 
 ### Key Entities
 
-- **행성 외형(PlanetAppearance)**: 행성의 시각적 속성을 나타냄. 메인 색상, 보조 색상, 크기(소/중/대), 표면 패턴, 고리 유무를 가지며, 소속 행성(게시글)과 1:1 관계
-- **표면 패턴(SurfacePattern)**: 행성 표면의 질감 유형. 매끈, 크레이터, 줄무늬, 구름 중 하나
+- **행성 외형**: Planet 테이블에 직접 컬럼으로 저장. mainColor(HEX string), subColor(HEX string), size(enum: SMALL/MEDIUM/LARGE), shape(enum: SPHERE/BOX/TETRAHEDRON/OCTAHEDRON/DODECAHEDRON/TORUS/CYLINDER/CONE), pattern(enum: SMOOTH/CRATER/STRIPE/CLOUD), hasRing(boolean)
+- **표면 패턴(SurfacePattern)**: 행성 표면의 질감 유형. 셰이더 기반 절차적 생성 (noise 함수). 매끈, 크레이터, 줄무늬, 구름 중 하나
+- **고리(Ring)**: 유/무 토글만 제공. 고리 색상은 메인 색상(mainColor) 기반 자동 적용
 
 ## Success Criteria *(mandatory)*
 
@@ -94,5 +105,5 @@
 
 - 이 기능은 001-galaxy-board(은하계 게시판)의 행성 생성 기능이 구현된 이후에 동작한다
 - 행성 외형은 게시글 작성 시에만 설정 가능하며, 작성 후 수정은 이 기능 범위에 포함하지 않는다
-- 색상 선택은 컬러 팔레트(미리 정의된 색상 목록)에서 선택하는 방식을 기본으로 한다
+- 색상 선택은 자유 HEX 컬러 피커를 사용한다
 - 행성 크기는 3D 공간 내 상대적 크기이며, 은하계 내 다른 행성과의 충돌/겹침은 시스템이 자동 처리한다

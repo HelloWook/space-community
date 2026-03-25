@@ -30,10 +30,45 @@ export interface CreateGalaxyInput {
   description: string;
 }
 
+// === 행성 외형 (Planet Appearance) ===
+
+/** 행성 크기 */
+export type PlanetSize = 'SMALL' | 'MEDIUM' | 'LARGE';
+
+/** 행성 형태 (Three.js 기본 지오메트리) */
+export type PlanetShape = 'SPHERE' | 'BOX' | 'TETRAHEDRON' | 'OCTAHEDRON' | 'DODECAHEDRON' | 'TORUS' | 'CYLINDER' | 'CONE';
+
+/** 표면 패턴 */
+export type SurfacePattern = 'SMOOTH' | 'CRATER' | 'STRIPE' | 'CLOUD';
+
+/** 행성 외형 속성 */
+export interface PlanetAppearance {
+  mainColor: string;
+  subColor: string;
+  size: PlanetSize;
+  shape: PlanetShape;
+  pattern: SurfacePattern;
+  hasRing: boolean;
+}
+
+/** 기본 행성 외형 */
+export const DEFAULT_APPEARANCE: PlanetAppearance = {
+  mainColor: '#4A90D9',
+  subColor: '#2C5F8A',
+  size: 'MEDIUM',
+  shape: 'SPHERE',
+  pattern: 'SMOOTH',
+  hasRing: false,
+};
+
+export const PLANET_SIZES: PlanetSize[] = ['SMALL', 'MEDIUM', 'LARGE'];
+export const PLANET_SHAPES: PlanetShape[] = ['SPHERE', 'BOX', 'TETRAHEDRON', 'OCTAHEDRON', 'DODECAHEDRON', 'TORUS', 'CYLINDER', 'CONE'];
+export const SURFACE_PATTERNS: SurfacePattern[] = ['SMOOTH', 'CRATER', 'STRIPE', 'CLOUD'];
+
 // === 행성 (Planet) ===
 
 /** 행성 목록용 요약 (content 제외) */
-export interface PlanetSummary {
+export interface PlanetSummary extends PlanetAppearance {
   id: string;
   title: string;
   authorNickname: string;
@@ -52,6 +87,12 @@ export interface CreatePlanetInput {
   title: string;
   content: string;
   authorNickname: string;
+  mainColor?: string;
+  subColor?: string;
+  size?: PlanetSize;
+  shape?: PlanetShape;
+  pattern?: SurfacePattern;
+  hasRing?: boolean;
 }
 
 // === 별 (Star) ===

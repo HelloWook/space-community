@@ -23,10 +23,10 @@ npm test && npm run lint
 TypeScript 5.7+, Node.js 22 LTS: Follow standard conventions
 
 ## Recent Changes
+- 002-planet-customization: Added TypeScript 5.7+, Node.js 22 LTS + Next.js 15.x, NestJS 11.x, Three.js 0.183.x, @react-three/fiber 9.x, @react-three/drei 10.x, Prisma 7.x
 - 001-galaxy-board: Added TypeScript 5.7+, Node.js 22 LTS
 - 001-galaxy-board: Added TypeScript 5.7+, Node.js 22 LTS
 
-- 003-project-setup: Added TypeScript 5.7+, Node.js 22 LTS + Next.js 15.x, NestJS 11.x, Three.js 0.183.x, @react-three/fiber 9.x, @react-three/drei 10.x, Prisma 7.x
 
 <!-- MANUAL ADDITIONS START -->
 <!-- MANUAL ADDITIONS END -->
