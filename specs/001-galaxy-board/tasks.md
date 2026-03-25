@@ -84,41 +84,41 @@
 
 > **NOTE: 테스트를 먼저 작성하고, 실패를 확인한 후 구현합니다**
 
-- [ ] T026 [P] [US1] GalaxyService 단위 테스트 작성 (findAll, findById) in apps/api/test/unit/application/galaxy.service.spec.ts
-- [ ] T027 [P] [US1] PlanetService.findByGalaxy 단위 테스트 작성 (커서 페이지네이션) in apps/api/test/unit/application/planet.service.spec.ts
-- [ ] T028 [P] [US1] GET /api/galaxies e2e 테스트 작성 in apps/api/test/e2e/galaxies.e2e-spec.ts
-- [ ] T029 [P] [US1] GET /api/galaxies/:galaxyId/planets e2e 테스트 작성 in apps/api/test/e2e/planets.e2e-spec.ts
+- [x] T026 [P] [US1] GalaxyService 단위 테스트 작성 (findAll, findById) in apps/api/test/unit/application/galaxy.service.spec.ts
+- [x] T027 [P] [US1] PlanetService.findByGalaxy 단위 테스트 작성 (커서 페이지네이션) in apps/api/test/unit/application/planet.service.spec.ts
+- [x] T028 [P] [US1] GET /api/galaxies e2e 테스트 작성 in apps/api/test/e2e/galaxies.e2e-spec.ts
+- [x] T029 [P] [US1] GET /api/galaxies/:galaxyId/planets e2e 테스트 작성 in apps/api/test/e2e/planets.e2e-spec.ts
 
 ### 백엔드 구현 (US1)
 
-- [ ] T030 [P] [US1] Galaxy DTO 정의 (GalaxyResponseDto, GalaxyListResponseDto) in apps/api/src/application/dto/galaxy.dto.ts
-- [ ] T031 [P] [US1] Planet DTO 정의 (PlanetSummaryDto, PlanetListResponseDto) in apps/api/src/application/dto/planet.dto.ts
-- [ ] T032 [US1] GalaxyService 구현 (findAll, findById) in apps/api/src/application/services/galaxy.service.ts
-- [ ] T033 [US1] PlanetService 구현 (findByGalaxy — 커서 기반 페이지네이션) in apps/api/src/application/services/planet.service.ts
-- [ ] T034 [US1] GalaxyController 구현 (GET /api/galaxies, GET /api/galaxies/:id) in apps/api/src/infrastructure/api/controllers/galaxy.controller.ts
-- [ ] T035 [US1] PlanetController 구현 (GET /api/galaxies/:galaxyId/planets) in apps/api/src/infrastructure/api/controllers/planet.controller.ts
-- [ ] T036 [US1] Galaxy 모듈 구성 (GalaxyModule) in apps/api/src/galaxy.module.ts
-- [ ] T037 [US1] Planet 모듈 구성 (PlanetModule) in apps/api/src/planet.module.ts
-- [ ] T038 [US1] AppModule에 Galaxy, Planet 모듈 등록 in apps/api/src/app.module.ts
+- [x] T030 [P] [US1] Galaxy DTO 정의 (GalaxyResponseDto, GalaxyListResponseDto) in apps/api/src/application/dto/galaxy.dto.ts
+- [x] T031 [P] [US1] Planet DTO 정의 (PlanetSummaryDto, PlanetListResponseDto) in apps/api/src/application/dto/planet.dto.ts
+- [x] T032 [US1] GalaxyService 구현 (findAll, findById) in apps/api/src/application/services/galaxy.service.ts
+- [x] T033 [US1] PlanetService 구현 (findByGalaxy — 커서 기반 페이지네이션) in apps/api/src/application/services/planet.service.ts
+- [x] T034 [US1] GalaxyController 구현 (GET /api/galaxies, GET /api/galaxies/:id) in apps/api/src/infrastructure/api/controllers/galaxy.controller.ts
+- [x] T035 [US1] PlanetController 구현 (GET /api/galaxies/:galaxyId/planets) in apps/api/src/infrastructure/api/controllers/planet.controller.ts
+- [x] T036 [US1] Galaxy 모듈 구성 (GalaxyModule) in apps/api/src/galaxy.module.ts
+- [x] T037 [US1] Planet 모듈 구성 (PlanetModule) in apps/api/src/planet.module.ts
+- [x] T038 [US1] AppModule에 Galaxy, Planet 모듈 등록 in apps/api/src/app.module.ts
 
 ### 프론트엔드 테스트 (US1)
 
-- [ ] T039 [P] [US1] Galaxy 엔티티 모델/스토어 테스트 작성 in apps/web/src/entities/galaxy/model/__tests__/store.test.ts
-- [ ] T040 [P] [US1] Galaxy API 훅 테스트 작성 in apps/web/src/entities/galaxy/api/__tests__/hooks.test.ts
+- [x] T039 [P] [US1] Galaxy 엔티티 모델/스토어 테스트 작성 in apps/web/src/entities/galaxy/model/__tests__/store.test.ts
+- [x] T040 [P] [US1] Galaxy API 훅 테스트 작성 in apps/web/src/entities/galaxy/api/__tests__/hooks.test.ts
 
 ### 프론트엔드 구현 (US1)
 
-- [ ] T041 [P] [US1] Galaxy 엔티티 모델 (타입 + Zustand 스토어) in apps/web/src/entities/galaxy/model/index.ts
-- [ ] T042 [P] [US1] Galaxy API 훅 (useGalaxies, useGalaxy) in apps/web/src/entities/galaxy/api/hooks.ts
-- [ ] T043 [US1] Galaxy3D 컴포넌트 구현 (은하계 3D 메시 + 이름 라벨) in apps/web/src/entities/galaxy/ui/Galaxy3D.tsx
-- [ ] T044 [US1] Planet 엔티티 모델 (타입 + Zustand 스토어) in apps/web/src/entities/planet/model/index.ts
-- [ ] T045 [US1] Planet API 훅 (usePlanets — 커서 페이지네이션) in apps/web/src/entities/planet/api/hooks.ts
-- [ ] T046 [US1] Planet3D 컴포넌트 구현 (행성 3D 메시) in apps/web/src/entities/planet/ui/Planet3D.tsx
-- [ ] T047 [US1] navigate-galaxy 기능 구현 (카메라 전환 훅 — lerp 줌인/줌아웃) in apps/web/src/features/navigate-galaxy/model/use-camera-transition.ts
-- [ ] T048 [US1] navigate-galaxy UI 구현 (뒤로가기 버튼) in apps/web/src/features/navigate-galaxy/ui/BackButton.tsx
-- [ ] T049 [US1] galaxy-scene 위젯 구현 (Canvas3D + Galaxy3D + Planet3D + 카메라 전환 조합) in apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx
-- [ ] T050 [US1] home 뷰 구현 (GalaxyScene 위젯 배치) in apps/web/src/views/home/ui/HomePage.tsx
-- [ ] T051 [US1] Next.js App Router 페이지 연결 in apps/web/src/app/page.tsx
+- [x] T041 [P] [US1] Galaxy 엔티티 모델 (타입 + Zustand 스토어) in apps/web/src/entities/galaxy/model/index.ts
+- [x] T042 [P] [US1] Galaxy API 훅 (useGalaxies, useGalaxy) in apps/web/src/entities/galaxy/api/hooks.ts
+- [x] T043 [US1] Galaxy3D 컴포넌트 구현 (은하계 3D 메시 + 이름 라벨) in apps/web/src/entities/galaxy/ui/Galaxy3D.tsx
+- [x] T044 [US1] Planet 엔티티 모델 (타입 + Zustand 스토어) in apps/web/src/entities/planet/model/index.ts
+- [x] T045 [US1] Planet API 훅 (usePlanets — 커서 페이지네이션) in apps/web/src/entities/planet/api/hooks.ts
+- [x] T046 [US1] Planet3D 컴포넌트 구현 (행성 3D 메시) in apps/web/src/entities/planet/ui/Planet3D.tsx
+- [x] T047 [US1] navigate-galaxy 기능 구현 (카메라 전환 훅 — lerp 줌인/줌아웃) in apps/web/src/features/navigate-galaxy/model/use-camera-transition.ts
+- [x] T048 [US1] navigate-galaxy UI 구현 (뒤로가기 버튼) in apps/web/src/features/navigate-galaxy/ui/BackButton.tsx
+- [x] T049 [US1] galaxy-scene 위젯 구현 (Canvas3D + Galaxy3D + Planet3D + 카메라 전환 조합) in apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx
+- [x] T050 [US1] home 뷰 구현 (GalaxyScene 위젯 배치) in apps/web/src/views/home/ui/HomePage.tsx
+- [x] T051 [US1] Next.js App Router 페이지 연결 in apps/web/src/app/page.tsx
 
 **Checkpoint**: US1 완료 — 3D 우주 공간에서 은하계 탐색, 진입, 복귀 가능
 
