@@ -134,30 +134,30 @@
 
 > **NOTE: 테스트를 먼저 작성하고, 실패를 확인한 후 구현합니다**
 
-- [ ] T052 [P] [US2] PlanetService.create 단위 테스트 작성 in apps/api/test/unit/application/planet.service.spec.ts (기존 파일에 추가)
-- [ ] T053 [P] [US2] PlanetService.findById 단위 테스트 작성 in apps/api/test/unit/application/planet.service.spec.ts (기존 파일에 추가)
-- [ ] T054 [P] [US2] POST /api/galaxies/:galaxyId/planets e2e 테스트 작성 in apps/api/test/e2e/planets.e2e-spec.ts (기존 파일에 추가)
-- [ ] T055 [P] [US2] GET /api/planets/:id e2e 테스트 작성 in apps/api/test/e2e/planets.e2e-spec.ts (기존 파일에 추가)
+- [x] T052 [P] [US2] PlanetService.create 단위 테스트 작성 in apps/api/test/unit/application/planet.service.spec.ts (기존 파일에 추가)
+- [x] T053 [P] [US2] PlanetService.findById 단위 테스트 작성 in apps/api/test/unit/application/planet.service.spec.ts (기존 파일에 추가)
+- [x] T054 [P] [US2] POST /api/galaxies/:galaxyId/planets e2e 테스트 작성 in apps/api/test/e2e/planets.e2e-spec.ts (기존 파일에 추가)
+- [x] T055 [P] [US2] GET /api/planets/:id e2e 테스트 작성 in apps/api/test/e2e/planets.e2e-spec.ts (기존 파일에 추가)
 
 ### 백엔드 구현 (US2)
 
-- [ ] T056 [US2] CreatePlanetDto, PlanetDetailResponseDto 정의 in apps/api/src/application/dto/planet.dto.ts (기존 파일에 추가)
-- [ ] T057 [US2] PlanetService에 create, findById 메서드 추가 (좌표 자동 배정 포함) in apps/api/src/application/services/planet.service.ts
-- [ ] T058 [US2] PlanetController에 POST, GET /:id 엔드포인트 추가 in apps/api/src/infrastructure/api/controllers/planet.controller.ts
+- [x] T056 [US2] CreatePlanetDto, PlanetDetailResponseDto 정의 in apps/api/src/application/dto/planet.dto.ts (기존 파일에 추가)
+- [x] T057 [US2] PlanetService에 create, findById 메서드 추가 (좌표 자동 배정 포함) in apps/api/src/application/services/planet.service.ts
+- [x] T058 [US2] PlanetController에 POST, GET /:id 엔드포인트 추가 in apps/api/src/infrastructure/api/controllers/planet.controller.ts
 
 ### 프론트엔드 테스트 (US2)
 
-- [ ] T059 [P] [US2] create-post 기능 테스트 작성 (폼 제출, 유효성 검증) in apps/web/src/features/create-post/__tests__/CreatePostForm.test.tsx
-- [ ] T060 [P] [US2] post-overlay 위젯 테스트 작성 (게시글 표시, 마크다운 렌더링) in apps/web/src/widgets/post-overlay/__tests__/PostOverlay.test.tsx
+- [x] T059 [P] [US2] create-post 기능 테스트 작성 (폼 제출, 유효성 검증) in apps/web/src/features/create-post/__tests__/CreatePostForm.test.tsx
+- [x] T060 [P] [US2] post-overlay 위젯 테스트 작성 (게시글 표시, 마크다운 렌더링) in apps/web/src/widgets/post-overlay/__tests__/PostOverlay.test.tsx
 
 ### 프론트엔드 구현 (US2)
 
-- [ ] T061 [US2] Planet 상세 조회 API 훅 (usePlanet) in apps/web/src/entities/planet/api/hooks.ts (기존 파일에 추가)
-- [ ] T062 [US2] Planet 생성 API 뮤테이션 훅 (useCreatePlanet) in apps/web/src/entities/planet/api/hooks.ts (기존 파일에 추가)
-- [ ] T063 [US2] create-post 폼 스키마 (zod) 정의 in apps/web/src/features/create-post/model/schema.ts
-- [ ] T064 [US2] CreatePostForm 컴포넌트 구현 (react-hook-form + zod + shadcn) in apps/web/src/features/create-post/ui/CreatePostForm.tsx
-- [ ] T065 [US2] post-overlay 위젯 구현 (반투명 오버레이 패널 + 마크다운 렌더링) in apps/web/src/widgets/post-overlay/ui/PostOverlay.tsx
-- [ ] T066 [US2] GalaxyScene에 행성 클릭→조회, 게시글 작성 버튼 통합 in apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx (기존 파일 수정)
+- [x] T061 [US2] Planet 상세 조회 API 훅 (usePlanet) in apps/web/src/entities/planet/api/hooks.ts (기존 파일에 추가)
+- [x] T062 [US2] Planet 생성 API 뮤테이션 훅 (useCreatePlanet) in apps/web/src/entities/planet/api/hooks.ts (기존 파일에 추가)
+- [x] T063 [US2] create-post 폼 스키마 (zod) 정의 in apps/web/src/features/create-post/model/schema.ts
+- [x] T064 [US2] CreatePostForm 컴포넌트 구현 (react-hook-form + zod + shadcn) in apps/web/src/features/create-post/ui/CreatePostForm.tsx
+- [x] T065 [US2] post-overlay 위젯 구현 (반투명 오버레이 패널 + 마크다운 렌더링) in apps/web/src/widgets/post-overlay/ui/PostOverlay.tsx
+- [x] T066 [US2] GalaxyScene에 행성 클릭→조회, 게시글 작성 버튼 통합 in apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx (기존 파일 수정)
 
 **Checkpoint**: US2 완료 — 게시글 작성, 조회, 마크다운 렌더링, 오버레이 닫기 가능
 
