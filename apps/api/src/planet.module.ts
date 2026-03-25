@@ -3,11 +3,11 @@
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { PlanetService } from './application/services/planet.service';
-import { PlanetController } from './infrastructure/api/controllers/planet.controller';
+import { PlanetController, PlanetDetailController } from './infrastructure/api/controllers/planet.controller';
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [PlanetController],
+  controllers: [PlanetController, PlanetDetailController],
   providers: [PlanetService],
 })
 export class PlanetModule {}
