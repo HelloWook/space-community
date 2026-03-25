@@ -7,6 +7,7 @@ import { createPostSchema, type CreatePostFormData } from '../model/schema';
 import { useCreatePlanet } from '@/entities/planet';
 import { CustomizePanel, defaultAppearance } from '@/features/customize-planet';
 import type { PlanetAppearanceFormData } from '@/features/customize-planet';
+import { PlanetPreview3D } from '@/entities/planet/ui/PlanetPreview3D';
 
 interface CreatePostFormProps {
   /** 게시글이 속할 은하 ID */
@@ -148,6 +149,7 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
       {/* 행성 커스터마이징 패널 */}
       <div style={{ marginBottom: '16px', borderTop: '1px solid #333', paddingTop: '12px' }}>
         <h4 style={{ color: '#ddd', fontSize: '14px', marginBottom: '8px' }}>행성 외형</h4>
+        <PlanetPreview3D {...appearance} />
         <CustomizePanel appearance={appearance} onChange={setAppearance} />
       </div>
 

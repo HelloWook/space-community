@@ -116,12 +116,12 @@
 
 > **NOTE: 테스트를 먼저 작성하고, 실패를 확인한 후 구현합니다**
 
-- [ ] T028 [P] [US3] PlanetPreview3D 컴포넌트 테스트 작성 (props 변경 시 리렌더, 회전 동작) in apps/web/src/entities/planet/ui/__tests__/PlanetPreview3D.test.tsx
+- [x] T028 [P] [US3] PlanetPreview3D 컴포넌트 테스트 작성 (props 변경 시 리렌더, 회전 동작) in apps/web/src/entities/planet/ui/__tests__/PlanetPreview3D.test.tsx
 
 ### 프론트엔드 구현 (US3)
 
-- [ ] T029 [US3] PlanetPreview3D 컴포넌트 구현 (Canvas3D + 단일 행성 + 자동 회전 + OrbitControls) in apps/web/src/entities/planet/ui/PlanetPreview3D.tsx
-- [ ] T030 [US3] CustomizePanel에 PlanetPreview3D 미리보기 영역 통합 in apps/web/src/features/customize-planet/ui/CustomizePanel.tsx (기존 파일 수정)
+- [x] T029 [US3] PlanetPreview3D 컴포넌트 구현 (Canvas3D + 단일 행성 + 자동 회전 + OrbitControls) in apps/web/src/entities/planet/ui/PlanetPreview3D.tsx
+- [x] T030 [US3] CreatePostForm에 PlanetPreview3D 미리보기 영역 통합 in apps/web/src/features/create-post/ui/CreatePostForm.tsx (기존 파일 수정)
 
 **Checkpoint**: US3 완료 — 실시간 미리보기, 드래그 회전, 모든 옵션 즉시 반영
 
