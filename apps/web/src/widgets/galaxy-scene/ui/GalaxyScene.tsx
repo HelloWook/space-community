@@ -15,6 +15,13 @@ import { Star3D } from '@/entities/star';
 import { Satellite3D } from '@/entities/satellite';
 import { useCommentFocusStore } from '@/entities/comment';
 import {
+  Starfield,
+  Meteor,
+  Asteroid,
+  BlackHole,
+  Sun,
+} from '@/entities/decoration';
+import {
   useCameraTransition,
   BackButton,
 } from '@/features/navigate-galaxy';
@@ -56,6 +63,27 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick }: Sce
       {/* 기본 조명 */}
       <ambientLight intensity={0.3} />
       <pointLight position={[10, 10, 10]} intensity={1} />
+
+      {/* 우주 장식 요소 */}
+      <Starfield count={1000} radius={100} />
+      <Meteor startPosition={[40, 20, -10]} direction={[-1, -0.5, -0.2]} speed={0.4} />
+      <Meteor startPosition={[-30, 30, 5]} direction={[0.8, -0.7, -0.1]} speed={0.6} />
+      <Meteor startPosition={[20, -25, 15]} direction={[-0.5, 0.3, -0.8]} speed={0.3} />
+      {Array.from({ length: 10 }, (_, i) => (
+        <Asteroid
+          key={`asteroid-${i}`}
+          center={[
+            Math.cos(i * 0.63) * 35,
+            Math.sin(i * 0.97) * 15,
+            Math.sin(i * 0.43) * 25,
+          ]}
+          orbitRadius={3 + (i % 4)}
+          scale={0.2 + Math.random() * 0.6}
+          orbitSpeed={0.005 + (i % 5) * 0.003}
+        />
+      ))}
+      <BlackHole position={[30, -20, -25]} scale={3} distortionStrength={0.5} />
+      <Sun position={[-25, 20, -15]} scale={2} lightIntensity={1.5} />
       {/* 줌/회전 — 전환 중에는 비활성화 */}
       <OrbitControls
         enableDamping

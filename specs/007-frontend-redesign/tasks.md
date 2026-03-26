@@ -59,22 +59,22 @@
 
 > **NOTE: 테스트 먼저 작성, 실패 확인 후 구현**
 
-- [ ] T008 [P] [US1] Starfield 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/Starfield.test.tsx` (R3F TestCanvas 내 렌더링, count/radius props 검증)
-- [ ] T009 [P] [US1] Meteor 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/Meteor.test.tsx` (렌더링, 위치/방향 props 검증)
-- [ ] T010 [P] [US1] Asteroid 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/Asteroid.test.tsx` (렌더링, 궤도 props 검증)
-- [ ] T011 [P] [US1] BlackHole 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/BlackHole.test.tsx` (렌더링, 위치/왜곡 props 검증)
-- [ ] T012 [P] [US1] Sun 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/Sun.test.tsx` (렌더링, 조명/발광 props 검증)
+- [x] T008 [P] [US1] Starfield 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/Starfield.test.tsx` (R3F TestCanvas 내 렌더링, count/radius props 검증)
+- [x] T009 [P] [US1] Meteor 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/Meteor.test.tsx` (렌더링, 위치/방향 props 검증)
+- [x] T010 [P] [US1] Asteroid 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/Asteroid.test.tsx` (렌더링, 궤도 props 검증)
+- [x] T011 [P] [US1] BlackHole 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/BlackHole.test.tsx` (렌더링, 위치/왜곡 props 검증)
+- [x] T012 [P] [US1] Sun 컴포넌트 렌더링 테스트 — `apps/web/src/entities/decoration/ui/__tests__/Sun.test.tsx` (렌더링, 조명/발광 props 검증)
 
 ### 구현 (US1)
 
-- [ ] T013 [P] [US1] Starfield 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/Starfield.tsx` (drei `Stars` 기반, count=1000, radius=100 기본값)
-- [ ] T014 [P] [US1] Meteor 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/Meteor.tsx` (drei `Trail` + `useFrame` 이동 애니메이션, 발광 꼬리, 불규칙 간격 재생성)
-- [ ] T015 [P] [US1] Asteroid 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/Asteroid.tsx` (`useFrame` 기반 궤도 운동, DodecahedronGeometry 불규칙 형태, 느린 자전)
-- [ ] T016 [P] [US1] BlackHole 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/BlackHole.tsx` (커스텀 셰이더로 빛 왜곡 효과, SphereGeometry 중심 + 왜곡 디스크)
-- [ ] T017 [P] [US1] Sun 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/Sun.tsx` (SphereGeometry + MeshStandardMaterial emissive, PointLight 추가, 글로우 효과)
-- [ ] T018 [US1] entities/decoration barrel export 업데이트 — `apps/web/src/entities/decoration/index.ts`에 5종 컴포넌트 export
-- [ ] T019 [US1] GalaxyScene에 장식 요소 통합 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx`에 Starfield(항상), Meteor(최대 3개), Asteroid(최대 10개), BlackHole(1개), Sun(1개) 배치. 사용자 오브젝트(행성/은하)와 겹치지 않는 위치 계산
-- [ ] T020 [US1] 장식 요소 성능 측정 — GalaxyScene에 개발 모드 FPS 모니터링(drei `Stats` 또는 `useFrame` 기반) 추가, 30fps 이상 확인 및 기록
+- [x] T013 [P] [US1] Starfield 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/Starfield.tsx` (drei `Stars` 기반, count=1000, radius=100 기본값)
+- [x] T014 [P] [US1] Meteor 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/Meteor.tsx` (drei `Trail` + `useFrame` 이동 애니메이션, 발광 꼬리, 불규칙 간격 재생성)
+- [x] T015 [P] [US1] Asteroid 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/Asteroid.tsx` (`useFrame` 기반 궤도 운동, DodecahedronGeometry 불규칙 형태, 느린 자전)
+- [x] T016 [P] [US1] BlackHole 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/BlackHole.tsx` (커스텀 셰이더로 빛 왜곡 효과, SphereGeometry 중심 + 왜곡 디스크)
+- [x] T017 [P] [US1] Sun 컴포넌트 구현 — `apps/web/src/entities/decoration/ui/Sun.tsx` (SphereGeometry + MeshStandardMaterial emissive, PointLight 추가, 글로우 효과)
+- [x] T018 [US1] entities/decoration barrel export 업데이트 — `apps/web/src/entities/decoration/index.ts`에 5종 컴포넌트 export
+- [x] T019 [US1] GalaxyScene에 장식 요소 통합 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx`에 Starfield(항상), Meteor(최대 3개), Asteroid(최대 10개), BlackHole(1개), Sun(1개) 배치. 사용자 오브젝트(행성/은하)와 겹치지 않는 위치 계산
+- [x] T020 [US1] 장식 요소 성능 측정 — GalaxyScene에 개발 모드 FPS 모니터링(drei `Stats` 또는 `useFrame` 기반) 추가, 30fps 이상 확인 및 기록
 
 **Checkpoint**: 은하 보드 진입 시 별 파티클, 유성, 운석, 블랙홀, 태양이 렌더링되고 30fps 유지
 
