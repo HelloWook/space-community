@@ -357,6 +357,13 @@
     standardwebhooks "^1.0.0"
     tslib "2.8.1"
 
+"@clerk/localizations@^4.2.4":
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/@clerk/localizations/-/localizations-4.2.4.tgz#b9c35b3c962ba618725f69f09119bcf453ccbeb9"
+  integrity sha512-yDraD7BEcSFTvpoed8MWzSO+JrxwtS1pydM2uvm1nhnDz4gZNzhSt7gGs+mGIIjWeS8PQGMR0cq8DfvHUxCwwg==
+  dependencies:
+    "@clerk/shared" "^4.3.2"
+
 "@clerk/nextjs@^7.0.7":
   version "7.0.7"
   resolved "https://registry.yarnpkg.com/@clerk/nextjs/-/nextjs-7.0.7.tgz#c29deac1c58d7953b32413a72e0b24a78b1f9692"

@@ -1,32 +1,25 @@
 'use client';
 
-import { useSignIn } from '@clerk/nextjs';
+import { useClerk } from '@clerk/nextjs';
 import { useState } from 'react';
-import type { OAuthStrategy } from '@clerk/types';
 
-const PROVIDERS: { strategy: OAuthStrategy; label: string; icon: string }[] = [
-  { strategy: 'oauth_google', label: 'Google로 로그인', icon: '🔵' },
-  { strategy: 'oauth_github', label: 'GitHub로 로그인', icon: '⚫' },
+const PROVIDERS = [
+  { strategy: 'oauth_google' as const, label: 'Google로 로그인', icon: '🔵' },
+  { strategy: 'oauth_github' as const, label: 'GitHub로 로그인', icon: '⚫' },
 ];
 
 /** 소셜 로그인 버튼 컴포넌트 */
 export function SocialLoginButtons() {
-  const { signIn, isLoaded } = useSignIn();
+  const clerk = useClerk();
   const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  if (!isLoaded) {
-    return <div className="flex flex-col gap-3 animate-pulse">
-      <div className="h-12 bg-gray-200 rounded-lg" />
-      <div className="h-12 bg-gray-200 rounded-lg" />
-    </div>;
-  }
-
-  const handleLogin = async (strategy: OAuthStrategy) => {
+  const handleLogin = async (strategy: 'oauth_google' | 'oauth_github') => {
+    if (!clerk.loaded) return;
     setError(null);
     setLoadingProvider(strategy);
     try {
-      await signIn.authenticateWithRedirect({
+      await clerk.client.signIn.authenticateWithRedirect({
         strategy,
         redirectUrl: '/sso-callback',
         redirectUrlComplete: '/',
@@ -49,7 +42,7 @@ export function SocialLoginButtons() {
           key={strategy}
           type="button"
           onClick={() => handleLogin(strategy)}
-          disabled={loadingProvider !== null}
+          disabled={loadingProvider !== null || !clerk.loaded}
           className="flex items-center justify-center gap-2 w-full px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span>{icon}</span>

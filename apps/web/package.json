@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@clerk/localizations": "^4.2.4",
     "@clerk/nextjs": "^7.0.7",
     "@galaxy-board/types": "*",
     "@hookform/resolvers": "^4.1.0",

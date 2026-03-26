@@ -1,14 +1,24 @@
 'use client';
 
+import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { SocialLoginButtons } from '@/features/social-login/ui/social-login-buttons';
 import { SignInErrorMessage } from './sign-in-error-message';
 
-/** 커스텀 로그인 페이지 */
-export default function SignInPage() {
+function SignInContent() {
   const searchParams = useSearchParams();
   const error = searchParams.get('error');
 
+  return (
+    <>
+      <SignInErrorMessage error={error} />
+      <SocialLoginButtons />
+    </>
+  );
+}
+
+/** 커스텀 로그인 페이지 */
+export default function SignInPage() {
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50">
       <div className="w-full max-w-sm p-8 bg-white rounded-2xl shadow-lg">
@@ -17,8 +27,14 @@ export default function SignInPage() {
           <p className="text-sm text-gray-500 mt-2">소셜 계정으로 로그인하세요</p>
         </div>
 
-        <SignInErrorMessage error={error} />
-        <SocialLoginButtons />
+        <Suspense fallback={
+          <div className="flex flex-col gap-3 animate-pulse">
+            <div className="h-12 bg-gray-200 rounded-lg" />
+            <div className="h-12 bg-gray-200 rounded-lg" />
+          </div>
+        }>
+          <SignInContent />
+        </Suspense>
 
         <p className="text-xs text-gray-400 text-center mt-6">
           로그인 시 서비스 이용약관에 동의합니다
