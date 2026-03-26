@@ -14,7 +14,7 @@ export class UserController {
   @Get('me')
   @UseGuards(ClerkAuthGuard)
   async getMe(@CurrentUser() clerkId: string): Promise<UserResponseDto> {
-    const user = await this.userService.findByClerkId(clerkId);
+    const user = await this.userService.findOrCreateByClerkId(clerkId);
     return {
       id: user.id,
       clerkId: user.clerkId,

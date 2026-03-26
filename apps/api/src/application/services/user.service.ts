@@ -1,16 +1,17 @@
 // User 비즈니스 로직 서비스
 
 import { randomUUID } from 'crypto';
-import { Injectable, Inject, NotFoundException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
+import { createClerkClient } from '@clerk/backend';
 import {
   USER_REPOSITORY,
   IUserRepository,
 } from '../../domain/ports/user-repository.port';
 import { UserEntity } from '../../domain/entities/user.entity';
-import {
-  CreateUserFromWebhookDto,
-  UpdateUserFromWebhookDto,
-} from '../dto/user.dto';
+
+const clerk = createClerkClient({
+  secretKey: process.env.CLERK_SECRET_KEY!,
+});
 
 @Injectable()
 export class UserService {
@@ -19,57 +20,34 @@ export class UserService {
     private readonly userRepository: IUserRepository,
   ) {}
 
-  /** clerkId로 사용자 조회 */
-  async findByClerkId(clerkId: string): Promise<UserEntity> {
-    const user = await this.userRepository.findByClerkId(clerkId);
-    if (!user) {
-      throw new NotFoundException(`사용자(${clerkId})를 찾을 수 없습니다`);
-    }
-    return user;
-  }
+  /** clerkId로 사용자 조회 — DB에 없으면 Clerk API에서 가져와서 자동 생성 */
+  async findOrCreateByClerkId(clerkId: string): Promise<UserEntity> {
+    const existing = await this.userRepository.findByClerkId(clerkId);
+    if (existing) return existing;
 
-  /** Webhook user.created 이벤트 처리 — 멱등성을 위해 upsert 패턴 */
-  async createFromWebhook(dto: CreateUserFromWebhookDto): Promise<UserEntity> {
-    const existing = await this.userRepository.findByClerkId(dto.clerkId);
-    if (existing) {
-      return this.userRepository.update(dto.clerkId, {
-        email: dto.email,
-        name: dto.name,
-        imageUrl: dto.imageUrl,
-        providers: dto.providers,
-      });
-    }
+    // Clerk API에서 사용자 정보 조회
+    const clerkUser = await clerk.users.getUser(clerkId);
+
+    const primaryEmail = clerkUser.emailAddresses.find(
+      (e) => e.id === clerkUser.primaryEmailAddressId,
+    );
+    const name = [clerkUser.firstName, clerkUser.lastName]
+      .filter(Boolean)
+      .join(' ') || null;
+    const providers = clerkUser.externalAccounts.map((a) => a.provider);
 
     const now = new Date();
     const entity = UserEntity.create({
       id: randomUUID(),
-      clerkId: dto.clerkId,
-      email: dto.email,
-      name: dto.name,
-      imageUrl: dto.imageUrl,
-      providers: dto.providers,
+      clerkId,
+      email: primaryEmail?.emailAddress ?? '',
+      name,
+      imageUrl: clerkUser.imageUrl ?? null,
+      providers,
       createdAt: now,
       updatedAt: now,
     });
 
     return this.userRepository.create(entity);
-  }
-
-  /** Webhook user.updated 이벤트 처리 */
-  async updateFromWebhook(
-    clerkId: string,
-    dto: UpdateUserFromWebhookDto,
-  ): Promise<UserEntity> {
-    return this.userRepository.update(clerkId, {
-      email: dto.email,
-      name: dto.name,
-      imageUrl: dto.imageUrl,
-      providers: dto.providers,
-    });
-  }
-
-  /** Webhook user.deleted 이벤트 처리 */
-  async deleteByClerkId(clerkId: string): Promise<void> {
-    await this.userRepository.delete(clerkId);
   }
 }

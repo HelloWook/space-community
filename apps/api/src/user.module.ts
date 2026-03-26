@@ -4,11 +4,10 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from './infrastructure/database/database.module';
 import { UserService } from './application/services/user.service';
 import { UserController } from './infrastructure/api/controllers/user.controller';
-import { ClerkWebhookController } from './infrastructure/auth/clerk-webhook.controller';
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [UserController, ClerkWebhookController],
+  controllers: [UserController],
   providers: [UserService],
   exports: [UserService],
 })
