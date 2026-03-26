@@ -3,13 +3,15 @@
 import {
   Controller,
   Post,
-  Body,
   Headers,
+  Req,
+  RawBodyRequest,
   BadRequestException,
   Logger,
 } from '@nestjs/common';
 import { Webhook } from 'svix';
 import { UserService } from '../../application/services/user.service';
+import type { Request } from 'express';
 
 interface ClerkWebhookEvent {
   type: string;
@@ -32,7 +34,7 @@ export class ClerkWebhookController {
 
   @Post()
   async handleWebhook(
-    @Body() rawBody: string,
+    @Req() req: RawBodyRequest<Request>,
     @Headers() headers: Record<string, string>,
   ): Promise<{ received: true }> {
     const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;
@@ -40,11 +42,16 @@ export class ClerkWebhookController {
       throw new BadRequestException('Webhook secret이 설정되지 않았습니다');
     }
 
+    const rawBody = req.rawBody;
+    if (!rawBody) {
+      throw new BadRequestException('Raw body를 읽을 수 없습니다');
+    }
+
     // Svix 서명 검증
     let event: ClerkWebhookEvent;
     try {
       const wh = new Webhook(webhookSecret);
-      event = wh.verify(rawBody, {
+      event = wh.verify(rawBody.toString(), {
         'svix-id': headers['svix-id'],
         'svix-timestamp': headers['svix-timestamp'],
         'svix-signature': headers['svix-signature'],
