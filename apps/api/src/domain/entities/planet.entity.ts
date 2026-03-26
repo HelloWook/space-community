@@ -14,6 +14,7 @@ export interface PlanetProps {
   content: string;
   authorNickname: string;
   starCount: number;
+  commentCount?: number;
   position: Position;
   galaxyId: string;
   createdAt: Date;
@@ -34,6 +35,7 @@ export class PlanetEntity {
   readonly content: string;
   readonly authorNickname: string;
   readonly starCount: number;
+  readonly commentCount: number;
   readonly position: Position;
   readonly galaxyId: string;
   readonly createdAt: Date;
@@ -103,6 +105,7 @@ export class PlanetEntity {
     this.content = props.content;
     this.authorNickname = props.authorNickname;
     this.starCount = props.starCount;
+    this.commentCount = props.commentCount ?? 0;
     this.position = props.position;
     this.galaxyId = props.galaxyId;
     this.createdAt = props.createdAt;

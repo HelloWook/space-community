@@ -1,7 +1,9 @@
 'use client';
 
 import { usePlanet } from '@/entities/planet';
+import { CommentList } from '@/entities/comment';
 import { GiveStarButton } from '@/features/give-star';
+import { WriteCommentForm } from '@/features/write-comment';
 
 interface PostOverlayProps {
   /** 조회할 행성(게시글) ID */
@@ -93,6 +95,23 @@ export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
             planetId={planetId}
             starCount={planet.starCount}
           />
+
+          {/* 구분선 */}
+          <hr
+            style={{
+              border: 'none',
+              borderTop: '1px solid #333',
+              margin: '20px 0',
+            }}
+          />
+
+          {/* 댓글 작성 폼 */}
+          <WriteCommentForm planetId={planetId} />
+
+          {/* 댓글 목록 */}
+          <div style={{ marginTop: '16px' }}>
+            <CommentList planetId={planetId} />
+          </div>
         </>
       )}
     </div>

@@ -11,4 +11,7 @@ export const queryKeys = {
   users: {
     me: ['users', 'me'] as const,
   },
+  comments: {
+    list: (planetId: string) => ['comments', planetId] as const,
+  },
 } as const;

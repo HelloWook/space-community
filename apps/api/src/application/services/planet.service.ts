@@ -38,6 +38,7 @@ export class PlanetService {
         title: planet.title,
         authorNickname: planet.authorNickname,
         starCount: planet.starCount,
+        commentCount: planet.commentCount,
         position: planet.position,
         mainColor: planet.mainColor,
         subColor: planet.subColor,
@@ -105,6 +106,7 @@ export class PlanetService {
     dto.content = planet.content;
     dto.authorNickname = planet.authorNickname;
     dto.starCount = planet.starCount;
+    dto.commentCount = planet.commentCount;
     dto.position = planet.position;
     dto.mainColor = planet.mainColor;
     dto.subColor = planet.subColor;

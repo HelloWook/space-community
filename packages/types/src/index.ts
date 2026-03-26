@@ -73,6 +73,7 @@ export interface PlanetSummary extends PlanetAppearance {
   title: string;
   authorNickname: string;
   starCount: number;
+  commentCount: number;
   position: Position;
   createdAt: string;
 }
@@ -119,4 +120,27 @@ export interface StarResponse {
 
 export interface CreateStarInput {
   giverNickname: string;
+}
+
+// === 댓글 (Comment) ===
+
+export interface CommentResponse {
+  id: string;
+  content: string;
+  authorNickname: string;
+  planetId: string;
+  parentId: string | null;
+  replies: CommentResponse[];
+  createdAt: string;
+}
+
+export interface CommentListResponse {
+  data: CommentResponse[];
+  totalCount: number;
+}
+
+export interface CreateCommentInput {
+  content: string;
+  authorNickname: string;
+  parentId?: string;
 }

@@ -21,6 +21,7 @@ model User {
 
   planets   Planet[]
   stars     Star[]
+  comments  Comment[]
 }
 
 // 은하계 - 게시판 주제를 나타내는 최상위 엔티티
@@ -59,11 +60,31 @@ model Planet {
   author         User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
   galaxyId       String
   galaxy         Galaxy   @relation(fields: [galaxyId], references: [id])
+  commentCount   Int      @default(0)
   stars          Star[]
+  comments       Comment[]
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 
   @@index([galaxyId, createdAt(sort: Desc)])
+}
+
+// 댓글 - 행성(게시글)에 대한 위성 댓글
+model Comment {
+  id              String   @id @default(cuid())
+  content         String
+  authorNickname  String
+  authorId        String?
+  author          User?    @relation(fields: [authorId], references: [id], onDelete: SetNull)
+  planetId        String
+  planet          Planet   @relation(fields: [planetId], references: [id])
+  parentId        String?
+  parent          Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies         Comment[] @relation("CommentReplies")
+  createdAt       DateTime @default(now())
+
+  @@index([planetId])
+  @@index([parentId])
 }
 
 // 별 - 게시글에 대한 좋아요

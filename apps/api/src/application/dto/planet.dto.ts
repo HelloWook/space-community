@@ -17,6 +17,9 @@ export class PlanetSummaryDto {
   /** 별 개수 */
   starCount: number;
 
+  /** 댓글 개수 */
+  commentCount: number;
+
   /** 3D 공간 좌표 */
   position: Position;
 

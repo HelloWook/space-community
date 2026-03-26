@@ -76,6 +76,7 @@ describe('PlanetService', () => {
         title: '첫번째 게시글',
         authorNickname: '테스트유저',
         starCount: 5,
+        commentCount: 0,
         position: { x: 1, y: 2, z: 3 },
         mainColor: '#4A90D9',
         subColor: '#2C5F8A',

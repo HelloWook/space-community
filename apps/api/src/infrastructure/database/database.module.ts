@@ -5,10 +5,12 @@ import { PrismaService } from './prisma.service';
 import { GalaxyRepository } from './repositories/galaxy.repository';
 import { PlanetRepository } from './repositories/planet.repository';
 import { StarRepository } from './repositories/star.repository';
+import { CommentRepository } from './repositories/comment.repository';
 import { UserRepository } from './repositories/user.repository';
 import { GALAXY_REPOSITORY } from '../../domain/ports/galaxy-repository.port';
 import { PLANET_REPOSITORY } from '../../domain/ports/planet-repository.port';
 import { STAR_REPOSITORY } from '../../domain/ports/star-repository.port';
+import { COMMENT_REPOSITORY } from '../../domain/ports/comment-repository.port';
 import { USER_REPOSITORY } from '../../domain/ports/user-repository.port';
 
 @Module({
@@ -27,6 +29,10 @@ import { USER_REPOSITORY } from '../../domain/ports/user-repository.port';
       useClass: StarRepository,
     },
     {
+      provide: COMMENT_REPOSITORY,
+      useClass: CommentRepository,
+    },
+    {
       provide: USER_REPOSITORY,
       useClass: UserRepository,
     },
@@ -36,6 +42,7 @@ import { USER_REPOSITORY } from '../../domain/ports/user-repository.port';
     GALAXY_REPOSITORY,
     PLANET_REPOSITORY,
     STAR_REPOSITORY,
+    COMMENT_REPOSITORY,
     USER_REPOSITORY,
   ],
 })

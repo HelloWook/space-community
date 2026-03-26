@@ -3,6 +3,7 @@
 import { GalaxyEntity } from '../../domain/entities/galaxy.entity';
 import { PlanetEntity } from '../../domain/entities/planet.entity';
 import { StarEntity } from '../../domain/entities/star.entity';
+import { CommentEntity } from '../../domain/entities/comment.entity';
 
 /** Prisma Galaxy 모델 타입 */
 interface PrismaGalaxy {
@@ -23,6 +24,7 @@ interface PrismaPlanet {
   content: string;
   authorNickname: string;
   starCount: number;
+  commentCount: number;
   positionX: number;
   positionY: number;
   positionZ: number;
@@ -86,6 +88,7 @@ export class PlanetMapper {
       content: prismaPlanet.content,
       authorNickname: prismaPlanet.authorNickname,
       starCount: prismaPlanet.starCount,
+      commentCount: prismaPlanet.commentCount,
       position: {
         x: prismaPlanet.positionX,
         y: prismaPlanet.positionY,
@@ -111,6 +114,7 @@ export class PlanetMapper {
       content: entity.content,
       authorNickname: entity.authorNickname,
       starCount: entity.starCount,
+      commentCount: entity.commentCount,
       positionX: entity.position.x,
       positionY: entity.position.y,
       positionZ: entity.position.z,
@@ -143,6 +147,44 @@ export class StarMapper {
       id: entity.id,
       giverNickname: entity.giverNickname,
       planetId: entity.planetId,
+      createdAt: entity.createdAt,
+    };
+  }
+}
+
+/** Prisma Comment 모델 타입 */
+export interface PrismaComment {
+  id: string;
+  content: string;
+  authorNickname: string;
+  authorId: string | null;
+  planetId: string;
+  parentId: string | null;
+  createdAt: Date;
+}
+
+/** Comment 도메인 엔티티 <-> Prisma 모델 변환 매퍼 */
+export class CommentMapper {
+  /** Prisma 모델을 도메인 엔티티로 변환 */
+  static toDomain(prismaComment: PrismaComment): CommentEntity {
+    return CommentEntity.create({
+      id: prismaComment.id,
+      content: prismaComment.content,
+      authorNickname: prismaComment.authorNickname,
+      planetId: prismaComment.planetId,
+      parentId: prismaComment.parentId,
+      createdAt: prismaComment.createdAt,
+    });
+  }
+
+  /** 도메인 엔티티를 Prisma 생성 데이터로 변환 */
+  static toPrisma(entity: CommentEntity): Omit<PrismaComment, 'authorId'> {
+    return {
+      id: entity.id,
+      content: entity.content,
+      authorNickname: entity.authorNickname,
+      planetId: entity.planetId,
+      parentId: entity.parentId,
       createdAt: entity.createdAt,
     };
   }
