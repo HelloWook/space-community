@@ -14,7 +14,7 @@
     --secondary-foreground: 0 0% 100%;
     --muted: 240 4% 16%;
     --muted-foreground: 240 5% 65%;
-    --accent: 240 4% 16%;
+    --accent: 270 50% 40%;
     --accent-foreground: 0 0% 100%;
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
@@ -22,6 +22,9 @@
     --input: 240 4% 16%;
     --ring: 217 91% 60%;
     --radius: 0.5rem;
+    --overlay-bg: 270 50% 10%;
+    --overlay-border: 270 50% 50%;
+    --glow-purple: 270 70% 60%;
   }
 
   * {
