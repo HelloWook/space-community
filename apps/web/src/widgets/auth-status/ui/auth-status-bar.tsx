@@ -16,7 +16,7 @@ export function AuthStatusBar() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black/60 backdrop-blur-sm text-white px-4 py-2 flex items-center justify-end gap-4 text-sm">
+      <div className="fixed top-0 left-0 right-0 z-50 text-white px-4 py-2 flex items-center justify-end gap-4 text-sm">
         {isSignedIn ? (
           <>
             <span className="text-gray-300">

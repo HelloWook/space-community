@@ -44,7 +44,7 @@ export function Overlay({
   return (
     <div
       data-testid="overlay-backdrop"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-[hsl(var(--overlay-bg)/0.85)] backdrop-blur-md transition-opacity duration-200"
+      className="fixed inset-0 z-[200] flex items-center justify-center bg-[hsl(var(--overlay-bg)/0.85)] backdrop-blur-md transition-opacity duration-200"
       onClick={(e) => {
         if (e.target === e.currentTarget) {
           onClose();

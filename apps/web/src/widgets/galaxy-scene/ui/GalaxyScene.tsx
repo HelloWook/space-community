@@ -199,7 +199,8 @@ export function GalaxyScene() {
       {/* 우주 뷰에서 은하계 만들기 버튼 */}
       {viewMode === 'universe' && !showCreateGalaxy && (
         <Button
-          onClick={() => {
+          onClick={(e) => {
+            e.stopPropagation();
             if (!isSignedIn) { setShowLogin(true); return; }
             setShowCreateGalaxy(true);
           }}
