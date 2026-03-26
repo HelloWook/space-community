@@ -4,6 +4,7 @@ import { usePlanet } from '@/entities/planet';
 import { CommentList } from '@/entities/comment';
 import { GiveStarButton } from '@/features/give-star';
 import { WriteCommentForm } from '@/features/write-comment';
+import { Button } from '@/shared/ui/shadcn/button';
 
 interface PostOverlayProps {
   /** 조회할 행성(게시글) ID */
@@ -19,37 +20,18 @@ export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
   return (
     <div
       data-testid="post-overlay"
-      style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        width: '400px',
-        height: '100%',
-        backgroundColor: 'rgba(10, 10, 30, 0.92)',
-        color: '#fff',
-        padding: '24px',
-        overflowY: 'auto',
-        zIndex: 100,
-        boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
-      }}
+      className="fixed inset-y-0 right-0 w-[400px] bg-[rgba(10,10,30,0.92)] text-foreground p-6 overflow-y-auto z-[100] shadow-[-4px_0_20px_rgba(0,0,0,0.5)]"
     >
       {/* 닫기 버튼 */}
-      <button
+      <Button
+        variant="ghost"
+        size="sm"
         onClick={onClose}
         aria-label="닫기"
-        style={{
-          position: 'absolute',
-          top: '16px',
-          right: '16px',
-          background: 'none',
-          border: 'none',
-          color: '#fff',
-          fontSize: '24px',
-          cursor: 'pointer',
-        }}
+        className="absolute top-4 right-4 text-2xl text-foreground hover:text-foreground/80"
       >
         ✕
-      </button>
+      </Button>
 
       {/* 로딩 상태 */}
       {isLoading && <p>로딩 중...</p>}
@@ -60,32 +42,17 @@ export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
       {/* 게시글 상세 내용 */}
       {planet && (
         <>
-          <h2 style={{ fontSize: '20px', marginBottom: '8px', marginTop: '8px' }}>
+          <h2 className="text-xl mb-2 mt-2">
             {planet.title}
           </h2>
-          <div
-            style={{
-              fontSize: '12px',
-              color: '#999',
-              marginBottom: '16px',
-              display: 'flex',
-              gap: '12px',
-            }}
-          >
+          <div className="text-xs text-muted-foreground mb-4 flex gap-3">
             <span>{planet.authorNickname}</span>
             <span>{new Date(planet.createdAt).toLocaleDateString('ko-KR')}</span>
           </div>
           {/* 내용을 프리포맷 텍스트로 렌더링 (MVP) */}
           <pre
             data-testid="post-content"
-            style={{
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-              fontFamily: 'inherit',
-              fontSize: '14px',
-              lineHeight: '1.6',
-              color: '#ddd',
-            }}
+            className="whitespace-pre-wrap break-words font-[inherit] text-sm leading-relaxed text-foreground/85"
           >
             {planet.content}
           </pre>
@@ -97,19 +64,13 @@ export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
           />
 
           {/* 구분선 */}
-          <hr
-            style={{
-              border: 'none',
-              borderTop: '1px solid #333',
-              margin: '20px 0',
-            }}
-          />
+          <hr className="border-none border-t border-border my-5" />
 
           {/* 댓글 작성 폼 */}
           <WriteCommentForm planetId={planetId} />
 
           {/* 댓글 목록 */}
-          <div style={{ marginTop: '16px' }}>
+          <div className="mt-4">
             <CommentList planetId={planetId} />
           </div>
         </>

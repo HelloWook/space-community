@@ -5,6 +5,7 @@ import { generateRandomAppearance } from '../model/random';
 import { ColorPicker } from './ColorPicker';
 import { PLANET_SIZES, PLANET_SHAPES, SURFACE_PATTERNS } from '@galaxy-board/types';
 import type { PlanetSize, PlanetShape, SurfacePattern } from '@galaxy-board/types';
+import { Button } from '@/shared/ui/shadcn/button';
 
 // 형태 한글 라벨
 const SHAPE_LABELS: Record<PlanetShape, string> = {
@@ -50,41 +51,18 @@ export function CustomizePanel({ appearance, onChange }: CustomizePanelProps) {
     onChange({ ...appearance, [key]: value });
   };
 
-  const sectionStyle = { marginBottom: '12px' };
-  const labelStyle = { display: 'block' as const, color: '#ccc', marginBottom: '4px', fontSize: '12px' };
-  const buttonGroupStyle = { display: 'flex' as const, flexWrap: 'wrap' as const, gap: '4px' };
-
-  const optionButton = (selected: boolean) => ({
-    padding: '4px 8px',
-    borderRadius: '4px',
-    border: selected ? '2px solid #4a90d9' : '1px solid #444',
-    backgroundColor: selected ? '#2a4a6e' : '#1a1a2e',
-    color: '#fff',
-    cursor: 'pointer' as const,
-    fontSize: '11px',
-  });
-
   return (
-    <div data-testid="customize-panel" style={{ padding: '8px 0' }}>
+    <div data-testid="customize-panel" className="py-2">
       {/* 랜덤 버튼 */}
-      <button
+      <Button
         type="button"
+        variant="outline"
         onClick={() => onChange(generateRandomAppearance())}
         data-testid="random-button"
-        style={{
-          width: '100%',
-          padding: '8px',
-          marginBottom: '12px',
-          borderRadius: '4px',
-          border: '1px solid #4a90d9',
-          backgroundColor: 'transparent',
-          color: '#4a90d9',
-          cursor: 'pointer',
-          fontSize: '13px',
-        }}
+        className="w-full mb-3"
       >
         🎲 랜덤 생성
-      </button>
+      </Button>
 
       {/* 색상 */}
       <ColorPicker
@@ -99,67 +77,74 @@ export function CustomizePanel({ appearance, onChange }: CustomizePanelProps) {
       />
 
       {/* 형태 */}
-      <div style={sectionStyle}>
-        <label style={labelStyle}>형태</label>
-        <div style={buttonGroupStyle}>
+      <div className="mb-3">
+        <label className="block text-muted-foreground mb-1 text-xs">형태</label>
+        <div className="flex flex-wrap gap-1">
           {PLANET_SHAPES.map((shape) => (
-            <button
+            <Button
               key={shape}
               type="button"
+              variant={appearance.shape === shape ? 'default' : 'outline'}
+              size="sm"
               onClick={() => updateField('shape', shape)}
-              style={optionButton(appearance.shape === shape)}
               data-testid={`shape-${shape}`}
+              className="h-7 px-2 text-[11px]"
             >
               {SHAPE_LABELS[shape]}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
       {/* 크기 */}
-      <div style={sectionStyle}>
-        <label style={labelStyle}>크기</label>
-        <div style={buttonGroupStyle}>
+      <div className="mb-3">
+        <label className="block text-muted-foreground mb-1 text-xs">크기</label>
+        <div className="flex flex-wrap gap-1">
           {PLANET_SIZES.map((size) => (
-            <button
+            <Button
               key={size}
               type="button"
+              variant={appearance.size === size ? 'default' : 'outline'}
+              size="sm"
               onClick={() => updateField('size', size)}
-              style={optionButton(appearance.size === size)}
               data-testid={`size-${size}`}
+              className="h-7 px-2 text-[11px]"
             >
               {SIZE_LABELS[size]}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
       {/* 패턴 */}
-      <div style={sectionStyle}>
-        <label style={labelStyle}>표면 패턴</label>
-        <div style={buttonGroupStyle}>
+      <div className="mb-3">
+        <label className="block text-muted-foreground mb-1 text-xs">표면 패턴</label>
+        <div className="flex flex-wrap gap-1">
           {SURFACE_PATTERNS.map((pattern) => (
-            <button
+            <Button
               key={pattern}
               type="button"
+              variant={appearance.pattern === pattern ? 'default' : 'outline'}
+              size="sm"
               onClick={() => updateField('pattern', pattern)}
-              style={optionButton(appearance.pattern === pattern)}
               data-testid={`pattern-${pattern}`}
+              className="h-7 px-2 text-[11px]"
             >
               {PATTERN_LABELS[pattern]}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
       {/* 고리 */}
-      <div style={sectionStyle}>
-        <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div className="mb-3">
+        <label className="flex items-center gap-2 text-muted-foreground text-xs">
           <input
             type="checkbox"
             checked={appearance.hasRing}
             onChange={(e) => updateField('hasRing', e.target.checked)}
             data-testid="hasRing-toggle"
+            className="rounded border-border"
           />
           고리 표시
         </label>

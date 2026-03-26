@@ -20,17 +20,7 @@ function detectWebGL(): boolean {
 // WebGL 미지원 시 표시할 폴백 컴포넌트
 export function Canvas3DFallback() {
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-        height: '100%',
-        backgroundColor: '#050510',
-        color: '#888',
-      }}
-    >
+    <div className="flex items-center justify-center w-full h-full bg-[#050510] text-muted-foreground">
       WebGL을 지원하지 않는 브라우저입니다.
     </div>
   );

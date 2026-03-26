@@ -7,6 +7,9 @@ import {
   type CreateGalaxyFormData,
 } from '../model/schema';
 import { useCreateGalaxy } from '@/entities/galaxy';
+import { Button } from '@/shared/ui/shadcn/button';
+import { Input } from '@/shared/ui/shadcn/input';
+import { Textarea } from '@/shared/ui/shadcn/textarea';
 
 interface CreateGalaxyFormProps {
   /** 생성 성공 시 콜백 */
@@ -41,87 +44,49 @@ export function CreateGalaxyForm({ onSuccess }: CreateGalaxyFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} data-testid="create-galaxy-form">
       {/* 이름 입력 필드 */}
-      <div style={{ marginBottom: '12px' }}>
-        <label
-          htmlFor="galaxy-name"
-          style={{ display: 'block', color: '#ccc', marginBottom: '4px' }}
-        >
+      <div className="mb-3">
+        <label htmlFor="galaxy-name" className="block text-muted-foreground mb-1">
           이름
         </label>
-        <input
+        <Input
           id="galaxy-name"
           type="text"
           placeholder="은하계 이름을 입력하세요"
           {...register('name')}
-          style={{
-            width: '100%',
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #444',
-            backgroundColor: '#1a1a2e',
-            color: '#fff',
-          }}
         />
         {errors.name && (
-          <p
-            role="alert"
-            style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '4px' }}
-          >
+          <p role="alert" className="text-destructive text-xs mt-1">
             {errors.name.message}
           </p>
         )}
       </div>
 
       {/* 설명 입력 필드 */}
-      <div style={{ marginBottom: '16px' }}>
-        <label
-          htmlFor="galaxy-description"
-          style={{ display: 'block', color: '#ccc', marginBottom: '4px' }}
-        >
+      <div className="mb-4">
+        <label htmlFor="galaxy-description" className="block text-muted-foreground mb-1">
           설명
         </label>
-        <textarea
+        <Textarea
           id="galaxy-description"
           placeholder="은하계 설명을 입력하세요"
           rows={4}
           {...register('description')}
-          style={{
-            width: '100%',
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #444',
-            backgroundColor: '#1a1a2e',
-            color: '#fff',
-            resize: 'vertical',
-          }}
         />
         {errors.description && (
-          <p
-            role="alert"
-            style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '4px' }}
-          >
+          <p role="alert" className="text-destructive text-xs mt-1">
             {errors.description.message}
           </p>
         )}
       </div>
 
       {/* 제출 버튼 */}
-      <button
+      <Button
         type="submit"
         disabled={createGalaxy.isPending}
-        style={{
-          width: '100%',
-          padding: '10px',
-          borderRadius: '4px',
-          border: 'none',
-          backgroundColor: createGalaxy.isPending ? '#555' : '#4a90d9',
-          color: '#fff',
-          cursor: createGalaxy.isPending ? 'not-allowed' : 'pointer',
-          fontSize: '14px',
-        }}
+        className="w-full"
       >
         {createGalaxy.isPending ? '생성 중...' : '은하계 만들기'}
-      </button>
+      </Button>
     </form>
   );
 }

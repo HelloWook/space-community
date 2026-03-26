@@ -94,13 +94,7 @@ export function PlanetPreview3D(props: PlanetPreview3DProps) {
   return (
     <div
       data-testid="planet-preview-3d"
-      style={{
-        width: '100%',
-        height: '200px',
-        borderRadius: '8px',
-        overflow: 'hidden',
-        backgroundColor: '#0a0a1a',
-      }}
+      className="w-full h-[200px] rounded-lg overflow-hidden bg-[#0a0a1a]"
     >
       <Canvas camera={{ position: [0, 0, 4], fov: 50 }}>
         <ambientLight intensity={0.4} />

@@ -8,6 +8,9 @@ import { useCreatePlanet } from '@/entities/planet';
 import { CustomizePanel, defaultAppearance } from '@/features/customize-planet';
 import type { PlanetAppearanceFormData } from '@/features/customize-planet';
 import { PlanetPreview3D } from '@/entities/planet/ui/PlanetPreview3D';
+import { Button } from '@/shared/ui/shadcn/button';
+import { Input } from '@/shared/ui/shadcn/input';
+import { Textarea } from '@/shared/ui/shadcn/textarea';
 
 interface CreatePostFormProps {
   /** 게시글이 속할 은하 ID */
@@ -57,88 +60,56 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
   return (
     <form onSubmit={handleSubmit(onSubmit)} data-testid="create-post-form">
       {/* 제목 입력 필드 */}
-      <div style={{ marginBottom: '12px' }}>
-        <label
-          htmlFor="title"
-          style={{ display: 'block', color: '#ccc', marginBottom: '4px' }}
-        >
+      <div className="mb-3">
+        <label htmlFor="title" className="block text-muted-foreground mb-1">
           제목
         </label>
-        <input
+        <Input
           id="title"
           type="text"
           placeholder="제목을 입력하세요"
           {...register('title')}
-          style={{
-            width: '100%',
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #444',
-            backgroundColor: '#1a1a2e',
-            color: '#fff',
-          }}
         />
         {errors.title && (
-          <p role="alert" style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '4px' }}>
+          <p role="alert" className="text-destructive text-xs mt-1">
             {errors.title.message}
           </p>
         )}
       </div>
 
       {/* 내용 입력 필드 */}
-      <div style={{ marginBottom: '16px' }}>
-        <label
-          htmlFor="content"
-          style={{ display: 'block', color: '#ccc', marginBottom: '4px' }}
-        >
+      <div className="mb-4">
+        <label htmlFor="content" className="block text-muted-foreground mb-1">
           내용
         </label>
-        <textarea
+        <Textarea
           id="content"
           placeholder="내용을 입력하세요"
           rows={6}
           {...register('content')}
-          style={{
-            width: '100%',
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #444',
-            backgroundColor: '#1a1a2e',
-            color: '#fff',
-            resize: 'vertical',
-          }}
         />
         {errors.content && (
-          <p role="alert" style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '4px' }}>
+          <p role="alert" className="text-destructive text-xs mt-1">
             {errors.content.message}
           </p>
         )}
       </div>
 
       {/* 행성 커스터마이징 패널 */}
-      <div style={{ marginBottom: '16px', borderTop: '1px solid #333', paddingTop: '12px' }}>
-        <h4 style={{ color: '#ddd', fontSize: '14px', marginBottom: '8px' }}>행성 외형</h4>
+      <div className="mb-4 border-t border-border pt-3">
+        <h4 className="text-foreground text-sm mb-2">행성 외형</h4>
         <PlanetPreview3D {...appearance} />
         <CustomizePanel appearance={appearance} onChange={setAppearance} />
       </div>
 
       {/* 제출 버튼 */}
-      <button
+      <Button
         type="submit"
         disabled={createPlanet.isPending}
-        style={{
-          width: '100%',
-          padding: '10px',
-          borderRadius: '4px',
-          border: 'none',
-          backgroundColor: createPlanet.isPending ? '#555' : '#4a90d9',
-          color: '#fff',
-          cursor: createPlanet.isPending ? 'not-allowed' : 'pointer',
-          fontSize: '14px',
-        }}
+        className="w-full"
       >
         {createPlanet.isPending ? '작성 중...' : '게시글 작성'}
-      </button>
+      </Button>
     </form>
   );
 }

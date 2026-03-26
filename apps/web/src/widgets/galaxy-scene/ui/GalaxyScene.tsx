@@ -28,6 +28,7 @@ import {
 import { CreatePostForm } from '@/features/create-post';
 import { CreateGalaxyForm } from '@/features/create-galaxy';
 import { PostOverlay } from '@/widgets/post-overlay';
+import { Button } from '@/shared/ui/shadcn/button';
 
 interface SceneContentProps {
   /** 행성 클릭 시 호출되는 콜백 */
@@ -175,7 +176,7 @@ export function GalaxyScene() {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+    <div className="relative w-full h-full">
       <Canvas
         camera={{ position: [0, 0, 50], fov: 60 }}
         gl={{ antialias: true }}
@@ -194,61 +195,31 @@ export function GalaxyScene() {
 
       {/* 우주 뷰에서 은하계 만들기 버튼 */}
       {viewMode === 'universe' && !showCreateGalaxy && (
-        <button
+        <Button
           onClick={() => {
             if (!isSignedIn) { router.push('/sign-in'); return; }
             setShowCreateGalaxy(true);
           }}
-          style={{
-            position: 'absolute',
-            bottom: '24px',
-            right: '24px',
-            padding: '12px 20px',
-            borderRadius: '8px',
-            border: 'none',
-            backgroundColor: '#4a90d9',
-            color: '#fff',
-            fontSize: '14px',
-            cursor: 'pointer',
-            zIndex: 50,
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
-          }}
+          className="absolute bottom-6 right-6 z-50 shadow-lg"
         >
           은하계 만들기
-        </button>
+        </Button>
       )}
 
       {/* 은하계 생성 폼 오버레이 */}
       {showCreateGalaxy && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            right: 0,
-            width: '400px',
-            height: '100%',
-            backgroundColor: 'rgba(10, 10, 30, 0.92)',
-            padding: '24px',
-            zIndex: 100,
-            overflowY: 'auto',
-            boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ color: '#fff', fontSize: '18px', margin: 0 }}>새 은하계</h2>
-            <button
+        <div className="fixed inset-y-0 right-0 w-[400px] bg-[rgba(10,10,30,0.92)] p-6 z-[100] overflow-y-auto shadow-[-4px_0_20px_rgba(0,0,0,0.5)]">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-foreground text-lg m-0">새 은하계</h2>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => setShowCreateGalaxy(false)}
               aria-label="닫기"
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#fff',
-                fontSize: '24px',
-                cursor: 'pointer',
-              }}
+              className="text-2xl text-foreground"
             >
               ✕
-            </button>
+            </Button>
           </div>
           <CreateGalaxyForm onSuccess={handleCreateGalaxySuccess} />
         </div>
@@ -256,61 +227,31 @@ export function GalaxyScene() {
 
       {/* 은하 뷰에서 게시글 작성 버튼 */}
       {viewMode === 'galaxy' && !showCreatePost && !selectedPlanetId && (
-        <button
+        <Button
           onClick={() => {
             if (!isSignedIn) { router.push('/sign-in'); return; }
             setShowCreatePost(true);
           }}
-          style={{
-            position: 'absolute',
-            bottom: '24px',
-            right: '24px',
-            padding: '12px 20px',
-            borderRadius: '8px',
-            border: 'none',
-            backgroundColor: '#4a90d9',
-            color: '#fff',
-            fontSize: '14px',
-            cursor: 'pointer',
-            zIndex: 50,
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
-          }}
+          className="absolute bottom-6 right-6 z-50 shadow-lg"
         >
           게시글 작성
-        </button>
+        </Button>
       )}
 
       {/* 게시글 작성 폼 오버레이 */}
       {showCreatePost && selectedGalaxyId && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            right: 0,
-            width: '400px',
-            height: '100%',
-            backgroundColor: 'rgba(10, 10, 30, 0.92)',
-            padding: '24px',
-            zIndex: 100,
-            overflowY: 'auto',
-            boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ color: '#fff', fontSize: '18px', margin: 0 }}>새 게시글</h2>
-            <button
+        <div className="fixed inset-y-0 right-0 w-[400px] bg-[rgba(10,10,30,0.92)] p-6 z-[100] overflow-y-auto shadow-[-4px_0_20px_rgba(0,0,0,0.5)]">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-foreground text-lg m-0">새 게시글</h2>
+            <Button
+              variant="ghost"
+              size="sm"
               onClick={() => setShowCreatePost(false)}
               aria-label="닫기"
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#fff',
-                fontSize: '24px',
-                cursor: 'pointer',
-              }}
+              className="text-2xl text-foreground"
             >
               ✕
-            </button>
+            </Button>
           </div>
           <CreatePostForm
             galaxyId={selectedGalaxyId}

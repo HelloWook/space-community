@@ -17,58 +17,35 @@ export function ColorPicker({ label, value, onChange }: ColorPickerProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div style={{ marginBottom: '8px' }}>
-      <label style={{ display: 'block', color: '#ccc', marginBottom: '4px', fontSize: '12px' }}>
+    <div className="mb-2">
+      <label className="block text-muted-foreground mb-1 text-xs">
         {label}
       </label>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div className="flex items-center gap-2">
         {/* 색상 미리보기 버튼 */}
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
           data-testid={`color-picker-${label}`}
-          style={{
-            width: '32px',
-            height: '32px',
-            borderRadius: '4px',
-            border: '2px solid #555',
-            backgroundColor: value,
-            cursor: 'pointer',
-          }}
+          className="w-8 h-8 rounded border-2 border-border cursor-pointer"
+          style={{ backgroundColor: value }}
         />
         {/* HEX 입력 */}
         <HexColorInput
           color={value}
           onChange={onChange}
           prefixed
-          style={{
-            width: '80px',
-            padding: '4px 8px',
-            borderRadius: '4px',
-            border: '1px solid #444',
-            backgroundColor: '#1a1a2e',
-            color: '#fff',
-            fontSize: '12px',
-          }}
+          className="w-20 px-2 py-1 rounded border border-border bg-card text-foreground text-xs"
         />
       </div>
       {/* 피커 팝업 */}
       {isOpen && (
-        <div
-          style={{
-            position: 'absolute',
-            zIndex: 10,
-            marginTop: '4px',
-          }}
-        >
+        <div className="absolute z-10 mt-1">
           <div
-            style={{
-              position: 'fixed',
-              inset: 0,
-            }}
+            className="fixed inset-0"
             onClick={() => setIsOpen(false)}
           />
-          <div style={{ position: 'relative' }}>
+          <div className="relative">
             <HexColorPicker color={value} onChange={onChange} />
           </div>
         </div>

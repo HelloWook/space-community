@@ -5,6 +5,7 @@
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useGiveStar } from '@/entities/star';
+import { Button } from '@/shared/ui/shadcn/button';
 
 interface GiveStarButtonProps {
   /** 대상 Planet ID */
@@ -45,16 +46,16 @@ export function GiveStarButton({
   };
 
   return (
-    <div data-testid="give-star-button" style={{ marginTop: '16px' }}>
+    <div data-testid="give-star-button" className="mt-4">
       {/* 별 개수 표시 */}
-      <div style={{ fontSize: '14px', color: '#ccc', marginBottom: '8px' }}>
+      <div className="text-sm text-muted-foreground mb-2">
         ⭐ {starCount}개
       </div>
 
       {/* 상한 도달 메시지 */}
       {isMaxReached && (
         <p
-          style={{ color: '#ff9999', fontSize: '12px' }}
+          className="text-destructive/70 text-xs"
           data-testid="star-limit-message"
         >
           별 상한에 도달했습니다
@@ -64,7 +65,7 @@ export function GiveStarButton({
       {/* 비로그인 안내 메시지 */}
       {!isSignedIn && (
         <p
-          style={{ color: '#ffcc00', fontSize: '12px', marginBottom: '8px' }}
+          className="text-yellow-400 text-xs mb-2"
           data-testid="login-required-message"
         >
           로그인이 필요합니다
@@ -72,24 +73,15 @@ export function GiveStarButton({
       )}
 
       {/* 메인 별 주기 버튼 */}
-      <button
+      <Button
         onClick={handleGiveStar}
         disabled={isMaxReached || isPending}
         aria-label="별 주기"
-        style={{
-          padding: '8px 16px',
-          borderRadius: '6px',
-          border: 'none',
-          backgroundColor: isMaxReached ? '#555' : '#ffd700',
-          color: isMaxReached ? '#999' : '#000',
-          fontSize: '14px',
-          cursor: isMaxReached || isPending ? 'not-allowed' : 'pointer',
-          fontWeight: 'bold',
-          opacity: isPending ? 0.6 : 1,
-        }}
+        variant={isMaxReached ? 'secondary' : 'default'}
+        className={isMaxReached ? '' : 'bg-yellow-500 hover:bg-yellow-600 text-black font-bold'}
       >
         {isPending ? '전송 중...' : '⭐ 별 주기'}
-      </button>
+      </Button>
     </div>
   );
 }

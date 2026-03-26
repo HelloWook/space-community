@@ -90,22 +90,22 @@
 
 > **NOTE: 테스트 먼저 작성, 실패 확인 후 구현**
 
-- [ ] T021 [P] [US2] CreatePostForm shadcn/ui 전환 테스트 — `apps/web/src/features/create-post/__tests__/CreatePostForm.test.tsx` 업데이트 (shadcn Button, Input, Textarea 렌더링 검증)
-- [ ] T022 [P] [US2] WriteCommentForm shadcn/ui 전환 테스트 — `apps/web/src/features/write-comment/ui/__tests__/WriteCommentForm.test.tsx` (shadcn Textarea, Button 렌더링 검증)
-- [ ] T023 [P] [US2] CommentList shadcn/ui Card 전환 테스트 — `apps/web/src/entities/comment/ui/__tests__/CommentList.test.tsx` (shadcn Card 렌더링 검증)
-- [ ] T024 [P] [US2] CustomizePanel shadcn/ui 전환 테스트 — `apps/web/src/features/customize-planet/__tests__/CustomizePanel.test.tsx` (shadcn Select, RadioGroup, Slider 렌더링 검증)
-- [ ] T025 [P] [US2] CreateGalaxyForm shadcn/ui 전환 테스트 — `apps/web/src/features/create-galaxy/__tests__/CreateGalaxyForm.test.tsx` 업데이트 (shadcn Input, Button 렌더링 검증)
+- [x] T021 [P] [US2] CreatePostForm shadcn/ui 전환 테스트 — `apps/web/src/features/create-post/__tests__/CreatePostForm.test.tsx` 업데이트 (shadcn Button, Input, Textarea 렌더링 검증)
+- [x] T022 [P] [US2] WriteCommentForm shadcn/ui 전환 테스트 — `apps/web/src/features/write-comment/ui/__tests__/WriteCommentForm.test.tsx` (shadcn Textarea, Button 렌더링 검증)
+- [x] T023 [P] [US2] CommentList shadcn/ui Card 전환 테스트 — `apps/web/src/entities/comment/ui/__tests__/CommentList.test.tsx` (shadcn Card 렌더링 검증)
+- [x] T024 [P] [US2] CustomizePanel shadcn/ui 전환 테스트 — `apps/web/src/features/customize-planet/__tests__/CustomizePanel.test.tsx` (shadcn Select, RadioGroup, Slider 렌더링 검증)
+- [x] T025 [P] [US2] CreateGalaxyForm shadcn/ui 전환 테스트 — `apps/web/src/features/create-galaxy/__tests__/CreateGalaxyForm.test.tsx` 업데이트 (shadcn Input, Button 렌더링 검증)
 
 ### 구현 (US2)
 
-- [ ] T026 [P] [US2] CreatePostForm → shadcn/ui 전환 — `apps/web/src/features/create-post/ui/CreatePostForm.tsx` (`<button>` → `<Button>`, `<input>` → `<Input>`, `<textarea>` → `<Textarea>`)
-- [ ] T027 [P] [US2] WriteCommentForm → shadcn/ui 전환 — `apps/web/src/features/write-comment/ui/WriteCommentForm.tsx` (`<textarea>` → `<Textarea>`, `<button>` → `<Button>`)
-- [ ] T028 [P] [US2] CommentList → shadcn/ui Card 전환 — `apps/web/src/entities/comment/ui/CommentList.tsx` (댓글 카드를 shadcn `<Card>` 컴포넌트로 교체)
-- [ ] T029 [P] [US2] CustomizePanel → shadcn/ui 전환 — `apps/web/src/features/customize-planet/ui/CustomizePanel.tsx` (shape/pattern `<select>` → `<Select>`, size 슬라이더 → `<Slider>`, 옵션 → `<RadioGroup>`)
-- [ ] T030 [P] [US2] ColorPicker → Tailwind 통합 — `apps/web/src/features/customize-planet/ui/ColorPicker.tsx` (react-colorful 유지, 래퍼 스타일링 shadcn 테마와 통일)
-- [ ] T031 [P] [US2] CreateGalaxyForm → shadcn/ui 전환 — `apps/web/src/features/create-galaxy/ui/CreateGalaxyForm.tsx` (`<input>` → `<Input>`, `<button>` → `<Button>`)
-- [ ] T032 [P] [US2] GiveStarButton → shadcn/ui Button 전환 — `apps/web/src/features/give-star/ui/GiveStarButton.tsx` (`<button>` → `<Button>` variant)
-- [ ] T033 [US2] shadcn/ui 테마 우주 테마 미세 조정 — `apps/web/src/app/styles/globals.css` CSS 변수 미세 조정 (호버/포커스/액티브 상태 색상이 우주 테마와 조화되는지 확인)
+- [x] T026 [P] [US2] CreatePostForm → shadcn/ui 전환 — `apps/web/src/features/create-post/ui/CreatePostForm.tsx` (`<button>` → `<Button>`, `<input>` → `<Input>`, `<textarea>` → `<Textarea>`)
+- [x] T027 [P] [US2] WriteCommentForm → shadcn/ui 전환 — `apps/web/src/features/write-comment/ui/WriteCommentForm.tsx` (`<textarea>` → `<Textarea>`, `<button>` → `<Button>`)
+- [x] T028 [P] [US2] CommentList → shadcn/ui Card 전환 — `apps/web/src/entities/comment/ui/CommentList.tsx` (댓글 카드를 shadcn `<Card>` 컴포넌트로 교체)
+- [x] T029 [P] [US2] CustomizePanel → shadcn/ui 전환 — `apps/web/src/features/customize-planet/ui/CustomizePanel.tsx` (shape/pattern `<select>` → `<Select>`, size 슬라이더 → `<Slider>`, 옵션 → `<RadioGroup>`)
+- [x] T030 [P] [US2] ColorPicker → Tailwind 통합 — `apps/web/src/features/customize-planet/ui/ColorPicker.tsx` (react-colorful 유지, 래퍼 스타일링 shadcn 테마와 통일)
+- [x] T031 [P] [US2] CreateGalaxyForm → shadcn/ui 전환 — `apps/web/src/features/create-galaxy/ui/CreateGalaxyForm.tsx` (`<input>` → `<Input>`, `<button>` → `<Button>`)
+- [x] T032 [P] [US2] GiveStarButton → shadcn/ui Button 전환 — `apps/web/src/features/give-star/ui/GiveStarButton.tsx` (`<button>` → `<Button>` variant)
+- [x] T033 [US2] shadcn/ui 테마 우주 테마 미세 조정 — `apps/web/src/app/styles/globals.css` CSS 변수 미세 조정 (호버/포커스/액티브 상태 색상이 우주 테마와 조화되는지 확인)
 
 **Checkpoint**: 모든 폼/버튼/입력 컴포넌트가 shadcn/ui로 렌더링되고 기존 기능 유지
 
@@ -121,23 +121,23 @@
 
 > **NOTE: 기존 테스트가 마이그레이션 후에도 통과하는지 검증 — 시각적 회귀 없음 확인**
 
-- [ ] T034 [US3] 인라인 스타일 마이그레이션 회귀 테스트 계획 — 기존 테스트 스위트(`yarn workspace @galaxy-board/web test`) 전체 실행하여 기준선 확보
+- [x] T034 [US3] 인라인 스타일 마이그레이션 회귀 테스트 계획 — 기존 테스트 스위트(`yarn workspace @galaxy-board/web test`) 전체 실행하여 기준선 확보
 
 ### 구현 (US3)
 
-- [ ] T035 [P] [US3] GalaxyScene 인라인 스타일 → Tailwind 전환 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx` (오버레이 패널 `style={{}}` → Tailwind 클래스, Canvas 자체 속성은 유지)
-- [ ] T036 [P] [US3] PostOverlay 인라인 스타일 → Tailwind 전환 — `apps/web/src/widgets/post-overlay/ui/PostOverlay.tsx` (`position: fixed, width: 400px, backgroundColor: rgba(...)` → `fixed w-[400px] bg-[...]`)
-- [ ] T037 [P] [US3] CommentList 인라인 스타일 → Tailwind 전환 — `apps/web/src/entities/comment/ui/CommentList.tsx` (카드 레이아웃, 인덴트, 보더 스타일)
-- [ ] T038 [P] [US3] CreatePostForm 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/create-post/ui/CreatePostForm.tsx`
-- [ ] T039 [P] [US3] WriteCommentForm 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/write-comment/ui/WriteCommentForm.tsx`
-- [ ] T040 [P] [US3] CustomizePanel + ColorPicker 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/customize-planet/ui/CustomizePanel.tsx`, `ColorPicker.tsx`
-- [ ] T041 [P] [US3] GiveStarButton 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/give-star/ui/GiveStarButton.tsx`
-- [ ] T042 [P] [US3] NavigateGalaxy 컴포넌트 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/navigate-galaxy/ui/BackButton.tsx`, `PaginationControls.tsx`
-- [ ] T043 [P] [US3] CreateGalaxyForm 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/create-galaxy/ui/CreateGalaxyForm.tsx`
-- [ ] T044 [P] [US3] Planet3D, PlanetPreview3D 인라인 스타일 → Tailwind 전환 — `apps/web/src/entities/planet/ui/Planet3D.tsx`, `PlanetPreview3D.tsx` (UI 요소만, 3D mesh 속성 유지)
-- [ ] T045 [P] [US3] Galaxy3D 인라인 스타일 → Tailwind 전환 — `apps/web/src/entities/galaxy/ui/Galaxy3D.tsx` (UI 요소만)
-- [ ] T046 [P] [US3] HomePage, WebGLFallback, Canvas3D 인라인 스타일 → Tailwind 전환 — `apps/web/src/views/home/ui/HomePage.tsx`, `apps/web/src/shared/ui/WebGLFallback.tsx`, `apps/web/src/shared/ui/Canvas3D.tsx`
-- [ ] T047 [US3] 인라인 스타일 제로 검증 — 프로젝트 전체에서 `style={` grep 실행, Three.js Canvas 설정 제외 0건 확인
+- [x] T035 [P] [US3] GalaxyScene 인라인 스타일 → Tailwind 전환 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx` (오버레이 패널 `style={{}}` → Tailwind 클래스, Canvas 자체 속성은 유지)
+- [x] T036 [P] [US3] PostOverlay 인라인 스타일 → Tailwind 전환 — `apps/web/src/widgets/post-overlay/ui/PostOverlay.tsx` (`position: fixed, width: 400px, backgroundColor: rgba(...)` → `fixed w-[400px] bg-[...]`)
+- [x] T037 [P] [US3] CommentList 인라인 스타일 → Tailwind 전환 — `apps/web/src/entities/comment/ui/CommentList.tsx` (카드 레이아웃, 인덴트, 보더 스타일)
+- [x] T038 [P] [US3] CreatePostForm 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/create-post/ui/CreatePostForm.tsx`
+- [x] T039 [P] [US3] WriteCommentForm 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/write-comment/ui/WriteCommentForm.tsx`
+- [x] T040 [P] [US3] CustomizePanel + ColorPicker 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/customize-planet/ui/CustomizePanel.tsx`, `ColorPicker.tsx`
+- [x] T041 [P] [US3] GiveStarButton 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/give-star/ui/GiveStarButton.tsx`
+- [x] T042 [P] [US3] NavigateGalaxy 컴포넌트 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/navigate-galaxy/ui/BackButton.tsx`, `PaginationControls.tsx`
+- [x] T043 [P] [US3] CreateGalaxyForm 인라인 스타일 → Tailwind 전환 — `apps/web/src/features/create-galaxy/ui/CreateGalaxyForm.tsx`
+- [x] T044 [P] [US3] Planet3D, PlanetPreview3D 인라인 스타일 → Tailwind 전환 — `apps/web/src/entities/planet/ui/Planet3D.tsx`, `PlanetPreview3D.tsx` (UI 요소만, 3D mesh 속성 유지)
+- [x] T045 [P] [US3] Galaxy3D 인라인 스타일 → Tailwind 전환 — `apps/web/src/entities/galaxy/ui/Galaxy3D.tsx` (UI 요소만)
+- [x] T046 [P] [US3] HomePage, WebGLFallback, Canvas3D 인라인 스타일 → Tailwind 전환 — `apps/web/src/views/home/ui/HomePage.tsx`, `apps/web/src/shared/ui/WebGLFallback.tsx`, `apps/web/src/shared/ui/Canvas3D.tsx`
+- [x] T047 [US3] 인라인 스타일 제로 검증 — 프로젝트 전체에서 `style={` grep 실행, Three.js Canvas 설정 제외 0건 확인
 
 **Checkpoint**: `style=` 검색 시 Three.js 필수 설정 외 0건, 기존 테스트 전체 통과
 

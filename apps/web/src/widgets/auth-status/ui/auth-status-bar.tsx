@@ -2,6 +2,7 @@
 
 import { useUser, useClerk } from '@clerk/nextjs';
 import Link from 'next/link';
+import { Button } from '@/shared/ui/shadcn/button';
 
 /** 로그인 상태 표시 바 — 화면 상단에 고정 */
 export function AuthStatusBar() {
@@ -23,13 +24,14 @@ export function AuthStatusBar() {
           >
             설정
           </Link>
-          <button
-            type="button"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => signOut()}
-            className="text-gray-400 hover:text-white transition-colors"
+            className="text-gray-400 hover:text-white h-auto p-0"
           >
             로그아웃
-          </button>
+          </Button>
         </>
       ) : (
         <Link
