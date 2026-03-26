@@ -10,6 +10,8 @@ import {
 } from '@/entities/galaxy';
 import { usePlanets, Planet3D } from '@/entities/planet';
 import { Star3D } from '@/entities/star';
+import { Satellite3D } from '@/entities/satellite';
+import { useCommentFocusStore } from '@/entities/comment';
 import {
   useCameraTransition,
   BackButton,
@@ -21,10 +23,14 @@ import { PostOverlay } from '@/widgets/post-overlay';
 interface SceneContentProps {
   /** 행성 클릭 시 호출되는 콜백 */
   onPlanetClick?: (planetId: string) => void;
+  /** 현재 포커스된 댓글 ID (위성 강조용) */
+  focusedCommentId?: string | null;
+  /** 위성 클릭 시 댓글 포커스 콜백 */
+  onSatelliteClick?: (commentId: string) => void;
 }
 
 // 3D 장면 내부 컨텐츠 — R3F 컨텍스트 안에서 렌더링
-function SceneContent({ onPlanetClick }: SceneContentProps) {
+function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick }: SceneContentProps) {
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
   const selectGalaxy = useGalaxyNavigationStore((s) => s.selectGalaxy);
@@ -82,6 +88,16 @@ function SceneContent({ onPlanetClick }: SceneContentProps) {
               count={planet.starCount}
               planetPosition={planet.position}
             />
+            {/* 행성 주변 댓글 위성 렌더링 (commentCount 기반 더미 배열) */}
+            <Satellite3D
+              comments={Array.from({ length: planet.commentCount }, (_, i) => ({
+                id: `comment-${planet.id}-${i}`,
+                parentId: null,
+              }))}
+              planetPosition={planet.position}
+              onSatelliteClick={onSatelliteClick}
+              focusedCommentId={focusedCommentId}
+            />
           </group>
         ))}
     </>
@@ -99,6 +115,10 @@ export function GalaxyScene() {
 
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
+
+  // 댓글 포커스 스토어 — 위성 클릭 ↔ 댓글 하이라이트 연동
+  const focusedCommentId = useCommentFocusStore((s) => s.focusedCommentId);
+  const setFocusedComment = useCommentFocusStore((s) => s.setFocusedComment);
 
   // 행성 클릭 핸들러
   const handlePlanetClick = useCallback((planetId: string) => {
@@ -128,7 +148,11 @@ export function GalaxyScene() {
         gl={{ antialias: true }}
       >
         <Suspense fallback={null}>
-          <SceneContent onPlanetClick={handlePlanetClick} />
+          <SceneContent
+            onPlanetClick={handlePlanetClick}
+            focusedCommentId={focusedCommentId}
+            onSatelliteClick={setFocusedComment}
+          />
         </Suspense>
       </Canvas>
 
