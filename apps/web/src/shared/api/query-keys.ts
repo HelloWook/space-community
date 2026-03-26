@@ -8,4 +8,7 @@ export const queryKeys = {
     byGalaxy: (galaxyId: string) => ['planets', 'galaxy', galaxyId] as const,
     detail: (id: string) => ['planets', id] as const,
   },
+  users: {
+    me: ['users', 'me'] as const,
+  },
 } as const;

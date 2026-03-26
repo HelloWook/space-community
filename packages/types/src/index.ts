@@ -95,6 +95,18 @@ export interface CreatePlanetInput {
   hasRing?: boolean;
 }
 
+// === 사용자 (User) ===
+
+/** 사용자 응답 */
+export interface UserResponse {
+  id: string;
+  clerkId: string;
+  email: string;
+  name: string | null;
+  imageUrl: string | null;
+  providers: string[];
+}
+
 // === 별 (Star) ===
 
 export interface StarResponse {
