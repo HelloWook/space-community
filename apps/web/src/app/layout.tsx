@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Providers } from '@/app/providers';
+import { AuthStatusBar } from '@/widgets/auth-status';
 import '@/app/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -15,7 +16,10 @@ export default function RootLayout({
   return (
     <html lang="ko">
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <AuthStatusBar />
+          {children}
+        </Providers>
       </body>
     </html>
   );

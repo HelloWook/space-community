@@ -1,6 +1,6 @@
 // Planet REST API 컨트롤러
 
-import { Controller, Get, Post, Param, Query, Body, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Param, Query, Body, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { PlanetService } from '../../../application/services/planet.service';
 import {
   PlanetListResponseDto,
@@ -8,6 +8,8 @@ import {
   CreatePlanetDto,
 } from '../../../application/dto/planet.dto';
 import { PaginationQueryDto } from '../../../application/dto/common.dto';
+import { OptionalClerkAuthGuard } from '../../auth/optional-clerk-auth.guard';
+import { CurrentUser } from '../../../common/decorators/current-user.decorator';
 
 /** Galaxy 하위 Planet 라우트 컨트롤러 */
 @Controller('api/galaxies')
@@ -27,14 +29,16 @@ export class PlanetController {
     );
   }
 
-  /** 새로운 Planet 생성 */
+  /** 새로운 Planet 생성 — 인증 시 authorId 자동 설정 */
   @Post(':galaxyId/planets')
   @HttpCode(HttpStatus.CREATED)
+  @UseGuards(OptionalClerkAuthGuard)
   async create(
     @Param('galaxyId') galaxyId: string,
     @Body() dto: CreatePlanetDto,
+    @CurrentUser() clerkId?: string,
   ): Promise<PlanetDetailResponseDto> {
-    return this.planetService.create(galaxyId, dto);
+    return this.planetService.create(galaxyId, dto, clerkId);
   }
 }
 

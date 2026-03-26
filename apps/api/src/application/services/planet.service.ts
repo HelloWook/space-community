@@ -52,10 +52,11 @@ export class PlanetService {
     };
   }
 
-  /** 새로운 Planet 생성 (자동 위치 할당) */
+  /** 새로운 Planet 생성 (자동 위치 할당, 인증 시 authorId 연결) */
   async create(
     galaxyId: string,
     dto: CreatePlanetDto,
+    _clerkId?: string,
   ): Promise<PlanetDetailResponseDto> {
     // [-10, 10] 범위 내 랜덤 좌표 생성
     const position = {
