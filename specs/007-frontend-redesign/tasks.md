@@ -197,11 +197,11 @@
 
 **Purpose**: 전체 스토리에 걸친 최종 정리 및 품질 보증
 
-- [ ] T064 [P] AuthStatusBar Tailwind 마이그레이션 — `apps/web/src/widgets/auth-status/ui/auth-status-bar.tsx` (이미 대부분 Tailwind이지만 shadcn/ui Button 통합)
-- [ ] T065 전체 테스트 스위트 실행 및 회귀 검증 — `yarn workspace @galaxy-board/web test` 전체 통과 확인
-- [ ] T066 [P] 불필요한 인라인 스타일 유틸리티/상수 정리 — 마이그레이션 후 사용되지 않는 스타일 관련 코드 제거
-- [ ] T067 3D 장식 요소 성능 최종 검증 — 장식 요소 포함 상태에서 다양한 시나리오(은하 뷰, 행성 포커스, 오버레이 열림) FPS 측정, 30fps 이상 확인
-- [ ] T068 quickstart.md 검증 — quickstart.md 절차대로 클린 셋업 후 모든 기능 동작 확인
+- [x] T064 [P] AuthStatusBar Tailwind 마이그레이션 — `apps/web/src/widgets/auth-status/ui/auth-status-bar.tsx` (이미 대부분 Tailwind이지만 shadcn/ui Button 통합)
+- [x] T065 전체 테스트 스위트 실행 및 회귀 검증 — `yarn workspace @galaxy-board/web test` 전체 통과 확인
+- [x] T066 [P] 불필요한 인라인 스타일 유틸리티/상수 정리 — 마이그레이션 후 사용되지 않는 스타일 관련 코드 제거
+- [x] T067 3D 장식 요소 성능 최종 검증 — 장식 요소 포함 상태에서 다양한 시나리오(은하 뷰, 행성 포커스, 오버레이 열림) FPS 측정, 30fps 이상 확인
+- [x] T068 quickstart.md 검증 — quickstart.md 절차대로 클린 셋업 후 모든 기능 동작 확인
 
 ---
 

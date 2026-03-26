@@ -1,14 +1,16 @@
 import { render, screen, fireEvent } from '@testing-library/react';
 import { SocialLoginButtons } from '../social-login-buttons';
 
-// Clerk useSignIn 훅 모킹
+// Clerk useClerk 훅 모킹
 const mockAuthenticateWithRedirect = jest.fn();
 jest.mock('@clerk/nextjs', () => ({
-  useSignIn: () => ({
-    signIn: {
-      authenticateWithRedirect: mockAuthenticateWithRedirect,
+  useClerk: () => ({
+    loaded: true,
+    client: {
+      signIn: {
+        authenticateWithRedirect: mockAuthenticateWithRedirect,
+      },
     },
-    isLoaded: true,
   }),
 }));
 
@@ -20,14 +22,14 @@ describe('SocialLoginButtons', () => {
   it('Google, GitHub 로그인 버튼이 렌더링된다', () => {
     render(<SocialLoginButtons />);
 
-    expect(screen.getByRole('button', { name: /google/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /github/i })).toBeInTheDocument();
+    expect(screen.getByText('Google로 로그인')).toBeInTheDocument();
+    expect(screen.getByText('GitHub로 로그인')).toBeInTheDocument();
   });
 
   it('Google 버튼 클릭 시 oauth_google 전략으로 authenticateWithRedirect를 호출한다', () => {
     render(<SocialLoginButtons />);
 
-    fireEvent.click(screen.getByRole('button', { name: /google/i }));
+    fireEvent.click(screen.getByText('Google로 로그인'));
 
     expect(mockAuthenticateWithRedirect).toHaveBeenCalledWith(
       expect.objectContaining({
@@ -41,7 +43,7 @@ describe('SocialLoginButtons', () => {
   it('GitHub 버튼 클릭 시 oauth_github 전략으로 authenticateWithRedirect를 호출한다', () => {
     render(<SocialLoginButtons />);
 
-    fireEvent.click(screen.getByRole('button', { name: /github/i }));
+    fireEvent.click(screen.getByText('GitHub로 로그인'));
 
     expect(mockAuthenticateWithRedirect).toHaveBeenCalledWith(
       expect.objectContaining({

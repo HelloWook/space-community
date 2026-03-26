@@ -3,6 +3,16 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type ReactNode } from 'react';
 import { GiveStarButton } from '../ui/GiveStarButton';
 
+// Clerk 모킹
+jest.mock('@clerk/nextjs', () => ({
+  useAuth: () => ({ isSignedIn: true }),
+}));
+
+// Next.js router 모킹
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
+
 // useGiveStar 뮤테이션 모킹
 const mockMutate = jest.fn();
 jest.mock('@/entities/star', () => ({
