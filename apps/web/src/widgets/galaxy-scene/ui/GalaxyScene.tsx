@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Suspense, useState, useCallback } from 'react';
 import { useAuth } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';
+
 import {
   useGalaxyNavigationStore,
   useGalaxies,
@@ -29,6 +29,7 @@ import { CreatePostForm } from '@/features/create-post';
 import { CreateGalaxyForm } from '@/features/create-galaxy';
 import { PostOverlay } from '@/widgets/post-overlay';
 import { Overlay } from '@/widgets/overlay';
+import { LoginOverlay } from '@/features/social-login/ui/LoginOverlay';
 import { Button } from '@/shared/ui/shadcn/button';
 
 interface SceneContentProps {
@@ -144,9 +145,10 @@ export function GalaxyScene() {
   const [showCreatePost, setShowCreatePost] = useState(false);
   // 은하계 생성 폼 표시 여부
   const [showCreateGalaxy, setShowCreateGalaxy] = useState(false);
+  // 로그인 오버레이 표시 여부
+  const [showLogin, setShowLogin] = useState(false);
 
   const { isSignedIn } = useAuth();
-  const router = useRouter();
 
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
@@ -198,7 +200,7 @@ export function GalaxyScene() {
       {viewMode === 'universe' && !showCreateGalaxy && (
         <Button
           onClick={() => {
-            if (!isSignedIn) { router.push('/sign-in'); return; }
+            if (!isSignedIn) { setShowLogin(true); return; }
             setShowCreateGalaxy(true);
           }}
           className="absolute bottom-6 right-6 z-50 shadow-lg"
@@ -220,7 +222,7 @@ export function GalaxyScene() {
       {viewMode === 'galaxy' && !showCreatePost && !selectedPlanetId && (
         <Button
           onClick={() => {
-            if (!isSignedIn) { router.push('/sign-in'); return; }
+            if (!isSignedIn) { setShowLogin(true); return; }
             setShowCreatePost(true);
           }}
           className="absolute bottom-6 right-6 z-50 shadow-lg"
@@ -247,6 +249,12 @@ export function GalaxyScene() {
       {selectedPlanetId && (
         <PostOverlay planetId={selectedPlanetId} onClose={handleCloseOverlay} />
       )}
+
+      {/* 로그인 오버레이 */}
+      <LoginOverlay
+        open={showLogin}
+        onClose={() => setShowLogin(false)}
+      />
     </div>
   );
 }

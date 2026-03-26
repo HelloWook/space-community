@@ -177,17 +177,17 @@
 
 ### 테스트 (US4) ⚠️
 
-- [ ] T056 [P] [US4] LoginOverlay 렌더링 테스트 — `apps/web/src/features/social-login/ui/__tests__/LoginOverlay.test.tsx` 신규 (공통 Overlay 내 렌더링, Google/GitHub OAuth 버튼, 닫기 동작)
-- [ ] T057 [P] [US4] Clerk Custom Flow useSignIn 훅 테스트 — `apps/web/src/features/social-login/ui/__tests__/social-login-buttons.test.tsx` 업데이트 (authenticateWithRedirect → Custom Flow 전환 검증)
+- [x] T056 [P] [US4] LoginOverlay 렌더링 테스트 — `apps/web/src/features/social-login/ui/__tests__/LoginOverlay.test.tsx` 신규 (공통 Overlay 내 렌더링, Google/GitHub OAuth 버튼, 닫기 동작)
+- [x] T057 [P] [US4] Clerk Custom Flow useSignIn 훅 테스트 — `apps/web/src/features/social-login/ui/__tests__/social-login-buttons.test.tsx` 업데이트 (authenticateWithRedirect → Custom Flow 전환 검증)
 
 ### 구현 (US4)
 
-- [ ] T058 [US4] LoginOverlay 컴포넌트 생성 — `apps/web/src/features/social-login/ui/LoginOverlay.tsx` (공통 `<Overlay>` 내에 Clerk `useSignIn()` 기반 OAuth 버튼, shadcn/ui Button 사용, 에러 표시, 로딩 상태)
-- [ ] T059 [US4] SocialLoginButtons Clerk Custom Flow 전환 — `apps/web/src/features/social-login/ui/social-login-buttons.tsx` 수정 (authenticateWithRedirect → Custom Flow, 오버레이 내 동작)
-- [ ] T060 [US4] AuthStatusBar 로그인 트리거 연동 — `apps/web/src/widgets/auth-status/ui/auth-status-bar.tsx` (로그인 버튼 클릭 시 LoginOverlay 열기, shadcn/ui Button 적용)
-- [ ] T061 [US4] GalaxyScene에 LoginOverlay 통합 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx`에 LoginOverlay 추가, 오버레이 상태 관리
-- [ ] T062 [US4] OAuth 콜백 처리 중 오버레이 상태 유지 — OAuth 리다이렉트 후 오버레이 자동 닫힘 또는 재표시 로직
-- [ ] T063 [US4] 모바일 반응형 로그인 오버레이 — LoginOverlay에 반응형 Tailwind 클래스 적용 (sm/md 브레이크포인트)
+- [x] T058 [US4] LoginOverlay 컴포넌트 생성 — `apps/web/src/features/social-login/ui/LoginOverlay.tsx` (공통 `<Overlay>` 내에 Clerk `useSignIn()` 기반 OAuth 버튼, shadcn/ui Button 사용, 에러 표시, 로딩 상태)
+- [x] T059 [US4] SocialLoginButtons Clerk Custom Flow 전환 — `apps/web/src/features/social-login/ui/social-login-buttons.tsx` 수정 (authenticateWithRedirect → Custom Flow, 오버레이 내 동작)
+- [x] T060 [US4] AuthStatusBar 로그인 트리거 연동 — `apps/web/src/widgets/auth-status/ui/auth-status-bar.tsx` (로그인 버튼 클릭 시 LoginOverlay 열기, shadcn/ui Button 적용)
+- [x] T061 [US4] GalaxyScene에 LoginOverlay 통합 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx`에 LoginOverlay 추가, 오버레이 상태 관리
+- [x] T062 [US4] OAuth 콜백 처리 중 오버레이 상태 유지 — OAuth 리다이렉트 후 오버레이 자동 닫힘 또는 재표시 로직
+- [x] T063 [US4] 모바일 반응형 로그인 오버레이 — LoginOverlay에 반응형 Tailwind 클래스 적용 (sm/md 브레이크포인트)
 
 **Checkpoint**: 비로그인 → 로그인 버튼 클릭 → 오버레이 표시 → OAuth 완료 → 오버레이 자동 닫힘 전체 플로우 동작
 
