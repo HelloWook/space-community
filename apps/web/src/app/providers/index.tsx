@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ClerkProvider } from './clerk-provider';
 
 // 글로벌 프로바이더 래퍼
 export function Providers({ children }: { children: React.ReactNode }) {
@@ -18,6 +19,8 @@ export function Providers({ children }: { children: React.ReactNode }) {
   );
 
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <ClerkProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </ClerkProvider>
   );
 }

@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@clerk/nextjs": "^7.0.7",
     "@galaxy-board/types": "*",
     "@hookform/resolvers": "^4.1.0",
     "@react-three/drei": "^10.0.4",

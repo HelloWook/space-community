@@ -5,9 +5,11 @@ import { PrismaService } from './prisma.service';
 import { GalaxyRepository } from './repositories/galaxy.repository';
 import { PlanetRepository } from './repositories/planet.repository';
 import { StarRepository } from './repositories/star.repository';
+import { UserRepository } from './repositories/user.repository';
 import { GALAXY_REPOSITORY } from '../../domain/ports/galaxy-repository.port';
 import { PLANET_REPOSITORY } from '../../domain/ports/planet-repository.port';
 import { STAR_REPOSITORY } from '../../domain/ports/star-repository.port';
+import { USER_REPOSITORY } from '../../domain/ports/user-repository.port';
 
 @Module({
   providers: [
@@ -24,12 +26,17 @@ import { STAR_REPOSITORY } from '../../domain/ports/star-repository.port';
       provide: STAR_REPOSITORY,
       useClass: StarRepository,
     },
+    {
+      provide: USER_REPOSITORY,
+      useClass: UserRepository,
+    },
   ],
   exports: [
     PrismaService,
     GALAXY_REPOSITORY,
     PLANET_REPOSITORY,
     STAR_REPOSITORY,
+    USER_REPOSITORY,
   ],
 })
 export class DatabaseModule {}
