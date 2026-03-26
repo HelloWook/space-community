@@ -1,14 +1,7 @@
 // Star 관련 요청/응답 DTO 정의
 
-import { IsString, Length } from 'class-validator';
-
-/** Star 생성 요청 DTO */
-export class CreateStarDto {
-  /** 별 부여자 닉네임 (1~20자) */
-  @IsString()
-  @Length(1, 20)
-  giverNickname: string;
-}
+/** Star 생성 요청 DTO — 회원 전용이므로 클라이언트 입력 필드 없음 */
+export class CreateStarDto {}
 
 /** Star 응답 DTO */
 export class StarResponseDto {
@@ -23,6 +16,9 @@ export class StarResponseDto {
 
   /** 별 부여 후 총 별 개수 */
   newStarCount: number;
+
+  /** 해당 사용자가 이미 별을 주었는지 여부 */
+  alreadyGiven: boolean;
 
   /** 생성일시 */
   createdAt: Date;

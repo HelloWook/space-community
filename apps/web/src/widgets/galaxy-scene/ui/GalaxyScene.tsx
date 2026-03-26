@@ -3,6 +3,8 @@
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Suspense, useState, useCallback } from 'react';
+import { useAuth } from '@clerk/nextjs';
+import { useRouter } from 'next/navigation';
 import {
   useGalaxyNavigationStore,
   useGalaxies,
@@ -113,6 +115,9 @@ export function GalaxyScene() {
   // 은하계 생성 폼 표시 여부
   const [showCreateGalaxy, setShowCreateGalaxy] = useState(false);
 
+  const { isSignedIn } = useAuth();
+  const router = useRouter();
+
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
 
@@ -162,7 +167,10 @@ export function GalaxyScene() {
       {/* 우주 뷰에서 은하계 만들기 버튼 */}
       {viewMode === 'universe' && !showCreateGalaxy && (
         <button
-          onClick={() => setShowCreateGalaxy(true)}
+          onClick={() => {
+            if (!isSignedIn) { router.push('/sign-in'); return; }
+            setShowCreateGalaxy(true);
+          }}
           style={{
             position: 'absolute',
             bottom: '24px',
@@ -221,7 +229,10 @@ export function GalaxyScene() {
       {/* 은하 뷰에서 게시글 작성 버튼 */}
       {viewMode === 'galaxy' && !showCreatePost && !selectedPlanetId && (
         <button
-          onClick={() => setShowCreatePost(true)}
+          onClick={() => {
+            if (!isSignedIn) { router.push('/sign-in'); return; }
+            setShowCreatePost(true);
+          }}
           style={{
             position: 'absolute',
             bottom: '24px',

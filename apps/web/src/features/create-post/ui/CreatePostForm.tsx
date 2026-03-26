@@ -29,7 +29,6 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
     defaultValues: {
       title: '',
       content: '',
-      authorNickname: '',
       appearance: defaultAppearance,
     },
   });
@@ -44,7 +43,6 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
         data: {
           title: data.title,
           content: data.content,
-          authorNickname: data.authorNickname,
           ...appearance,
         },
       },
@@ -88,7 +86,7 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
       </div>
 
       {/* 내용 입력 필드 */}
-      <div style={{ marginBottom: '12px' }}>
+      <div style={{ marginBottom: '16px' }}>
         <label
           htmlFor="content"
           style={{ display: 'block', color: '#ccc', marginBottom: '4px' }}
@@ -113,35 +111,6 @@ export function CreatePostForm({ galaxyId, onSuccess }: CreatePostFormProps) {
         {errors.content && (
           <p role="alert" style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '4px' }}>
             {errors.content.message}
-          </p>
-        )}
-      </div>
-
-      {/* 닉네임 입력 필드 */}
-      <div style={{ marginBottom: '16px' }}>
-        <label
-          htmlFor="authorNickname"
-          style={{ display: 'block', color: '#ccc', marginBottom: '4px' }}
-        >
-          닉네임
-        </label>
-        <input
-          id="authorNickname"
-          type="text"
-          placeholder="닉네임을 입력하세요"
-          {...register('authorNickname')}
-          style={{
-            width: '100%',
-            padding: '8px',
-            borderRadius: '4px',
-            border: '1px solid #444',
-            backgroundColor: '#1a1a2e',
-            color: '#fff',
-          }}
-        />
-        {errors.authorNickname && (
-          <p role="alert" style={{ color: '#ff6b6b', fontSize: '12px', marginTop: '4px' }}>
-            {errors.authorNickname.message}
           </p>
         )}
       </div>

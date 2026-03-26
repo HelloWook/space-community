@@ -13,11 +13,6 @@ export const createPostSchema = z.object({
     .string()
     .min(1, '내용을 입력해주세요')
     .max(10000, '내용은 10000자 이내로 입력해주세요'),
-  /** 작성자 닉네임 (1~20자) */
-  authorNickname: z
-    .string()
-    .min(1, '닉네임을 입력해주세요')
-    .max(20, '닉네임은 20자 이내로 입력해주세요'),
   /** 행성 외형 */
   appearance: planetAppearanceSchema,
 });

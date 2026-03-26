@@ -4,11 +4,13 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   NotFoundException,
   UnprocessableEntityException,
+  ConflictException,
 } from '@nestjs/common';
 import { StarService } from '../../../src/application/services/star.service';
 import { STAR_REPOSITORY } from '../../../src/domain/ports/star-repository.port';
 import { StarEntity } from '../../../src/domain/entities/star.entity';
-import { CreateStarDto } from '../../../src/application/dto/star.dto';
+import { UserService } from '../../../src/application/services/user.service';
+import { UserEntity } from '../../../src/domain/entities/user.entity';
 
 describe('StarService', () => {
   let service: StarService;
@@ -16,7 +18,25 @@ describe('StarService', () => {
   // Mock 리포지토리 정의
   const mockStarRepository = {
     create: jest.fn(),
+    findByGiverAndPlanet: jest.fn(),
   };
+
+  // Mock UserService
+  const mockUserService = {
+    findOrCreateByClerkId: jest.fn(),
+  };
+
+  // 테스트용 유저
+  const testUser = UserEntity.create({
+    id: 'user-1',
+    clerkId: 'clerk_test',
+    email: 'test@test.com',
+    name: '테스트유저',
+    imageUrl: null,
+    providers: ['oauth_google'],
+    createdAt: new Date('2026-01-01'),
+    updatedAt: new Date('2026-01-01'),
+  });
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -26,22 +46,25 @@ describe('StarService', () => {
           provide: STAR_REPOSITORY,
           useValue: mockStarRepository,
         },
+        {
+          provide: UserService,
+          useValue: mockUserService,
+        },
       ],
     }).compile();
 
     service = module.get<StarService>(StarService);
 
-    // 각 테스트 전 mock 초기화
     jest.clearAllMocks();
+    mockUserService.findOrCreateByClerkId.mockResolvedValue(testUser);
+    mockStarRepository.findByGiverAndPlanet.mockResolvedValue(null);
   });
 
   describe('create', () => {
-    it('Star를 생성하고 newStarCount를 포함한 응답을 반환해야 한다', async () => {
-      // given: 유효한 생성 요청
-      const dto: CreateStarDto = { giverNickname: '테스트유저' };
+    it('clerkId로 User를 조회하고 giverNickname에 User.name을 자동 설정해야 한다', async () => {
       const planetId = 'planet-1';
+      const clerkId = 'clerk_test';
 
-      // mock: 리포지토리가 Star와 newStarCount를 반환
       mockStarRepository.create.mockImplementation(
         async (star: StarEntity) => ({
           star,
@@ -49,55 +72,61 @@ describe('StarService', () => {
         }),
       );
 
-      // when: create 호출
-      const result = await service.create(planetId, dto);
+      const result = await service.create(planetId, clerkId);
 
-      // then: 응답 검증
       expect(result.giverNickname).toBe('테스트유저');
       expect(result.planetId).toBe('planet-1');
       expect(result.newStarCount).toBe(6);
-      expect(result.id).toBeDefined();
-      expect(result.createdAt).toBeDefined();
+      expect(result.alreadyGiven).toBe(false);
+      expect(mockUserService.findOrCreateByClerkId).toHaveBeenCalledWith('clerk_test');
       expect(mockStarRepository.create).toHaveBeenCalledTimes(1);
 
-      // 리포지토리에 올바른 인자가 전달되었는지 검증
-      const calledStar = mockStarRepository.create.mock.calls[0][0];
-      expect(calledStar).toBeInstanceOf(StarEntity);
-      expect(calledStar.giverNickname).toBe('테스트유저');
-      expect(calledStar.planetId).toBe('planet-1');
+      // giverId가 리포지토리에 전달되었는지 검증
+      const calledGiverId = mockStarRepository.create.mock.calls[0][2];
+      expect(calledGiverId).toBe('user-1');
+    });
 
-      // maxStarCount가 100으로 전달되었는지 검증
-      const calledMax = mockStarRepository.create.mock.calls[0][1];
-      expect(calledMax).toBe(100);
+    it('동일 사용자가 같은 행성에 중복 별주기 시 ConflictException(409)을 던져야 한다', async () => {
+      const planetId = 'planet-1';
+      const clerkId = 'clerk_test';
+
+      // 이미 별을 준 상태
+      mockStarRepository.findByGiverAndPlanet.mockResolvedValue(
+        StarEntity.create({
+          id: 'existing-star',
+          giverNickname: '테스트유저',
+          planetId: 'planet-1',
+          createdAt: new Date(),
+        }),
+      );
+
+      await expect(service.create(planetId, clerkId)).rejects.toThrow(
+        ConflictException,
+      );
     });
 
     it('starCount가 100 이상이면 UnprocessableEntityException(422)을 던져야 한다', async () => {
-      // given: 별 상한 초과 에러를 반환하는 리포지토리
-      const dto: CreateStarDto = { giverNickname: '테스트유저' };
       const planetId = 'planet-full';
+      const clerkId = 'clerk_test';
 
       mockStarRepository.create.mockRejectedValue(
         new Error('별 개수가 최대치(100)에 도달했습니다'),
       );
 
-      // when & then: UnprocessableEntityException 발생 검증
-      await expect(service.create(planetId, dto)).rejects.toThrow(
+      await expect(service.create(planetId, clerkId)).rejects.toThrow(
         UnprocessableEntityException,
       );
     });
 
     it('유효하지 않은 planetId이면 NotFoundException을 던져야 한다', async () => {
-      // given: Planet을 찾을 수 없는 에러를 반환하는 리포지토리
-      const dto: CreateStarDto = { giverNickname: '테스트유저' };
       const planetId = 'nonexistent';
+      const clerkId = 'clerk_test';
 
-      // Prisma findUniqueOrThrow 에러 시뮬레이션
       const notFoundError = new Error('No Planet found');
       notFoundError.name = 'NotFoundError';
       mockStarRepository.create.mockRejectedValue(notFoundError);
 
-      // when & then: NotFoundException 발생 검증
-      await expect(service.create(planetId, dto)).rejects.toThrow(
+      await expect(service.create(planetId, clerkId)).rejects.toThrow(
         NotFoundException,
       );
     });

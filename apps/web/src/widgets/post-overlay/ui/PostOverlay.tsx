@@ -90,7 +90,7 @@ export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
             {planet.content}
           </pre>
 
-          {/* 별 주기 버튼 */}
+          {/* 별 주기 버튼 — 로그인 체크는 GiveStarButton 내부에서 처리 */}
           <GiveStarButton
             planetId={planetId}
             starCount={planet.starCount}

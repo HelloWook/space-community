@@ -42,30 +42,19 @@ describe('GiveStarButton', () => {
     expect(screen.getByText('⭐ 5개')).toBeInTheDocument();
   });
 
-  it('버튼 클릭 후 닉네임 입력 및 확인 시 뮤테이션이 호출된다', async () => {
+  it('버튼 클릭 시 즉시 뮤테이션이 호출된다', async () => {
     render(
       <GiveStarButton planetId="p1" starCount={5} />,
       { wrapper: createWrapper() },
     );
 
-    // 별 주기 버튼 클릭 → 닉네임 입력 필드 표시
+    // 별 주기 버튼 클릭 → 즉시 뮤테이션 호출
     fireEvent.click(screen.getByRole('button', { name: '별 주기' }));
-
-    // 닉네임 입력
-    const input = screen.getByLabelText('닉네임');
-    expect(input).toBeInTheDocument();
-    fireEvent.change(input, { target: { value: '테스터' } });
-
-    // 확인 버튼 클릭
-    fireEvent.click(screen.getByText('확인'));
 
     // 뮤테이션 호출 확인
     await waitFor(() => {
       expect(mockMutate).toHaveBeenCalledWith(
-        {
-          planetId: 'p1',
-          data: { giverNickname: '테스터' },
-        },
+        { planetId: 'p1' },
         expect.objectContaining({ onSuccess: expect.any(Function) }),
       );
     });

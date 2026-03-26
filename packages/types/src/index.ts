@@ -72,6 +72,7 @@ export interface PlanetSummary extends PlanetAppearance {
   id: string;
   title: string;
   authorNickname: string;
+  authorName: string | null;
   starCount: number;
   commentCount: number;
   position: Position;
@@ -87,7 +88,6 @@ export interface PlanetDetail extends PlanetSummary {
 export interface CreatePlanetInput {
   title: string;
   content: string;
-  authorNickname: string;
   mainColor?: string;
   subColor?: string;
   size?: PlanetSize;
@@ -115,12 +115,11 @@ export interface StarResponse {
   giverNickname: string;
   planetId: string;
   newStarCount: number;
+  alreadyGiven: boolean;
   createdAt: string;
 }
 
-export interface CreateStarInput {
-  giverNickname: string;
-}
+export type CreateStarInput = Record<string, never>;
 
 // === 댓글 (Comment) ===
 

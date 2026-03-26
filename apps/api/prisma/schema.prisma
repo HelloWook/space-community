@@ -97,5 +97,6 @@ model Star {
   planet        Planet   @relation(fields: [planetId], references: [id])
   createdAt     DateTime @default(now())
 
+  @@unique([giverId, planetId])
   @@index([planetId])
 }

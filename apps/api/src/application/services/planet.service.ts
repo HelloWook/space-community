@@ -12,12 +12,14 @@ import {
   PlanetDetailResponseDto,
   CreatePlanetDto,
 } from '../dto/planet.dto';
+import { UserService } from './user.service';
 
 @Injectable()
 export class PlanetService {
   constructor(
     @Inject(PLANET_REPOSITORY)
     private readonly planetRepository: IPlanetRepository,
+    private readonly userService: UserService,
   ) {}
 
   /** Galaxy별 Planet 목록 커서 기반 페이지네이션 조회 */
@@ -37,6 +39,7 @@ export class PlanetService {
         id: planet.id,
         title: planet.title,
         authorNickname: planet.authorNickname,
+        authorName: null,
         starCount: planet.starCount,
         commentCount: planet.commentCount,
         position: planet.position,
@@ -53,12 +56,16 @@ export class PlanetService {
     };
   }
 
-  /** 새로운 Planet 생성 (자동 위치 할당, 인증 시 authorId 연결) */
+  /** 새로운 Planet 생성 — 인증 필수, User.name 자동 설정 */
   async create(
     galaxyId: string,
     dto: CreatePlanetDto,
-    _clerkId?: string,
+    clerkId: string,
   ): Promise<PlanetDetailResponseDto> {
+    // clerkId로 User 조회/생성
+    const user = await this.userService.findOrCreateByClerkId(clerkId);
+    const authorNickname = user.name || '익명 사용자';
+
     // [-10, 10] 범위 내 랜덤 좌표 생성
     const position = {
       x: Math.random() * 20 - 10,
@@ -71,7 +78,7 @@ export class PlanetService {
       id: randomUUID(),
       title: dto.title,
       content: dto.content,
-      authorNickname: dto.authorNickname,
+      authorNickname,
       starCount: 0,
       position,
       mainColor: dto.mainColor,
@@ -86,7 +93,9 @@ export class PlanetService {
     });
 
     const saved = await this.planetRepository.create(entity);
-    return this.toDetailDto(saved);
+    const detailDto = this.toDetailDto(saved);
+    detailDto.authorName = user.name;
+    return detailDto;
   }
 
   /** ID로 Planet 상세 조회 */
@@ -105,6 +114,7 @@ export class PlanetService {
     dto.title = planet.title;
     dto.content = planet.content;
     dto.authorNickname = planet.authorNickname;
+    dto.authorName = null;
     dto.starCount = planet.starCount;
     dto.commentCount = planet.commentCount;
     dto.position = planet.position;

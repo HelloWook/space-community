@@ -43,6 +43,9 @@ export class PlanetSummaryDto {
 
   /** 생성일시 */
   createdAt: Date;
+
+  /** 작성자 이름 (User.name — authorId가 있을 경우) */
+  authorName: string | null;
 }
 
 /** Planet 생성 요청 DTO */
@@ -56,11 +59,6 @@ export class CreatePlanetDto {
   @IsString()
   @Length(1, 10000)
   content: string;
-
-  /** 작성자 닉네임 (1~20자) */
-  @IsString()
-  @Length(1, 20)
-  authorNickname: string;
 
   /** 메인 색상 (HEX #RRGGBB) */
   @IsOptional()

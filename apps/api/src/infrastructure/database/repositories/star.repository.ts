@@ -18,6 +18,7 @@ export class StarRepository implements IStarRepository {
   async create(
     star: StarEntity,
     maxStarCount: number,
+    giverId: string,
   ): Promise<CreateStarResult> {
     return this.prisma.$transaction(async (tx) => {
       // 현재 Planet의 starCount 확인
@@ -33,13 +34,14 @@ export class StarRepository implements IStarRepository {
         );
       }
 
-      // Star 레코드 생성
+      // Star 레코드 생성 (giverId 포함)
       const data = StarMapper.toPrisma(star);
       const createdStar = await tx.star.create({
         data: {
           id: data.id,
           giverNickname: data.giverNickname,
           planetId: data.planetId,
+          giverId,
         },
       });
 
@@ -55,5 +57,16 @@ export class StarRepository implements IStarRepository {
         newStarCount: updatedPlanet.starCount,
       };
     });
+  }
+
+  /** giverId와 planetId로 기존 Star 조회 (중복 별주기 검증용) */
+  async findByGiverAndPlanet(
+    giverId: string,
+    planetId: string,
+  ): Promise<StarEntity | null> {
+    const star = await this.prisma.star.findFirst({
+      where: { giverId, planetId },
+    });
+    return star ? StarMapper.toDomain(star) : null;
   }
 }

@@ -12,6 +12,11 @@ jest.mock('@/entities/planet', () => ({
   }),
 }));
 
+// Three.js Canvas는 jsdom에서 ResizeObserver 미지원으로 실패하므로 모킹
+jest.mock('@/entities/planet/ui/PlanetPreview3D', () => ({
+  PlanetPreview3D: () => null,
+}));
+
 // 테스트용 QueryClient 래퍼 생성
 function createWrapper() {
   const queryClient = new QueryClient({
@@ -30,12 +35,11 @@ describe('CreatePostForm', () => {
     mockMutate.mockClear();
   });
 
-  it('제목, 내용, 닉네임 필드가 렌더링된다', () => {
+  it('제목, 내용 필드가 렌더링된다', () => {
     render(<CreatePostForm galaxyId="g1" />, { wrapper: createWrapper() });
 
     expect(screen.getByLabelText('제목')).toBeInTheDocument();
     expect(screen.getByLabelText('내용')).toBeInTheDocument();
-    expect(screen.getByLabelText('닉네임')).toBeInTheDocument();
   });
 
   it('제출 버튼이 존재한다', () => {
@@ -50,10 +54,10 @@ describe('CreatePostForm', () => {
     // 빈 상태로 폼 제출
     fireEvent.click(screen.getByRole('button', { name: '게시글 작성' }));
 
-    // 에러 메시지 확인
+    // 에러 메시지 확인 (제목, 내용 2개)
     await waitFor(() => {
       const alerts = screen.getAllByRole('alert');
-      expect(alerts.length).toBeGreaterThanOrEqual(3);
+      expect(alerts.length).toBeGreaterThanOrEqual(2);
     });
 
     // 뮤테이션이 호출되지 않아야 함
@@ -66,7 +70,6 @@ describe('CreatePostForm', () => {
     // 폼 필드 입력
     fireEvent.change(screen.getByLabelText('제목'), { target: { value: '테스트 제목' } });
     fireEvent.change(screen.getByLabelText('내용'), { target: { value: '테스트 내용입니다' } });
-    fireEvent.change(screen.getByLabelText('닉네임'), { target: { value: '테스터' } });
 
     // 폼 제출
     fireEvent.click(screen.getByRole('button', { name: '게시글 작성' }));
@@ -76,11 +79,10 @@ describe('CreatePostForm', () => {
       expect(mockMutate).toHaveBeenCalledWith(
         {
           galaxyId: 'g1',
-          data: {
+          data: expect.objectContaining({
             title: '테스트 제목',
             content: '테스트 내용입니다',
-            authorNickname: '테스터',
-          },
+          }),
         },
         expect.objectContaining({ onSuccess: expect.any(Function) }),
       );

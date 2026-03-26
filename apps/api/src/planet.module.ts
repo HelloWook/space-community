@@ -2,11 +2,12 @@
 
 import { Module } from '@nestjs/common';
 import { DatabaseModule } from './infrastructure/database/database.module';
+import { UserModule } from './user.module';
 import { PlanetService } from './application/services/planet.service';
 import { PlanetController, PlanetDetailController } from './infrastructure/api/controllers/planet.controller';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, UserModule],
   controllers: [PlanetController, PlanetDetailController],
   providers: [PlanetService],
 })
