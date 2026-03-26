@@ -28,6 +28,7 @@ import {
 import { CreatePostForm } from '@/features/create-post';
 import { CreateGalaxyForm } from '@/features/create-galaxy';
 import { PostOverlay } from '@/widgets/post-overlay';
+import { Overlay } from '@/widgets/overlay';
 import { Button } from '@/shared/ui/shadcn/button';
 
 interface SceneContentProps {
@@ -207,23 +208,13 @@ export function GalaxyScene() {
       )}
 
       {/* 은하계 생성 폼 오버레이 */}
-      {showCreateGalaxy && (
-        <div className="fixed inset-y-0 right-0 w-[400px] bg-[rgba(10,10,30,0.92)] p-6 z-[100] overflow-y-auto shadow-[-4px_0_20px_rgba(0,0,0,0.5)]">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-foreground text-lg m-0">새 은하계</h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowCreateGalaxy(false)}
-              aria-label="닫기"
-              className="text-2xl text-foreground"
-            >
-              ✕
-            </Button>
-          </div>
-          <CreateGalaxyForm onSuccess={handleCreateGalaxySuccess} />
-        </div>
-      )}
+      <Overlay
+        open={showCreateGalaxy}
+        onClose={() => setShowCreateGalaxy(false)}
+        title="새 은하계"
+      >
+        <CreateGalaxyForm onSuccess={handleCreateGalaxySuccess} />
+      </Overlay>
 
       {/* 은하 뷰에서 게시글 작성 버튼 */}
       {viewMode === 'galaxy' && !showCreatePost && !selectedPlanetId && (
@@ -239,26 +230,18 @@ export function GalaxyScene() {
       )}
 
       {/* 게시글 작성 폼 오버레이 */}
-      {showCreatePost && selectedGalaxyId && (
-        <div className="fixed inset-y-0 right-0 w-[400px] bg-[rgba(10,10,30,0.92)] p-6 z-[100] overflow-y-auto shadow-[-4px_0_20px_rgba(0,0,0,0.5)]">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-foreground text-lg m-0">새 게시글</h2>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowCreatePost(false)}
-              aria-label="닫기"
-              className="text-2xl text-foreground"
-            >
-              ✕
-            </Button>
-          </div>
+      <Overlay
+        open={showCreatePost && !!selectedGalaxyId}
+        onClose={() => setShowCreatePost(false)}
+        title="새 게시글"
+      >
+        {selectedGalaxyId && (
           <CreatePostForm
             galaxyId={selectedGalaxyId}
             onSuccess={handleCreateSuccess}
           />
-        </div>
-      )}
+        )}
+      </Overlay>
 
       {/* 행성 상세 오버레이 */}
       {selectedPlanetId && (

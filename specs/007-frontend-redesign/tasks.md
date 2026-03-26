@@ -153,17 +153,17 @@
 
 ### 테스트 (US5) ⚠️
 
-- [ ] T048 [P] [US5] PostOverlay → 공통 Overlay 전환 테스트 — `apps/web/src/widgets/post-overlay/__tests__/PostOverlay.test.tsx` 업데이트 (공통 Overlay 컴포넌트 사용 검증)
-- [ ] T049 [P] [US5] CreatePostForm → 공통 Overlay 전환 테스트 — 게시글 작성 폼이 Overlay 내에서 렌더링되는지 검증
-- [ ] T050 [P] [US5] CreateGalaxyForm → 공통 Overlay 전환 테스트 — 은하 생성 폼이 Overlay 내에서 렌더링되는지 검증
+- [x] T048 [P] [US5] PostOverlay → 공통 Overlay 전환 테스트 — `apps/web/src/widgets/post-overlay/__tests__/PostOverlay.test.tsx` 업데이트 (공통 Overlay 컴포넌트 사용 검증)
+- [x] T049 [P] [US5] CreatePostForm → 공통 Overlay 전환 테스트 — 게시글 작성 폼이 Overlay 내에서 렌더링되는지 검증
+- [x] T050 [P] [US5] CreateGalaxyForm → 공통 Overlay 전환 테스트 — 은하 생성 폼이 Overlay 내에서 렌더링되는지 검증
 
 ### 구현 (US5)
 
-- [ ] T051 [US5] PostOverlay → 공통 Overlay 전환 — `apps/web/src/widgets/post-overlay/ui/PostOverlay.tsx` (기존 커스텀 패널을 `<Overlay>` 래핑으로 전환)
-- [ ] T052 [P] [US5] CreatePostForm 오버레이 전환 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx` 내 CreatePostForm 래핑을 `<Overlay>`로 전환
-- [ ] T053 [P] [US5] CreateGalaxyForm 오버레이 전환 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx` 내 CreateGalaxyForm 래핑을 `<Overlay>`로 전환
-- [ ] T054 [US5] 오버레이 열림 시 3D 씬 인터랙션 차단 — GalaxyScene에서 오버레이 open 상태 시 Canvas 포인터 이벤트 비활성화
-- [ ] T055 [US5] 오버레이 통일성 검증 — 모든 오버레이(PostOverlay, CreatePostForm, CreateGalaxyForm)가 동일한 Overlay 컴포넌트를 사용하고 동일한 애니메이션/스타일 적용 확인
+- [x] T051 [US5] PostOverlay → 공통 Overlay 전환 — `apps/web/src/widgets/post-overlay/ui/PostOverlay.tsx` (기존 커스텀 패널을 `<Overlay>` 래핑으로 전환)
+- [x] T052 [P] [US5] CreatePostForm 오버레이 전환 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx` 내 CreatePostForm 래핑을 `<Overlay>`로 전환
+- [x] T053 [P] [US5] CreateGalaxyForm 오버레이 전환 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx` 내 CreateGalaxyForm 래핑을 `<Overlay>`로 전환
+- [x] T054 [US5] 오버레이 열림 시 3D 씬 인터랙션 차단 — GalaxyScene에서 오버레이 open 상태 시 Canvas 포인터 이벤트 비활성화
+- [x] T055 [US5] 오버레이 통일성 검증 — 모든 오버레이(PostOverlay, CreatePostForm, CreateGalaxyForm)가 동일한 Overlay 컴포넌트를 사용하고 동일한 애니메이션/스타일 적용 확인
 
 **Checkpoint**: 모든 오버레이가 동일한 연보라 글래스모피즘 스타일, 동일한 페이드 애니메이션 사용
 
