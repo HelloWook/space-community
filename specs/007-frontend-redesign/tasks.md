@@ -39,11 +39,11 @@
 
 > **NOTE: 테스트 먼저 작성, 실패 확인 후 구현**
 
-- [ ] T006 [P] 공통 Overlay 컴포넌트 렌더링 테스트 — `apps/web/src/widgets/overlay/ui/__tests__/Overlay.test.tsx` (open/close 상태, ESC 닫기, 배경 클릭 닫기, 포커스 트랩, 페이드 애니메이션 클래스)
+- [x] T006 [P] 공통 Overlay 컴포넌트 렌더링 테스트 — `apps/web/src/widgets/overlay/ui/__tests__/Overlay.test.tsx` (open/close 상태, ESC 닫기, 배경 클릭 닫기, 포커스 트랩, 페이드 애니메이션 클래스)
 
 ### 구현
 
-- [ ] T007 공통 Overlay 컴포넌트 구현 — `apps/web/src/widgets/overlay/ui/Overlay.tsx` (shadcn/ui Dialog 기반, 연보라 글래스모피즘 스타일, `backdrop-blur-md bg-[hsl(var(--overlay-bg))] border-[hsl(var(--overlay-border))]`, 페이드인/아웃 200ms)
+- [x] T007 공통 Overlay 컴포넌트 구현 — `apps/web/src/widgets/overlay/ui/Overlay.tsx` (shadcn/ui Dialog 기반, 연보라 글래스모피즘 스타일, `backdrop-blur-md bg-[hsl(var(--overlay-bg))] border-[hsl(var(--overlay-border))]`, 페이드인/아웃 200ms)
 
 **Checkpoint**: `<Overlay open={true} onClose={fn}>` 렌더링 가능, 테스트 통과
 
