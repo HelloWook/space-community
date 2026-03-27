@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Suspense, useState, useCallback } from 'react';
 import { useAuth } from '@clerk/nextjs';
-import { useRouter } from 'next/navigation';
+
 import {
   useGalaxyNavigationStore,
   useGalaxies,
@@ -15,12 +15,24 @@ import { Star3D } from '@/entities/star';
 import { Satellite3D } from '@/entities/satellite';
 import { useCommentFocusStore } from '@/entities/comment';
 import {
+  Starfield,
+  Meteor,
+  Asteroid,
+  BlackHole,
+  Sun,
+} from '@/entities/decoration';
+import {
   useCameraTransition,
   BackButton,
 } from '@/features/navigate-galaxy';
+import { ControlsHUD } from '@/features/navigate-galaxy/ui/ControlsHUD';
+import { useWASDControls } from '@/shared/lib/hooks/use-wasd-controls';
 import { CreatePostForm } from '@/features/create-post';
 import { CreateGalaxyForm } from '@/features/create-galaxy';
 import { PostOverlay } from '@/widgets/post-overlay';
+import { Overlay } from '@/widgets/overlay';
+import { LoginOverlay } from '@/features/social-login/ui/LoginOverlay';
+import { Button } from '@/shared/ui/shadcn/button';
 
 interface SceneContentProps {
   /** 행성 클릭 시 호출되는 콜백 */
@@ -29,10 +41,12 @@ interface SceneContentProps {
   focusedCommentId?: string | null;
   /** 위성 클릭 시 댓글 포커스 콜백 */
   onSatelliteClick?: (commentId: string) => void;
+  /** 오버레이 열림 상태 — true이면 WASD 비활성화 */
+  overlayOpen?: boolean;
 }
 
 // 3D 장면 내부 컨텐츠 — R3F 컨텍스트 안에서 렌더링
-function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick }: SceneContentProps) {
+function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick, overlayOpen }: SceneContentProps) {
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
   const selectGalaxy = useGalaxyNavigationStore((s) => s.selectGalaxy);
@@ -49,6 +63,13 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick }: Sce
     targetPosition: selectedGalaxy?.position ?? null,
   });
 
+  // WASD 카메라 이동 — 오버레이 열림/전환 중 비활성화
+  useWASDControls({
+    speed: 0.3,
+    enabled: !overlayOpen && !isTransitioning,
+    bounds: { min: [-100, -50, -100], max: [100, 50, 100] },
+  });
+
   return (
     <>
       {/* 어두운 우주 배경 */}
@@ -56,6 +77,27 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick }: Sce
       {/* 기본 조명 */}
       <ambientLight intensity={0.3} />
       <pointLight position={[10, 10, 10]} intensity={1} />
+
+      {/* 우주 장식 요소 */}
+      <Starfield count={1000} radius={100} />
+      <Meteor startPosition={[40, 20, -10]} direction={[-1, -0.5, -0.2]} speed={0.4} />
+      <Meteor startPosition={[-30, 30, 5]} direction={[0.8, -0.7, -0.1]} speed={0.6} />
+      <Meteor startPosition={[20, -25, 15]} direction={[-0.5, 0.3, -0.8]} speed={0.3} />
+      {Array.from({ length: 10 }, (_, i) => (
+        <Asteroid
+          key={`asteroid-${i}`}
+          center={[
+            Math.cos(i * 0.63) * 35,
+            Math.sin(i * 0.97) * 15,
+            Math.sin(i * 0.43) * 25,
+          ]}
+          orbitRadius={3 + (i % 4)}
+          scale={0.2 + Math.random() * 0.6}
+          orbitSpeed={0.005 + (i % 5) * 0.003}
+        />
+      ))}
+      <BlackHole position={[30, -20, -25]} scale={3} distortionStrength={0.5} />
+      <Sun position={[-25, 20, -15]} scale={2} lightIntensity={1.5} />
       {/* 줌/회전 — 전환 중에는 비활성화 */}
       <OrbitControls
         enableDamping
@@ -114,9 +156,10 @@ export function GalaxyScene() {
   const [showCreatePost, setShowCreatePost] = useState(false);
   // 은하계 생성 폼 표시 여부
   const [showCreateGalaxy, setShowCreateGalaxy] = useState(false);
+  // 로그인 오버레이 표시 여부
+  const [showLogin, setShowLogin] = useState(false);
 
   const { isSignedIn } = useAuth();
-  const router = useRouter();
 
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
@@ -147,7 +190,7 @@ export function GalaxyScene() {
   }, []);
 
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%' }}>
+    <div className="relative w-full h-full">
       <Canvas
         camera={{ position: [0, 0, 50], fov: 60 }}
         gl={{ antialias: true }}
@@ -157,144 +200,75 @@ export function GalaxyScene() {
             onPlanetClick={handlePlanetClick}
             focusedCommentId={focusedCommentId}
             onSatelliteClick={setFocusedComment}
+            overlayOpen={!!selectedPlanetId || showCreatePost || showCreateGalaxy || showLogin}
           />
         </Suspense>
       </Canvas>
 
       {/* 캔버스 위 오버레이 UI */}
+      <ControlsHUD />
       <BackButton />
 
       {/* 우주 뷰에서 은하계 만들기 버튼 */}
       {viewMode === 'universe' && !showCreateGalaxy && (
-        <button
-          onClick={() => {
-            if (!isSignedIn) { router.push('/sign-in'); return; }
+        <Button
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!isSignedIn) { setShowLogin(true); return; }
             setShowCreateGalaxy(true);
           }}
-          style={{
-            position: 'absolute',
-            bottom: '24px',
-            right: '24px',
-            padding: '12px 20px',
-            borderRadius: '8px',
-            border: 'none',
-            backgroundColor: '#4a90d9',
-            color: '#fff',
-            fontSize: '14px',
-            cursor: 'pointer',
-            zIndex: 50,
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
-          }}
+          className="absolute bottom-6 right-6 z-50 shadow-lg"
         >
           은하계 만들기
-        </button>
+        </Button>
       )}
 
       {/* 은하계 생성 폼 오버레이 */}
-      {showCreateGalaxy && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            right: 0,
-            width: '400px',
-            height: '100%',
-            backgroundColor: 'rgba(10, 10, 30, 0.92)',
-            padding: '24px',
-            zIndex: 100,
-            overflowY: 'auto',
-            boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ color: '#fff', fontSize: '18px', margin: 0 }}>새 은하계</h2>
-            <button
-              onClick={() => setShowCreateGalaxy(false)}
-              aria-label="닫기"
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#fff',
-                fontSize: '24px',
-                cursor: 'pointer',
-              }}
-            >
-              ✕
-            </button>
-          </div>
-          <CreateGalaxyForm onSuccess={handleCreateGalaxySuccess} />
-        </div>
-      )}
+      <Overlay
+        open={showCreateGalaxy}
+        onClose={() => setShowCreateGalaxy(false)}
+        title="새 은하계"
+      >
+        <CreateGalaxyForm onSuccess={handleCreateGalaxySuccess} />
+      </Overlay>
 
       {/* 은하 뷰에서 게시글 작성 버튼 */}
       {viewMode === 'galaxy' && !showCreatePost && !selectedPlanetId && (
-        <button
+        <Button
           onClick={() => {
-            if (!isSignedIn) { router.push('/sign-in'); return; }
+            if (!isSignedIn) { setShowLogin(true); return; }
             setShowCreatePost(true);
           }}
-          style={{
-            position: 'absolute',
-            bottom: '24px',
-            right: '24px',
-            padding: '12px 20px',
-            borderRadius: '8px',
-            border: 'none',
-            backgroundColor: '#4a90d9',
-            color: '#fff',
-            fontSize: '14px',
-            cursor: 'pointer',
-            zIndex: 50,
-            boxShadow: '0 2px 10px rgba(0, 0, 0, 0.3)',
-          }}
+          className="absolute bottom-6 right-6 z-50 shadow-lg"
         >
           게시글 작성
-        </button>
+        </Button>
       )}
 
       {/* 게시글 작성 폼 오버레이 */}
-      {showCreatePost && selectedGalaxyId && (
-        <div
-          style={{
-            position: 'fixed',
-            top: 0,
-            right: 0,
-            width: '400px',
-            height: '100%',
-            backgroundColor: 'rgba(10, 10, 30, 0.92)',
-            padding: '24px',
-            zIndex: 100,
-            overflowY: 'auto',
-            boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
-          }}
-        >
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '16px' }}>
-            <h2 style={{ color: '#fff', fontSize: '18px', margin: 0 }}>새 게시글</h2>
-            <button
-              onClick={() => setShowCreatePost(false)}
-              aria-label="닫기"
-              style={{
-                background: 'none',
-                border: 'none',
-                color: '#fff',
-                fontSize: '24px',
-                cursor: 'pointer',
-              }}
-            >
-              ✕
-            </button>
-          </div>
+      <Overlay
+        open={showCreatePost && !!selectedGalaxyId}
+        onClose={() => setShowCreatePost(false)}
+        title="새 게시글"
+      >
+        {selectedGalaxyId && (
           <CreatePostForm
             galaxyId={selectedGalaxyId}
             onSuccess={handleCreateSuccess}
           />
-        </div>
-      )}
+        )}
+      </Overlay>
 
       {/* 행성 상세 오버레이 */}
       {selectedPlanetId && (
         <PostOverlay planetId={selectedPlanetId} onClose={handleCloseOverlay} />
       )}
+
+      {/* 로그인 오버레이 */}
+      <LoginOverlay
+        open={showLogin}
+        onClose={() => setShowLogin(false)}
+      />
     </div>
   );
 }

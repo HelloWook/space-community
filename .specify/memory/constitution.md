@@ -1,19 +1,18 @@
 <!--
   Sync Impact Report
   ==================
-  Version change: 1.0.0 → 1.1.0 (MINOR - 원칙 2개 추가, 기술 제약 확장)
+  Version change: 1.1.0 → 1.2.0 (MINOR - 원칙 1개 추가)
 
   Added principles:
-    - VI. 테스트 우선 (TDD) — NON-NEGOTIABLE
-    - VII. SOLID 원칙
+    - VIII. 컴포넌트 스토리 필수
 
-  Modified sections:
-    - 기술 제약: 프론트엔드 FSD, 백엔드 헥사고날 아키텍처 폴더 구조 추가
+  Modified sections: 없음
+  Removed sections: 없음
 
   Templates requiring updates:
-    - .specify/templates/plan-template.md ✅ 호환 (Constitution Check에서 TDD/SOLID 검증 가능)
+    - .specify/templates/plan-template.md ✅ 호환 (Constitution Check에서 스토리 존재 검증 가능)
     - .specify/templates/spec-template.md ✅ 호환 (변경 불필요)
-    - .specify/templates/tasks-template.md ✅ 호환 (테스트 태스크 우선 배치 구조 이미 존재)
+    - .specify/templates/tasks-template.md ✅ 호환 (구현 태스크에 스토리 작성 포함 가능)
 
   Follow-up TODOs: 없음
 -->
@@ -75,6 +74,14 @@
 - **D (의존성 역전)**: 상위 모듈이 하위 모듈에 직접 의존하지 않고 추상화에 의존해야 한다
 - SOLID 위반이 발견되면 리팩토링 후 머지해야 한다
 
+### VIII. 컴포넌트 스토리 필수 — NON-NEGOTIABLE
+
+- 모든 UI 컴포넌트는 반드시 대응하는 Storybook 스토리 파일을 가져야 한다
+- 스토리 없는 컴포넌트는 머지할 수 없다
+- 스토리는 컴포넌트의 주요 상태(기본, 변형, 비활성, 에러 등)를 최소 1개 이상 포함해야 한다
+- 스토리 파일은 `src/stories/` 하위에 컴포넌트 카테고리별로 배치한다
+- 3D 컴포넌트도 예외 없이 스토리를 작성해야 한다
+
 ## 기술 제약
 
 - 대상 플랫폼: WebGL 지원 모던 브라우저 (Chrome, Firefox, Safari, Edge 최신 2개 버전)
@@ -111,4 +118,4 @@
 - 모든 PR/리뷰는 헌법 원칙 준수 여부를 검증해야 한다
 - 복잡성 추가 시 반드시 타당성을 제시해야 한다
 
-**Version**: 1.1.0 | **Ratified**: 2026-03-25 | **Last Amended**: 2026-03-25
+**Version**: 1.2.0 | **Ratified**: 2026-03-25 | **Last Amended**: 2026-03-27

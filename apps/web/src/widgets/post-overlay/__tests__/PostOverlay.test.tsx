@@ -9,6 +9,16 @@ jest.mock('@/entities/planet', () => ({
   usePlanet: (...args: unknown[]) => mockUsePlanet(...args),
 }));
 
+// Clerk 모킹
+jest.mock('@clerk/nextjs', () => ({
+  useAuth: () => ({ isSignedIn: true }),
+}));
+
+// Next.js router 모킹
+jest.mock('next/navigation', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+}));
+
 // 테스트용 QueryClient 래퍼 생성
 function createWrapper() {
   const queryClient = new QueryClient({
@@ -56,7 +66,7 @@ describe('PostOverlay', () => {
     );
   });
 
-  it('닫기 버튼 클릭 시 onClose가 호출된다', () => {
+  it('ESC 키로 onClose가 호출된다', () => {
     const onClose = jest.fn();
 
     mockUsePlanet.mockReturnValue({
@@ -69,7 +79,7 @@ describe('PostOverlay', () => {
       wrapper: createWrapper(),
     });
 
-    fireEvent.click(screen.getByRole('button', { name: '닫기' }));
+    fireEvent.keyDown(document, { key: 'Escape' });
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });

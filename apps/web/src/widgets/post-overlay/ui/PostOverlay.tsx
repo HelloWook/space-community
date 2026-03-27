@@ -4,6 +4,7 @@ import { usePlanet } from '@/entities/planet';
 import { CommentList } from '@/entities/comment';
 import { GiveStarButton } from '@/features/give-star';
 import { WriteCommentForm } from '@/features/write-comment';
+import { Overlay } from '@/widgets/overlay';
 
 interface PostOverlayProps {
   /** 조회할 행성(게시글) ID */
@@ -12,108 +13,57 @@ interface PostOverlayProps {
   onClose: () => void;
 }
 
-// 행성(게시글) 상세 오버레이 패널 — 3D 캔버스 위에 표시
+// 행성(게시글) 상세 오버레이 패널 — 공통 Overlay 사용
 export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
   const { data: planet, isLoading, isError } = usePlanet(planetId);
 
   return (
-    <div
-      data-testid="post-overlay"
-      style={{
-        position: 'fixed',
-        top: 0,
-        right: 0,
-        width: '400px',
-        height: '100%',
-        backgroundColor: 'rgba(10, 10, 30, 0.92)',
-        color: '#fff',
-        padding: '24px',
-        overflowY: 'auto',
-        zIndex: 100,
-        boxShadow: '-4px 0 20px rgba(0, 0, 0, 0.5)',
-      }}
+    <Overlay
+      open={true}
+      onClose={onClose}
+      title={planet?.title}
     >
-      {/* 닫기 버튼 */}
-      <button
-        onClick={onClose}
-        aria-label="닫기"
-        style={{
-          position: 'absolute',
-          top: '16px',
-          right: '16px',
-          background: 'none',
-          border: 'none',
-          color: '#fff',
-          fontSize: '24px',
-          cursor: 'pointer',
-        }}
-      >
-        ✕
-      </button>
+      <div data-testid="post-overlay">
+        {/* 로딩 상태 */}
+        {isLoading && <p>로딩 중...</p>}
 
-      {/* 로딩 상태 */}
-      {isLoading && <p>로딩 중...</p>}
+        {/* 에러 상태 */}
+        {isError && <p>게시글을 불러올 수 없습니다.</p>}
 
-      {/* 에러 상태 */}
-      {isError && <p>게시글을 불러올 수 없습니다.</p>}
+        {/* 게시글 상세 내용 */}
+        {planet && (
+          <>
+            <div className="text-xs text-muted-foreground mb-4 flex gap-3">
+              <span>{planet.authorNickname}</span>
+              <span>{new Date(planet.createdAt).toLocaleDateString('ko-KR')}</span>
+            </div>
+            {/* 내용을 프리포맷 텍스트로 렌더링 (MVP) */}
+            <pre
+              data-testid="post-content"
+              className="whitespace-pre-wrap break-words font-[inherit] text-sm leading-relaxed text-foreground/85"
+            >
+              {planet.content}
+            </pre>
 
-      {/* 게시글 상세 내용 */}
-      {planet && (
-        <>
-          <h2 style={{ fontSize: '20px', marginBottom: '8px', marginTop: '8px' }}>
-            {planet.title}
-          </h2>
-          <div
-            style={{
-              fontSize: '12px',
-              color: '#999',
-              marginBottom: '16px',
-              display: 'flex',
-              gap: '12px',
-            }}
-          >
-            <span>{planet.authorNickname}</span>
-            <span>{new Date(planet.createdAt).toLocaleDateString('ko-KR')}</span>
-          </div>
-          {/* 내용을 프리포맷 텍스트로 렌더링 (MVP) */}
-          <pre
-            data-testid="post-content"
-            style={{
-              whiteSpace: 'pre-wrap',
-              wordBreak: 'break-word',
-              fontFamily: 'inherit',
-              fontSize: '14px',
-              lineHeight: '1.6',
-              color: '#ddd',
-            }}
-          >
-            {planet.content}
-          </pre>
+            {/* 별 주기 버튼 — 로그인 체크는 GiveStarButton 내부에서 처리 */}
+            <GiveStarButton
+              planetId={planetId}
+              starCount={planet.starCount}
+            />
 
-          {/* 별 주기 버튼 — 로그인 체크는 GiveStarButton 내부에서 처리 */}
-          <GiveStarButton
-            planetId={planetId}
-            starCount={planet.starCount}
-          />
+            {/* 구분선 */}
+            <hr className="border-none border-t border-border my-5" />
 
-          {/* 구분선 */}
-          <hr
-            style={{
-              border: 'none',
-              borderTop: '1px solid #333',
-              margin: '20px 0',
-            }}
-          />
+            {/* 댓글 작성 폼 */}
+            <WriteCommentForm planetId={planetId} />
 
-          {/* 댓글 작성 폼 */}
-          <WriteCommentForm planetId={planetId} />
-
-          {/* 댓글 목록 */}
-          <div style={{ marginTop: '16px' }}>
-            <CommentList planetId={planetId} />
-          </div>
-        </>
-      )}
-    </div>
+            {/* 댓글 목록 */}
+            <div className="mt-4">
+              <CommentList planetId={planetId} />
+            </div>
+          </>
+        )}
+      </div>
+    </Overlay>
   );
 }

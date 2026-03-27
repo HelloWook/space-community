@@ -1,6 +1,7 @@
 'use client';
 
 import { useGalaxyNavigationStore } from '@/entities/galaxy';
+import { Button } from '@/shared/ui/shadcn/button';
 
 // 3D 캔버스 위에 오버레이되는 뒤로가기 버튼
 // galaxy 뷰 모드에서만 표시됨
@@ -11,24 +12,12 @@ export function BackButton() {
   if (viewMode !== 'galaxy') return null;
 
   return (
-    <button
+    <Button
+      variant="outline"
       onClick={returnToUniverse}
-      style={{
-        position: 'absolute',
-        top: 16,
-        left: 16,
-        zIndex: 10,
-        padding: '8px 16px',
-        backgroundColor: 'rgba(0, 0, 0, 0.6)',
-        color: 'white',
-        border: '1px solid rgba(255, 255, 255, 0.2)',
-        borderRadius: 8,
-        cursor: 'pointer',
-        fontSize: 14,
-        backdropFilter: 'blur(4px)',
-      }}
+      className="absolute top-4 left-4 z-10 bg-black/60 backdrop-blur-sm border-white/20 text-foreground hover:bg-black/80"
     >
       ← 우주로 돌아가기
-    </button>
+    </Button>
   );
 }
