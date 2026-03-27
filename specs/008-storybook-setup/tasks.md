@@ -51,9 +51,9 @@
 
 ### Implementation for User Story 2
 
-- [ ] T009 [P] [US2] 색상 팔레트 스토리 생성 — `apps/web/src/stories/design-tokens/Colors.stories.tsx` (CSS 변수에서 값 자동 읽기, 색상 견본+변수명+HSL값 나열)
-- [ ] T010 [P] [US2] 타이포그래피 스토리 생성 — `apps/web/src/stories/design-tokens/Typography.stories.tsx` (폰트 패밀리, 크기 단계 xs~4xl, 행간, 굵기를 실제 렌더링 예시로 표시)
-- [ ] T011 [P] [US2] 간격 스토리 생성 — `apps/web/src/stories/design-tokens/Spacing.stories.tsx` (4px 단위 스케일을 시각적 블록으로 표시)
+- [x] T009 [P] [US2] 색상 팔레트 스토리 생성 — `apps/web/src/stories/design-tokens/Colors.stories.tsx`
+- [x] T010 [P] [US2] 타이포그래피 스토리 생성 — `apps/web/src/stories/design-tokens/Typography.stories.tsx`
+- [x] T011 [P] [US2] 간격 스토리 생성 — `apps/web/src/stories/design-tokens/Spacing.stories.tsx`
 
 **Checkpoint**: 스토리북에서 "Design Tokens" 카테고리 아래 Colors/Typography/Spacing 3개 페이지가 정상 렌더링됨
 
