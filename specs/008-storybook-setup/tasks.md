@@ -35,9 +35,9 @@
 
 **⚠️ CRITICAL**: US1~US6 모두 이 토큰 정의에 의존
 
-- [ ] T006 색상 토큰 정의/검증 — `apps/web/src/app/styles/globals.css`에 FR-008 색상 변수(`--overlay-bg`, `--overlay-border`, `--glow-purple` 등) 누락분 추가
-- [ ] T007 [P] 타이포그래피 토큰 정의 — `apps/web/src/app/styles/globals.css`에 `--font-sans`, `--font-mono` 변수 및 기본 `html { font-size: 16px }` 설정 (FR-009)
-- [ ] T008 [P] 테두리 반경 토큰 확장 — `apps/web/src/app/styles/globals.css`에 `--radius-sm`, `--radius-lg`, `--radius-xl` 추가 (FR-011)
+- [x] T006 색상 토큰 정의/검증 — `apps/web/src/app/styles/globals.css`에 FR-008 색상 변수 이미 정의 확인
+- [x] T007 [P] 타이포그래피 토큰 정의 — `apps/web/src/app/styles/globals.css`에 `--font-sans`, `--font-mono` 변수 및 기본 `html { font-size: 16px }` 설정 (FR-009)
+- [x] T008 [P] 테두리 반경 토큰 확장 — `apps/web/src/app/styles/globals.css`에 `--radius-sm`, `--radius-lg`, `--radius-xl` 추가 (FR-011)
 
 **Checkpoint**: globals.css에 색상/타이포그래피/테두리 반경 토큰이 CSS 변수로 정의됨. 앱이 정상 빌드됨
 

@@ -22,19 +22,38 @@
     --input: 240 4% 16%;
     --ring: 217 91% 60%;
     --radius: 0.5rem;
+    --radius-sm: 0.25rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
     --overlay-bg: 270 50% 10%;
     --overlay-border: 270 50% 50%;
     --glow-purple: 270 70% 60%;
+    --font-sans: system-ui, -apple-system, sans-serif;
+    --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo,
+      Consolas, "DejaVu Sans Mono", monospace;
   }
 
   * {
     border-color: hsl(var(--border));
   }
 
+  html {
+    font-size: 16px;
+  }
+
   body {
     background: hsl(var(--background));
     color: hsl(var(--foreground));
-    font-family: system-ui, -apple-system, sans-serif;
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  code,
+  kbd,
+  samp,
+  pre {
+    font-family: var(--font-mono);
   }
 }
 
