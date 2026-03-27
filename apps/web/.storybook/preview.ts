@@ -1,16 +1,9 @@
-import type { Preview } from "@storybook/react";
-import "../src/app/styles/globals.css";
+import type { Preview } from '@storybook/react';
 
 const preview: Preview = {
+  tags: ['autodocs'],
   parameters: {
-    backgrounds: {
-      default: "space",
-      values: [
-        { name: "space", value: "hsl(0 0% 0%)" },
-        { name: "card", value: "hsl(0 0% 5%)" },
-        { name: "light", value: "hsl(0 0% 100%)" },
-      ],
-    },
+    layout: 'centered',
     controls: {
       matchers: {
         color: /(background|color)$/i,
