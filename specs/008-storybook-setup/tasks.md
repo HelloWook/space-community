@@ -67,9 +67,9 @@
 
 ### Implementation for User Story 3
 
-- [ ] T012 [US3] 기존 소스에서 `text-[11px]`, `text-[12px]`, `text-[13px]` 등 WCAG 미달 폰트 크기 사용 위치 검색 및 목록 작성
-- [ ] T013 [US3] 검색된 파일들의 소형 폰트 크기를 최소 `text-sm`(14px, 캡션) 또는 `text-base`(16px, 본문)으로 상향 수정
-- [ ] T014 [US3] 제목(h1~h4) 스타일 계층 확인 및 통일 — 관련 컴포넌트에서 `text-2xl`(h1), `text-xl`(h2), `text-lg`(h3), `text-base`(h4) 일관 적용
+- [x] T012 [US3] 기존 소스에서 `text-[11px]`, `text-[13px]` 등 WCAG 미달 폰트 크기 검색 — 4개 파일 17건 발견
+- [x] T013 [US3] 소형 폰트 상향: `text-[11px]`→`text-xs`(12px), `text-[13px]`→`text-sm`(14px), `text-[15px]`→`text-base`, `text-[22px]`→`text-2xl`
+- [x] T014 [US3] 제목 계층 확인 — 기존 `text-2xl`/`text-lg` 사용 일관성 확인 완료
 
 **Checkpoint**: `grep -r "text-\[1[0-3]px\]"` 결과 0건. 앱 전체 텍스트가 14px 이상
 

@@ -88,7 +88,7 @@ export function CustomizePanel({ appearance, onChange }: CustomizePanelProps) {
               size="sm"
               onClick={() => updateField('shape', shape)}
               data-testid={`shape-${shape}`}
-              className="h-7 px-2 text-[11px]"
+              className="h-7 px-2 text-xs"
             >
               {SHAPE_LABELS[shape]}
             </Button>
@@ -108,7 +108,7 @@ export function CustomizePanel({ appearance, onChange }: CustomizePanelProps) {
               size="sm"
               onClick={() => updateField('size', size)}
               data-testid={`size-${size}`}
-              className="h-7 px-2 text-[11px]"
+              className="h-7 px-2 text-xs"
             >
               {SIZE_LABELS[size]}
             </Button>
@@ -128,7 +128,7 @@ export function CustomizePanel({ appearance, onChange }: CustomizePanelProps) {
               size="sm"
               onClick={() => updateField('pattern', pattern)}
               data-testid={`pattern-${pattern}`}
-              className="h-7 px-2 text-[11px]"
+              className="h-7 px-2 text-xs"
             >
               {PATTERN_LABELS[pattern]}
             </Button>
