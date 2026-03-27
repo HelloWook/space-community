@@ -52,6 +52,9 @@ export function Overlay({
       }}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={title ?? '오버레이'}
         className={cn(
           'relative w-[400px] max-h-[90vh] overflow-y-auto rounded-lg border border-[hsl(var(--overlay-border)/0.2)] bg-[hsl(var(--card))] p-6 shadow-[0_0_30px_hsl(var(--glow-purple)/0.15)] transition-transform duration-200',
           className,
