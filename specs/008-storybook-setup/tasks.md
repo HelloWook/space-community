@@ -132,9 +132,9 @@
 
 ### Implementation for User Story 6
 
-- [ ] T025 [P] [US6] 3D 스토리용 Canvas 데코레이터 생성 — `apps/web/src/stories/3d/ThreeDecorator.tsx` (Canvas + OrbitControls + 조명 래퍼, 스토리 전환 시 리소스 정리)
-- [ ] T026 [P] [US6] Planet 스토리 생성 — `apps/web/src/stories/3d/Planet.stories.tsx` (행성 컴포넌트 독립 렌더링, 색상/크기 args 컨트롤)
-- [ ] T027 [P] [US6] Decorations 스토리 생성 — `apps/web/src/stories/3d/Decorations.stories.tsx` (유성, 운석 등 장식 요소 개별 렌더링, 애니메이션 확인)
+- [x] T025 [P] [US6] 3D 스토리용 Canvas 데코레이터 생성 — `apps/web/src/stories/3d/ThreeDecorator.tsx`
+- [x] T026 [P] [US6] Planet 스토리 생성 — `apps/web/src/stories/3d/Planet.stories.tsx`
+- [x] T027 [P] [US6] Decorations 스토리 생성 — `apps/web/src/stories/3d/Decorations.stories.tsx`
 
 **Checkpoint**: 스토리북 "3D" 카테고리에서 행성/장식 스토리가 WebGL Canvas 내에 정상 렌더링됨
 
