@@ -1,6 +1,6 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Suspense, useState, useCallback } from 'react';
 import { useAuth } from '@clerk/nextjs';
@@ -50,24 +50,34 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick, overl
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
   const selectGalaxy = useGalaxyNavigationStore((s) => s.selectGalaxy);
+  const saveCameraPosition = useGalaxyNavigationStore((s) => s.saveCameraPosition);
+  const savedCameraPosition = useGalaxyNavigationStore((s) => s.savedCameraPosition);
 
+  const { camera } = useThree();
   const { data: galaxies } = useGalaxies();
   const { data: planetsResponse } = usePlanets(selectedGalaxyId);
 
   // 선택된 은하의 위치 정보
   const selectedGalaxy = galaxies?.find((g) => g.id === selectedGalaxyId);
 
-  // 카메라 전환 훅
+  // 은하 클릭 시 현재 카메라 위치 저장 후 은하 진입
+  const handleSelectGalaxy = useCallback((id: string) => {
+    saveCameraPosition([camera.position.x, camera.position.y, camera.position.z]);
+    selectGalaxy(id);
+  }, [camera, saveCameraPosition, selectGalaxy]);
+
+  // 카메라 전환 훅 — 저장된 위치로 복귀 지원
   const { isTransitioning } = useCameraTransition({
     viewMode,
     targetPosition: selectedGalaxy?.position ?? null,
+    savedPosition: savedCameraPosition,
   });
 
-  // WASD 카메라 이동 — 오버레이 열림/전환 중 비활성화
+  // WASD 카메라 이동 — 오버레이 열림/전환 중 비활성화, bounds 200으로 확장
   useWASDControls({
     speed: 0.3,
     enabled: !overlayOpen && !isTransitioning,
-    bounds: { min: [-100, -50, -100], max: [100, 50, 100] },
+    bounds: { min: [-200, -100, -200], max: [200, 100, 200] },
   });
 
   return (
@@ -112,7 +122,7 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick, overl
           <Galaxy3D
             key={galaxy.id}
             galaxy={galaxy}
-            onClick={() => selectGalaxy(galaxy.id)}
+            onClick={() => handleSelectGalaxy(galaxy.id)}
             isSelected={false}
           />
         ))}

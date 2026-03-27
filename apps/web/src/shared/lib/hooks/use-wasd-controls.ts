@@ -45,12 +45,21 @@ export function useWASDControls(options?: UseWASDControlsOptions) {
       }
     };
 
+    // 탭 전환 시 키 상태 초기화 — 키가 눌린 채로 탭 전환하면 stuck 방지
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        keys.current = { w: false, a: false, s: false, d: false };
+      }
+    };
+
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
+    document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
   }, []);
 
