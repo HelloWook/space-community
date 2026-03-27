@@ -83,10 +83,10 @@
 
 ### Implementation for User Story 1
 
-- [ ] T015 [P] [US1] Button 스토리 생성 — `apps/web/src/stories/ui/Button.stories.tsx` (기본, 비활성, 변형별 상태, args 컨트롤)
-- [ ] T016 [P] [US1] Input 스토리 생성 — `apps/web/src/stories/ui/Input.stories.tsx` (기본, 포커스, 에러, 비활성 상태)
-- [ ] T017 [P] [US1] Card 스토리 생성 — `apps/web/src/stories/ui/Card.stories.tsx` (기본, 호버, 다양한 콘텐츠)
-- [ ] T018 [P] [US1] Overlay 스토리 생성 — `apps/web/src/stories/ui/Overlay.stories.tsx` (기존 오버레이 패널 독립 렌더링, 열기/닫기 상태)
+- [x] T015 [P] [US1] Button 스토리 생성 — `apps/web/src/stories/ui/Button.stories.tsx`
+- [x] T016 [P] [US1] Input 스토리 생성 — `apps/web/src/stories/ui/Input.stories.tsx`
+- [x] T017 [P] [US1] Card 스토리 생성 — `apps/web/src/stories/ui/Card.stories.tsx`
+- [x] T018 [P] [US1] Overlay 스토리 생성 — `apps/web/src/stories/ui/Overlay.stories.tsx`
 
 **Checkpoint**: 스토리북 사이드바 "UI" 카테고리에 4개 컴포넌트 스토리가 표시되고 상태 전환 동작
 
