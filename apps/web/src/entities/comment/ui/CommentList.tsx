@@ -42,16 +42,16 @@ function CommentItem({ comment, planetId, isFocused, onFocus }: CommentItemProps
     >
       {/* 댓글 헤더: 닉네임 + 날짜 */}
       <div className="flex justify-between items-center mb-2">
-        <span className="text-[#90caf9] text-[13px] font-bold">
+        <span className="text-[#90caf9] text-sm font-bold">
           {comment.authorNickname}
         </span>
-        <span className="text-muted-foreground text-[11px]">
+        <span className="text-muted-foreground text-xs">
           {new Date(comment.createdAt).toLocaleDateString('ko-KR')}
         </span>
       </div>
 
       {/* 댓글 내용 */}
-      <p className="text-foreground/85 text-[13px] leading-relaxed m-0 whitespace-pre-wrap break-words">
+      <p className="text-foreground/85 text-sm leading-relaxed m-0 whitespace-pre-wrap break-words">
         {comment.content}
       </p>
 
@@ -66,7 +66,7 @@ function CommentItem({ comment, planetId, isFocused, onFocus }: CommentItemProps
             setShowReplyForm((prev) => !prev);
           }}
           aria-label={showReplyForm ? '답글 폼 닫기' : '답글 작성'}
-          className="h-6 px-2 text-[11px] text-muted-foreground"
+          className="h-6 px-2 text-xs text-muted-foreground"
         >
           {showReplyForm ? '취소' : '답글'}
         </Button>
@@ -128,7 +128,7 @@ function ReplyItem({ reply, isFocused, onFocus }: ReplyItemProps) {
         <span className="text-[#80cbc4] text-xs font-bold">
           ↳ {reply.authorNickname}
         </span>
-        <span className="text-muted-foreground/60 text-[11px]">
+        <span className="text-muted-foreground/60 text-xs">
           {new Date(reply.createdAt).toLocaleDateString('ko-KR')}
         </span>
       </div>
@@ -160,7 +160,7 @@ export function CommentList({ planetId }: CommentListProps) {
   // 로딩 상태
   if (isLoading) {
     return (
-      <p className="text-muted-foreground text-[13px] text-center py-4">
+      <p className="text-muted-foreground text-sm text-center py-4">
         댓글 로딩 중...
       </p>
     );
@@ -169,7 +169,7 @@ export function CommentList({ planetId }: CommentListProps) {
   // 에러 상태
   if (isError) {
     return (
-      <p className="text-destructive text-[13px] text-center py-4">
+      <p className="text-destructive text-sm text-center py-4">
         댓글을 불러올 수 없습니다.
       </p>
     );
@@ -181,13 +181,13 @@ export function CommentList({ planetId }: CommentListProps) {
   return (
     <div data-testid="comment-list">
       {/* 댓글 수 헤더 */}
-      <p className="text-muted-foreground text-[13px] font-bold mb-3">
+      <p className="text-muted-foreground text-sm font-bold mb-3">
         댓글 {totalCount}개
       </p>
 
       {/* 댓글 없음 상태 */}
       {comments.length === 0 && (
-        <p className="text-muted-foreground/50 text-[13px] text-center py-4">
+        <p className="text-muted-foreground/50 text-sm text-center py-4">
           아직 댓글이 없습니다.
         </p>
       )}

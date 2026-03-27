@@ -34,7 +34,7 @@ export function PaginationControls({
           size="sm"
           onClick={onPrevPage}
           disabled={isLoading}
-          className="bg-white/10 border-white/20 text-foreground text-[13px]"
+          className="bg-white/10 border-white/20 text-foreground text-sm"
         >
           ← 이전 페이지
         </Button>
@@ -47,7 +47,7 @@ export function PaginationControls({
           size="sm"
           onClick={onNextPage}
           disabled={isLoading}
-          className="bg-white/10 border-white/20 text-foreground text-[13px]"
+          className="bg-white/10 border-white/20 text-foreground text-sm"
         >
           다음 페이지 →
         </Button>

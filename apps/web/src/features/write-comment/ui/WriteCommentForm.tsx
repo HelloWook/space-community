@@ -59,7 +59,7 @@ export function WriteCommentForm({ planetId, parentId, onSuccess }: WriteComment
       data-testid="write-comment-form"
       className="bg-card rounded-lg p-4 mt-2"
     >
-      <h3 className="text-muted-foreground text-[13px] font-bold mb-3">
+      <h3 className="text-muted-foreground text-sm font-bold mb-3">
         {isReply ? '답글 작성' : '댓글 작성'}
       </h3>
 
@@ -74,7 +74,7 @@ export function WriteCommentForm({ planetId, parentId, onSuccess }: WriteComment
           className={errors.authorNickname ? 'border-destructive' : ''}
         />
         {errors.authorNickname && (
-          <p className="text-destructive text-[11px] mt-1">
+          <p className="text-destructive text-xs mt-1">
             {errors.authorNickname.message}
           </p>
         )}
@@ -91,7 +91,7 @@ export function WriteCommentForm({ planetId, parentId, onSuccess }: WriteComment
           className={errors.content ? 'border-destructive' : ''}
         />
         {errors.content && (
-          <p className="text-destructive text-[11px] mt-1">
+          <p className="text-destructive text-xs mt-1">
             {errors.content.message}
           </p>
         )}
