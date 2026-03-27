@@ -238,6 +238,7 @@ export function GalaxyScene() {
         open={showCreateGalaxy}
         onClose={() => setShowCreateGalaxy(false)}
         title="새 은하계"
+        size="sm"
       >
         <CreateGalaxyForm onSuccess={handleCreateGalaxySuccess} />
       </Overlay>
@@ -260,6 +261,7 @@ export function GalaxyScene() {
         open={showCreatePost && !!selectedGalaxyId}
         onClose={() => setShowCreatePost(false)}
         title="새 게시글"
+        size="xl"
       >
         {selectedGalaxyId && (
           <CreatePostForm

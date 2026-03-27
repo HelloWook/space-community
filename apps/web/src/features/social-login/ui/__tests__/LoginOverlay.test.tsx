@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
 import { LoginOverlay } from '../LoginOverlay';
 
@@ -44,9 +45,16 @@ describe('LoginOverlay', () => {
     expect(screen.getByText('GitHub로 로그인')).toBeInTheDocument();
   });
 
-  it('ESC 키로 onClose가 호출된다', () => {
+  it('description이 표시된다', () => {
     render(<LoginOverlay {...defaultProps} />);
-    fireEvent.keyDown(document, { key: 'Escape' });
+    expect(screen.getByText('소셜 계정으로 간편하게 로그인하세요')).toBeInTheDocument();
+  });
+
+  it('닫기 버튼 클릭으로 onClose가 호출된다', async () => {
+    const user = userEvent.setup();
+    render(<LoginOverlay {...defaultProps} />);
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    await user.click(closeButton);
     expect(defaultProps.onClose).toHaveBeenCalled();
   });
 });

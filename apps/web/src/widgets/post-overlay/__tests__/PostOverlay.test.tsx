@@ -1,4 +1,5 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { type ReactNode } from 'react';
 import { PostOverlay } from '../ui/PostOverlay';
@@ -66,7 +67,8 @@ describe('PostOverlay', () => {
     );
   });
 
-  it('ESC 키로 onClose가 호출된다', () => {
+  it('닫기 버튼 클릭으로 onClose가 호출된다', async () => {
+    const user = userEvent.setup();
     const onClose = jest.fn();
 
     mockUsePlanet.mockReturnValue({
@@ -79,7 +81,8 @@ describe('PostOverlay', () => {
       wrapper: createWrapper(),
     });
 
-    fireEvent.keyDown(document, { key: 'Escape' });
+    const closeButton = screen.getByRole('button', { name: /close/i });
+    await user.click(closeButton);
 
     expect(onClose).toHaveBeenCalledTimes(1);
   });

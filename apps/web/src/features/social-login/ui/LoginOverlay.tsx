@@ -43,11 +43,8 @@ export function LoginOverlay({ open, onClose, onSuccess }: LoginOverlayProps) {
   };
 
   return (
-    <Overlay open={open} onClose={onClose} title="로그인">
+    <Overlay open={open} onClose={onClose} title="로그인" size="sm" description="소셜 계정으로 간편하게 로그인하세요">
       <div className="flex flex-col gap-3">
-        <p className="text-muted-foreground text-sm mb-2">
-          소셜 계정으로 간편하게 로그인하세요
-        </p>
 
         {error && (
           <p className="text-sm text-destructive text-center" role="alert">

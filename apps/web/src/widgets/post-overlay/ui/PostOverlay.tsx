@@ -22,6 +22,7 @@ export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
       open={true}
       onClose={onClose}
       title={planet?.title}
+      size="lg"
     >
       <div data-testid="post-overlay">
         {/* 로딩 상태 */}
