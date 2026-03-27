@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { Meteor } from "@/entities/decoration/ui/Meteor";
 import { Asteroid } from "@/entities/decoration/ui/Asteroid";
 import { Starfield } from "@/entities/decoration/ui/Starfield";
+import { Nebula } from "@/entities/decoration/ui/Nebula";
+import { DistantGalaxy } from "@/entities/decoration/ui/DistantGalaxy";
+import { CosmicDust } from "@/entities/decoration/ui/CosmicDust";
 import { ThreeDecorator } from "./ThreeDecorator";
 
 function MeteorStory() {
@@ -56,4 +59,48 @@ export const Asteroids: Story = {
 
 export const Stars: Story = {
   render: () => <StarfieldStory />,
+};
+
+function NebulaStory() {
+  return (
+    <ThreeDecorator cameraPosition={[0, 0, 40]}>
+      <Nebula position={[0, 0, 0]} color="#8866cc" size={15} />
+      <Nebula position={[20, 10, -10]} color="#cc6688" size={10} />
+    </ThreeDecorator>
+  );
+}
+
+function DistantGalaxiesStory() {
+  return (
+    <ThreeDecorator cameraPosition={[0, 0, 60]}>
+      {Array.from({ length: 10 }, (_, i) => (
+        <DistantGalaxy
+          key={i}
+          position={[Math.cos(i * 0.63) * 30, Math.sin(i * 0.97) * 20, Math.sin(i * 0.43) * 25]}
+          color={['#aabbff', '#ffbbaa', '#bbffcc'][i % 3]}
+          scale={0.3 + i * 0.05}
+        />
+      ))}
+    </ThreeDecorator>
+  );
+}
+
+function CosmicDustStory() {
+  return (
+    <ThreeDecorator cameraPosition={[0, 0, 30]}>
+      <CosmicDust count={300} radius={50} opacity={0.2} />
+    </ThreeDecorator>
+  );
+}
+
+export const Nebulae: Story = {
+  render: () => <NebulaStory />,
+};
+
+export const DistantGalaxies: Story = {
+  render: () => <DistantGalaxiesStory />,
+};
+
+export const CosmicDustCloud: Story = {
+  render: () => <CosmicDustStory />,
 };

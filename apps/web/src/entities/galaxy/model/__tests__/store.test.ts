@@ -7,6 +7,7 @@ describe('useGalaxyNavigationStore', () => {
     useGalaxyNavigationStore.setState({
       selectedGalaxyId: null,
       viewMode: 'universe',
+      savedCameraPosition: null,
     });
   });
 
@@ -14,6 +15,7 @@ describe('useGalaxyNavigationStore', () => {
     const state = useGalaxyNavigationStore.getState();
     expect(state.selectedGalaxyId).toBeNull();
     expect(state.viewMode).toBe('universe');
+    expect(state.savedCameraPosition).toBeNull();
   });
 
   it('selectGalaxy 호출 시 id와 viewMode가 설정된다', () => {
@@ -39,5 +41,30 @@ describe('useGalaxyNavigationStore', () => {
     const state = useGalaxyNavigationStore.getState();
     expect(state.selectedGalaxyId).toBeNull();
     expect(state.viewMode).toBe('universe');
+  });
+
+  it('saveCameraPosition 호출 시 카메라 위치가 저장된다', () => {
+    const { saveCameraPosition } = useGalaxyNavigationStore.getState();
+
+    saveCameraPosition([1, 2, 3]);
+
+    const state = useGalaxyNavigationStore.getState();
+    expect(state.savedCameraPosition).toEqual([1, 2, 3]);
+  });
+
+  it('returnToUniverse 호출 후에도 savedCameraPosition이 유지된다', () => {
+    const { saveCameraPosition, selectGalaxy, returnToUniverse } =
+      useGalaxyNavigationStore.getState();
+
+    // 카메라 위치 저장 후 은하 진입
+    saveCameraPosition([10, 20, 30]);
+    selectGalaxy('galaxy-1');
+
+    // 우주 뷰로 복귀
+    returnToUniverse();
+
+    // savedCameraPosition은 복귀 후에도 유지되어야 함
+    const state = useGalaxyNavigationStore.getState();
+    expect(state.savedCameraPosition).toEqual([10, 20, 30]);
   });
 });

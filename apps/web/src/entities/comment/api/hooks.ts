@@ -3,7 +3,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { apiFetch } from '@/shared/api/client';
 import { queryKeys } from '@/shared/api/query-keys';
-import type { CommentListResponse, CreateCommentInput } from '@galaxy-board/types';
+import type {
+  CommentListResponse,
+  CreateCommentInput,
+} from '@galaxy-board/types';
 
 /** Planet의 댓글 목록 조회 훅 */
 export function useComments(planetId: string) {

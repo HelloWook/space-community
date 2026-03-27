@@ -1,6 +1,6 @@
 'use client';
 
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls } from '@react-three/drei';
 import { Suspense, useState, useCallback } from 'react';
 import { useAuth } from '@clerk/nextjs';
@@ -20,6 +20,9 @@ import {
   Asteroid,
   BlackHole,
   Sun,
+  Nebula,
+  DistantGalaxy,
+  CosmicDust,
 } from '@/entities/decoration';
 import {
   useCameraTransition,
@@ -50,24 +53,34 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick, overl
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
   const selectGalaxy = useGalaxyNavigationStore((s) => s.selectGalaxy);
+  const saveCameraPosition = useGalaxyNavigationStore((s) => s.saveCameraPosition);
+  const savedCameraPosition = useGalaxyNavigationStore((s) => s.savedCameraPosition);
 
+  const { camera } = useThree();
   const { data: galaxies } = useGalaxies();
   const { data: planetsResponse } = usePlanets(selectedGalaxyId);
 
   // 선택된 은하의 위치 정보
   const selectedGalaxy = galaxies?.find((g) => g.id === selectedGalaxyId);
 
-  // 카메라 전환 훅
+  // 은하 클릭 시 현재 카메라 위치 저장 후 은하 진입
+  const handleSelectGalaxy = useCallback((id: string) => {
+    saveCameraPosition([camera.position.x, camera.position.y, camera.position.z]);
+    selectGalaxy(id);
+  }, [camera, saveCameraPosition, selectGalaxy]);
+
+  // 카메라 전환 훅 — 저장된 위치로 복귀 지원
   const { isTransitioning } = useCameraTransition({
     viewMode,
     targetPosition: selectedGalaxy?.position ?? null,
+    savedPosition: savedCameraPosition,
   });
 
-  // WASD 카메라 이동 — 오버레이 열림/전환 중 비활성화
+  // WASD 카메라 이동 — 오버레이 열림/전환 중 비활성화, bounds 200으로 확장
   useWASDControls({
     speed: 0.3,
     enabled: !overlayOpen && !isTransitioning,
-    bounds: { min: [-100, -50, -100], max: [100, 50, 100] },
+    bounds: { min: [-200, -100, -200], max: [200, 100, 200] },
   });
 
   return (
@@ -83,21 +96,45 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick, overl
       <Meteor startPosition={[40, 20, -10]} direction={[-1, -0.5, -0.2]} speed={0.4} />
       <Meteor startPosition={[-30, 30, 5]} direction={[0.8, -0.7, -0.1]} speed={0.6} />
       <Meteor startPosition={[20, -25, 15]} direction={[-0.5, 0.3, -0.8]} speed={0.3} />
-      {Array.from({ length: 10 }, (_, i) => (
+      {Array.from({ length: 15 }, (_, i) => (
         <Asteroid
           key={`asteroid-${i}`}
           center={[
-            Math.cos(i * 0.63) * 35,
-            Math.sin(i * 0.97) * 15,
-            Math.sin(i * 0.43) * 25,
+            Math.cos(i * 0.63) * 70,
+            Math.sin(i * 0.97) * 30,
+            Math.sin(i * 0.43) * 50,
           ]}
           orbitRadius={3 + (i % 4)}
-          scale={0.2 + Math.random() * 0.6}
+          scale={0.2 + ((i * 7 + 3) % 10) * 0.06}
           orbitSpeed={0.005 + (i % 5) * 0.003}
         />
       ))}
       <BlackHole position={[30, -20, -25]} scale={3} distortionStrength={0.5} />
       <Sun position={[-25, 20, -15]} scale={2} lightIntensity={1.5} />
+
+      {/* 성운 — 우주 공간 사방에 분산 */}
+      <Nebula position={[-60, 30, -40]} color="#8866cc" size={15} opacity={0.25} />
+      <Nebula position={[50, -20, 60]} color="#cc6688" size={12} opacity={0.2} />
+      <Nebula position={[30, 40, -70]} color="#6688cc" size={18} opacity={0.2} />
+      <Nebula position={[-40, -35, 50]} color="#88ccaa" size={14} opacity={0.25} />
+      <Nebula position={[70, 15, 30]} color="#aa88cc" size={10} opacity={0.3} />
+
+      {/* 원거리 배경 은하 */}
+      {Array.from({ length: 22 }, (_, i) => (
+        <DistantGalaxy
+          key={`distant-galaxy-${i}`}
+          position={[
+            Math.cos(i * 2.39) * (80 + (i % 5) * 20),
+            Math.sin(i * 1.73) * (40 + (i % 3) * 15),
+            Math.sin(i * 3.14) * (80 + (i % 4) * 20),
+          ]}
+          color={['#aabbff', '#ffbbaa', '#bbffcc', '#ffaaff'][i % 4]}
+          scale={0.3 + ((i * 3 + 1) % 7) * 0.1}
+        />
+      ))}
+
+      {/* 우주 먼지 */}
+      <CosmicDust count={500} radius={150} opacity={0.15} />
       {/* 줌/회전 — 전환 중에는 비활성화 */}
       <OrbitControls
         enableDamping
@@ -112,7 +149,7 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick, overl
           <Galaxy3D
             key={galaxy.id}
             galaxy={galaxy}
-            onClick={() => selectGalaxy(galaxy.id)}
+            onClick={() => handleSelectGalaxy(galaxy.id)}
             isSelected={false}
           />
         ))}
@@ -228,6 +265,7 @@ export function GalaxyScene() {
         open={showCreateGalaxy}
         onClose={() => setShowCreateGalaxy(false)}
         title="새 은하계"
+        size="sm"
       >
         <CreateGalaxyForm onSuccess={handleCreateGalaxySuccess} />
       </Overlay>
@@ -250,6 +288,7 @@ export function GalaxyScene() {
         open={showCreatePost && !!selectedGalaxyId}
         onClose={() => setShowCreatePost(false)}
         title="새 게시글"
+        size="xl"
       >
         {selectedGalaxyId && (
           <CreatePostForm
