@@ -100,9 +100,9 @@
 
 ### Implementation for User Story 4
 
-- [ ] T019 [US4] `useWASDControls` 훅 구현 — `apps/web/src/shared/lib/hooks/use-wasd-controls.ts` (ui-contracts.md 인터페이스 준수, useFrame 기반 카메라 이동, bounds clamp, input 포커스 시 비활성화)
-- [ ] T020 [US4] `ControlsHUD` 컴포넌트 구현 — `apps/web/src/features/navigate-galaxy/ui/ControlsHUD.tsx` (ui-contracts.md 준수, 하단 중앙 반투명 안내, 첫 인터랙션 후 3초+1초 페이드아웃, 세션 스토리지 저장)
-- [ ] T021 [US4] GalaxyScene에 WASD 훅 및 ControlsHUD 통합 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx` (useWASDControls 호출, ControlsHUD 렌더링, 오버레이 상태 연동)
+- [x] T019 [US4] `useWASDControls` 훅 구현 — `apps/web/src/shared/lib/hooks/use-wasd-controls.ts`
+- [x] T020 [US4] `ControlsHUD` 컴포넌트 구현 — `apps/web/src/features/navigate-galaxy/ui/ControlsHUD.tsx`
+- [x] T021 [US4] GalaxyScene에 WASD 훅 및 ControlsHUD 통합 — `apps/web/src/widgets/galaxy-scene/ui/GalaxyScene.tsx`
 
 **Checkpoint**: 은하 보드에서 WASD 이동 동작, 마우스 회전과 동시 사용 가능, 안내 HUD 표시 후 자동 페이드아웃
 

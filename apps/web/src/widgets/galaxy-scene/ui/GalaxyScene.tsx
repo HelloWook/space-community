@@ -25,6 +25,8 @@ import {
   useCameraTransition,
   BackButton,
 } from '@/features/navigate-galaxy';
+import { ControlsHUD } from '@/features/navigate-galaxy/ui/ControlsHUD';
+import { useWASDControls } from '@/shared/lib/hooks/use-wasd-controls';
 import { CreatePostForm } from '@/features/create-post';
 import { CreateGalaxyForm } from '@/features/create-galaxy';
 import { PostOverlay } from '@/widgets/post-overlay';
@@ -39,10 +41,12 @@ interface SceneContentProps {
   focusedCommentId?: string | null;
   /** 위성 클릭 시 댓글 포커스 콜백 */
   onSatelliteClick?: (commentId: string) => void;
+  /** 오버레이 열림 상태 — true이면 WASD 비활성화 */
+  overlayOpen?: boolean;
 }
 
 // 3D 장면 내부 컨텐츠 — R3F 컨텍스트 안에서 렌더링
-function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick }: SceneContentProps) {
+function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick, overlayOpen }: SceneContentProps) {
   const viewMode = useGalaxyNavigationStore((s) => s.viewMode);
   const selectedGalaxyId = useGalaxyNavigationStore((s) => s.selectedGalaxyId);
   const selectGalaxy = useGalaxyNavigationStore((s) => s.selectGalaxy);
@@ -57,6 +61,13 @@ function SceneContent({ onPlanetClick, focusedCommentId, onSatelliteClick }: Sce
   const { isTransitioning } = useCameraTransition({
     viewMode,
     targetPosition: selectedGalaxy?.position ?? null,
+  });
+
+  // WASD 카메라 이동 — 오버레이 열림/전환 중 비활성화
+  useWASDControls({
+    speed: 0.3,
+    enabled: !overlayOpen && !isTransitioning,
+    bounds: { min: [-100, -50, -100], max: [100, 50, 100] },
   });
 
   return (
@@ -189,11 +200,13 @@ export function GalaxyScene() {
             onPlanetClick={handlePlanetClick}
             focusedCommentId={focusedCommentId}
             onSatelliteClick={setFocusedComment}
+            overlayOpen={!!selectedPlanetId || showCreatePost || showCreateGalaxy || showLogin}
           />
         </Suspense>
       </Canvas>
 
       {/* 캔버스 위 오버레이 UI */}
+      <ControlsHUD />
       <BackButton />
 
       {/* 우주 뷰에서 은하계 만들기 버튼 */}
