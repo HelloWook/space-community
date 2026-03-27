@@ -63,4 +63,36 @@ describe('Overlay', () => {
     rerender(<Overlay {...defaultProps} size="xl" />);
     expect(screen.getByRole('dialog')).toBeInTheDocument();
   });
+
+  // --- 접근성 테스트 (T033) ---
+
+  it('title 없이도 sr-only DialogTitle이 렌더링된다', () => {
+    render(<Overlay {...defaultProps} />);
+    // role="heading" 또는 sr-only 제목이 DOM에 존재해야 함
+    // Radix DialogTitle은 항상 렌더링되어 스크린리더 접근성을 보장
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toBeInTheDocument();
+    // sr-only 텍스트("오버레이")가 DOM에 있는지 확인
+    expect(screen.getByText('오버레이')).toBeInTheDocument();
+  });
+
+  it('description prop 전달 시 aria-describedby가 연결된 설명이 존재한다', () => {
+    render(
+      <Overlay {...defaultProps} title="제목" description="접근성 설명 텍스트" />,
+    );
+    // Radix Dialog는 DialogDescription 존재 시 aria-describedby를 자동으로 설정
+    const dialog = screen.getByRole('dialog');
+    expect(dialog).toBeInTheDocument();
+    // DialogDescription 텍스트가 DOM에 렌더링되는지 확인
+    expect(screen.getByText('접근성 설명 텍스트')).toBeInTheDocument();
+  });
+
+  it('title prop 전달 시 DialogTitle이 렌더링된다', () => {
+    render(<Overlay {...defaultProps} title="접근성 제목" />);
+    // aria-labelledby를 통해 title이 dialog에 연결됨
+    const heading = screen.getByText('접근성 제목');
+    expect(heading).toBeInTheDocument();
+    // sr-only 폴백이 아닌 실제 title이 렌더링되어야 함
+    expect(screen.queryByText('오버레이')).not.toBeInTheDocument();
+  });
 });

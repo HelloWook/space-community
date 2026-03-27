@@ -22,6 +22,7 @@ export function PostOverlay({ planetId, onClose }: PostOverlayProps) {
       open={true}
       onClose={onClose}
       title={planet?.title}
+      description={planet ? `${planet.authorNickname}의 게시글` : undefined}
       size="lg"
     >
       <div data-testid="post-overlay">
