@@ -1,31 +1,5 @@
-@import "../src/app/styles/globals.css";
+@import '../src/app/styles/globals.css';
 
-/*
- * globals.css의 dark 테마 + overflow:hidden이
- * Storybook Docs 페이지를 깨뜨리므로 docs 모드에서 보정
- */
-html,
-body {
-  overflow: auto !important;
-}
-
-/* Docs 페이지: Storybook 기본 밝은 테마 복원 */
-#storybook-docs {
-  background: #fff !important;
-  color: #333 !important;
-  padding: 1rem;
-}
-
-#storybook-docs * {
-  color: inherit;
-}
-
-/* story preview 영역만 dark 테마 유지 */
-#storybook-docs .docs-story {
-  background: hsl(0 0% 0%);
-  color: hsl(0 0% 100%);
-}
-
-#storybook-docs .docs-story * {
-  color: inherit;
+.docs-story {
+  background: black !important;
 }
